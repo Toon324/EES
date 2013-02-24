@@ -1,8 +1,7 @@
 package fbla;
 
 import java.awt.Graphics;
-
-import javax.swing.ImageIcon;
+import java.awt.Image;
 
 /**
  * @author Cody Swendrowski
@@ -10,11 +9,13 @@ import javax.swing.ImageIcon;
  */
 public class ImageButton extends Button{
 	
-	private ImageIcon image = new ImageIcon();
+	private Image image;
 
-	public ImageButton(String text, int height, int width, ImageIcon i) {
-		super(text, height, width);
+	public ImageButton(String text, int x, int y, Image i) {
+		super(text, x, y);
 		image = i;
+		width = i.getWidth(null);
+		height = i.getHeight(null);
 	} 
 	
 	/* (non-Javadoc)
@@ -22,10 +23,8 @@ public class ImageButton extends Button{
 	 */
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
+		g.drawImage(image, x_pos, y_pos, width, height, null);
 		super.draw(g);
 	}
-
 	
-
 }

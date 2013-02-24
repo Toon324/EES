@@ -7,17 +7,21 @@ import java.util.ArrayList;
  * @author Cody
  *
  */
-public class Page {
+public abstract class Page {
 
 	public ArrayList<Button> buttons;
 	
-	/**
-	 * 
-	 */
 	public Page() {
 		buttons = new ArrayList<Button>();
 	}
 
+	public void isClicked(MouseEvent e) {
+		for (Button but : buttons) {
+			but.checkClick(e.getX(), e.getY());
+		}
+	}
+	
+	public abstract void run();
 	
 	/**
 	 * Checks every button to see if mouse is hovering over a Button.
