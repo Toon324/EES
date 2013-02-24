@@ -19,7 +19,7 @@ public class EES extends Applet implements Runnable, MouseListener, MouseMotionL
 	private static final long serialVersionUID = 42l;
 	private Thread th; // app thread
 	private Thread close; // Used for closing the app
-	private Page currentPage;
+	private PageController pc;
 
 	/**
 	 * Creates a new Trivia app.
@@ -29,6 +29,7 @@ public class EES extends Applet implements Runnable, MouseListener, MouseMotionL
 		close = new Thread(new CloseHook(this));
 		th = new Thread(this);
 		Runtime.getRuntime().addShutdownHook(close);
+		pc = new PageController();
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class EES extends Applet implements Runnable, MouseListener, MouseMotionL
 		// run until stopped
 		while (true) {
 			// controls app flow
-
+			pc.run();
 			// repaint applet
 			repaint();
 
@@ -118,8 +119,8 @@ public class EES extends Applet implements Runnable, MouseListener, MouseMotionL
 	 * app.
 	 */
 	public void paint(Graphics g) {
+		pc.paint(g);
 		super.paint(g);
-
 		synchronized (this) {
 			notifyAll(); // Lets the run() method know that painting is
 							// completed
@@ -140,6 +141,7 @@ public class EES extends Applet implements Runnable, MouseListener, MouseMotionL
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		pc.checkClick(e);
 	}
 
 	@Override
@@ -170,7 +172,7 @@ public class EES extends Applet implements Runnable, MouseListener, MouseMotionL
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (currentPage.isOver(e))
+		if (pc.isOver(e))
 			setCursor(new Cursor(Cursor.HAND_CURSOR)); // If mouse is over a
 														// Button, change to
 														// hand cursor
