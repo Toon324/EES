@@ -1,6 +1,9 @@
 package fbla;
 
+import java.awt.CardLayout;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * The class that controls and owns all necessary objects.
@@ -9,27 +12,35 @@ import javax.swing.JFrame;
  */
 
 public class EES{
+	static CardLayout cl = new CardLayout();
+	static JPanel pages;
 	
 	public static void main(String[] args){
 		JFrame window = new JFrame("Employee Evaluation System");
 		window.setSize(800,600);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		pages = new JPanel(cl);
+		
 		Home home = new Home();
 		Companies companies = new Companies();
 		Employees employees = new Employees();
 		
-		home.setVisible(true);
-		companies.setVisible(false);
-		employees.setVisible(false);
+		pages.add(companies, "Companies");
+		pages.add(employees, "Employees");
+		pages.add(home, "Home");
 		
-		window.add(companies);
-		window.add(employees);
-		window.add(home);
+		cl.show(pages, "Home");
+		
+		window.add(pages);
 		
 		//window.pack();
 
 		// Display the window.
 		window.setVisible(true);
-	}	
+		
+		while (true) {
+			window.repaint();
+		}
+	}
 }

@@ -17,22 +17,23 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Home extends JPanel implements ActionListener {
 
+	private JButton employees, companies;
 	/**
 	 * 
 	 */
 	public Home() {
 		super(new GridLayout(1,2));
 		Icon employeesIcon = createImageIcon("Resources\\Employees.png");
-		JButton employees = new JButton(employeesIcon);
+		employees = new JButton(employeesIcon);
+		employees.setActionCommand("Employees");
 		employees.addActionListener(this);
 		add(employees);
 		
 		Icon companiesIcon = createImageIcon("Resources\\Companies.png");
-		JButton companies = new JButton(companiesIcon);
+		companies = new JButton(companiesIcon);
+		companies.setActionCommand("Companies");
 		companies.addActionListener(this);
 		add(companies);
-		
-
 	}
 	
 	/** Returns an ImageIcon, or null if the path was invalid. */
@@ -48,8 +49,7 @@ public class Home extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		EES.cl.show(EES.pages, e.getActionCommand());
 	}
 
 }

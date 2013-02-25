@@ -64,7 +64,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		// Create and set up the window.
 		JFrame frame = new JFrame("Add Employee");
 		frame.setSize(400, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Create and set up the content pane.
 		AddEmployee popup = new AddEmployee(frame);
@@ -89,10 +89,9 @@ public class AddEmployee extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Cancel"))
-			this.setVisible(false);
+			frame.dispose();
 		else if (e.getActionCommand().equals("Finish"))
-			;
-		writeDataAndExit();
+			writeDataAndExit();
 	}
 
 	private void writeDataAndExit() {
@@ -118,7 +117,6 @@ public class AddEmployee extends JPanel implements ActionListener {
 				l = scanner.nextLine();
 			Scanner lineScanner = new Scanner(l);
 			int lastNum = lineScanner.nextInt();
-			System.out.println("Lastnum: " + lastNum);
 			scanner.close();
 			lineScanner.close();
 				
@@ -131,7 +129,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 		finally {
-			this.setVisible(false);
+			frame.dispose();
 		}
 
 	}

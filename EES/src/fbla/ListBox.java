@@ -16,8 +16,6 @@ public class ListBox {
 
 	private ArrayList<ArrayList<String>> data;
 	
-	private ImageButton up, down;
-	
 	/**
 	 * 
 	 */
@@ -26,27 +24,10 @@ public class ListBox {
 		size = 10;
 		x_pos = x;
 		y_pos = y;
-		up = new ImageButton(x+width, y, "Resources\\up.png");
-		down = new ImageButton(x+width, y+height, "Resources\\down.png");
 		data = new ArrayList<ArrayList<String>>();
 	}
 	
 	public void run() {
-		down.set(down.getX(), y_pos+height);
-		
-		if (index == 0)
-			up.setEnabled(false);
-		else
-			up.setEnabled(true);
-		if (index == amountOfData -1)
-			down.setEnabled(false);
-		else
-			down.setEnabled(true);
-		
-		if (up.isClicked())
-			index--;
-		else if (down.isClicked()) 
-			index++;
 		
 	}
 	
@@ -65,8 +46,6 @@ public class ListBox {
 			catch (Exception e) {}
 		}
 		
-		up.draw(g);
-		down.draw(g);
 	}
 	
 	public void setListSize(int s) {
@@ -74,8 +53,6 @@ public class ListBox {
 	}
 	
 	public void checkClick(MouseEvent e){
-		up.checkClick(e.getX(), e.getY());
-		down.checkClick(e.getX(), e.getY());
 	}
 
 	public void loadDataSource(String path) {
