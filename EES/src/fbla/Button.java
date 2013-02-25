@@ -97,7 +97,7 @@ public class Button {
 		g.setColor(Color.cyan);
 		g.drawString(text, x_pos + 10, y_pos + 23);
 
-		// Resets graphics to whatever Color it was origionally
+		// Resets graphics to whatever Color it was originally
 		g.setColor(temp);
 		g.setFont(tempF);
 	}

@@ -30,6 +30,12 @@ public class ImageButton extends Button {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(image, x_pos, y_pos, width, height, null);
+		Polygon temp = new Polygon();
+		temp.addPoint(x_pos, y_pos);
+		temp.addPoint(x_pos + width, y_pos);
+		temp.addPoint(x_pos + width, y_pos + height);
+		temp.addPoint(x_pos, y_pos + height);
+		bounds = temp;
 	}
 
 	/**
