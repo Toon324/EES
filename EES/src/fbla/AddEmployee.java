@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +27,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 	JFrame frame;
 
 	/**
-	 * @param p
+	 * @param frame
 	 */
 	public AddEmployee(JFrame frame) {
 		super(new GridLayout(8, 1));
@@ -69,6 +70,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		AddEmployee popup = new AddEmployee(frame);
 		popup.setOpaque(true); // content panes must be opaque
 		frame.setContentPane(popup);
+		frame.pack();
 
 		// Display the window.
 		frame.setVisible(true);
@@ -87,7 +89,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Cancel"))
-			System.exit(0);
+			this.setVisible(false);
 		else if (e.getActionCommand().equals("Finish"))
 			;
 		writeDataAndExit();
@@ -95,10 +97,22 @@ public class AddEmployee extends JPanel implements ActionListener {
 
 	private void writeDataAndExit() {
 		try {
-			PrintWriter out = new PrintWriter(new FileWriter(AddEmployee.class.getResource("Resources\\Employees.txt").getFile()));
+			//Creates file writer
+			PrintWriter out = null;
+			File file = new File("src\\fbla\\Resources\\Employees.txt");
+			try {
+				if (!file.exists())
+					file.createNewFile();
+				out = new PrintWriter(
+						new FileWriter(file.getAbsoluteFile(),true)); //Append to current data
+			} catch (IOException e) {
+				System.out.println("Error creating output stream\n"
+						+ System.getProperty("user.dir"));
+				e.printStackTrace();
+			}
 			
 			//Gets the last employee number
-			Scanner scanner = new Scanner(AddEmployee.class.getResourceAsStream("Resources\\Employees.txt")); 
+			Scanner scanner = new Scanner(file); 
 			String l = "";
 			while (scanner.hasNextLine())
 				l = scanner.nextLine();
@@ -108,16 +122,16 @@ public class AddEmployee extends JPanel implements ActionListener {
 			scanner.close();
 			lineScanner.close();
 				
-			out.println(lastNum + "\t" + firstName.getText() + "\t" + lastName.getText() + "\t"
+			out.println((lastNum+1) + "\t" + firstName.getText() + "\t" + lastName.getText() + "\t"
 					+ phoneNum.getText() + "\t" + cellNum.getText() + "\t"
 					+ address.getText() + "\t" + city.getText() + "\t"
 					+ state.getText() + "\t" + zip.getText());
 			out.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		finally {
-			System.exit(0);
+			this.setVisible(false);
 		}
 
 	}

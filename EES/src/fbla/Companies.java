@@ -1,26 +1,33 @@
 package fbla;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 /**
  * @author Cody
  *
  */
-public class Companies extends Page {
+@SuppressWarnings("serial")
+public class Companies extends JPanel implements ActionListener{
 
 	/**
 	 * @param p
 	 */
-	public Companies(PageController p) {
-		super(p);
-		buttons.add(new Button("Home", 50, 400));
+	public Companies() {
+		super(new BorderLayout());
+		JButton home = new JButton("Home");
+		home.addActionListener(this);
+		add(home);
 	}
 
-	/* (non-Javadoc)
-	 * @see fbla.Page#run()
-	 */
 	@Override
-	public void run() {
-		if (buttons.get(0).isClicked())
-			pc.setCurrentPage(pc.home);
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
