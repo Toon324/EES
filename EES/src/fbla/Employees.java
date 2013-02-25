@@ -29,7 +29,7 @@ public class Employees extends Page {
 		if (buttons.get(0).isClicked())
 			pc.setCurrentPage(pc.home);
 		else if (buttons.get(1).isClicked())
-			pc.setCurrentPage(pc.addEmployee);
+			AddEmployee.main(null);
 		employeesList.run();
 	}
 
