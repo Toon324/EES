@@ -24,7 +24,7 @@ public class Employees extends JPanel implements ActionListener {
 	ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
 	
 	public Employees() {
-		super(new GridLayout(2,1));
+		super(new BorderLayout());
 		JPanel buttons = new JPanel(new GridLayout(1,2));
 		
 		JButton home = new JButton("Home");
@@ -36,13 +36,13 @@ public class Employees extends JPanel implements ActionListener {
 		buttons.add(home);
 		buttons.add(addEmployee);
 		
-		JList<String> employeesList = new JList<String>();
+		JList employeesList = new JList();
 		employeesList.setVisibleRowCount(10);
 		employeesList.setSize(300, 500);
 		loadDataSource("Resources\\Employees.txt");
 		employeesList.setListData(data);
 		add(employeesList);
-		add(buttons);
+		add(BorderLayout.PAGE_END, buttons);
 	}
 
 	@Override

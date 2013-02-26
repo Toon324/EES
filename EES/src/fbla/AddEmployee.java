@@ -1,5 +1,6 @@
 package fbla;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,14 +24,16 @@ public class AddEmployee extends JPanel implements ActionListener {
 
 	JTextField firstName, lastName, phoneNum, cellNum, address, city, state,
 			zip;
-	JFrame frame;
+	static JFrame frame;
 
 	/**
 	 * @param frame
 	 */
-	public AddEmployee(JFrame frame) {
-		super(new GridLayout(8, 1));
-		this.frame = frame;
+	public AddEmployee() {
+		super(new BorderLayout());
+		JPanel textFields = new JPanel(new GridLayout(4,2));
+		JPanel buttons = new JPanel(new GridLayout(1,2));
+		
 		firstName = new JTextField("First Name", 20);
 		lastName = new JTextField("Last Name", 20);
 		phoneNum = new JTextField("Phone Number", 20);
@@ -43,16 +46,19 @@ public class AddEmployee extends JPanel implements ActionListener {
 		finish.addActionListener(this);
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(this);
-		add(firstName);
-		add(lastName);
-		add(phoneNum);
-		add(cellNum);
-		add(address);
-		add(city);
-		add(state);
-		add(zip);
-		add(cancel);
-		add(finish);
+		textFields.add(firstName);
+		textFields.add(lastName);
+		textFields.add(phoneNum);
+		textFields.add(cellNum);
+		textFields.add(address);
+		textFields.add(city);
+		textFields.add(state);
+		textFields.add(zip);
+		buttons.add(cancel);
+		buttons.add(finish);
+		
+		add(textFields);
+		add(BorderLayout.PAGE_END,buttons);
 	}
 
 	/**
@@ -61,12 +67,12 @@ public class AddEmployee extends JPanel implements ActionListener {
 	 */
 	private static void createAndShowGUI() {
 		// Create and set up the window.
-		JFrame frame = new JFrame("Add Employee");
+		frame = new JFrame("Add Employee");
 		frame.setSize(400, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Create and set up the content pane.
-		AddEmployee popup = new AddEmployee(frame);
+		AddEmployee popup = new AddEmployee();
 		popup.setOpaque(true); // content panes must be opaque
 		frame.setContentPane(popup);
 		frame.pack();
