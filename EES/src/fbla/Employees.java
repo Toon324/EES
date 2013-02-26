@@ -21,11 +21,12 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Employees extends JPanel implements ActionListener {
 	private String[] data = new String[0];
+	JList employeesList;
 	ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
 	
 	public Employees() {
 		super(new BorderLayout());
-		JPanel buttons = new JPanel(new GridLayout(1,2));
+		JPanel buttons = new JPanel(new GridLayout(2,2));
 		
 		JButton home = new JButton("Home");
 		home.addActionListener(this);
@@ -33,14 +34,24 @@ public class Employees extends JPanel implements ActionListener {
 		JButton addEmployee = new JButton("Add Employee");
 		addEmployee.addActionListener(this);
 		
+		JButton evaluate = new JButton("Evaluate");
+		evaluate.addActionListener(this);
+		
+		JButton view = new JButton("View Info");
+		view.addActionListener(this);
+		
 		buttons.add(home);
 		buttons.add(addEmployee);
+		buttons.add(evaluate);
+		buttons.add(view);
 		
-		JList employeesList = new JList();
+		employeesList = new JList();
 		employeesList.setVisibleRowCount(10);
 		employeesList.setSize(300, 500);
+		employeesList.setSelectedIndex(0);
 		loadDataSource("Resources\\Employees.txt");
 		employeesList.setListData(data);
+		
 		add(employeesList);
 		add(BorderLayout.PAGE_END, buttons);
 	}
@@ -49,8 +60,14 @@ public class Employees extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Home"))
 			EES.cl.show(EES.pages, "Home");
-		if (e.getActionCommand().equals("Add Employee"))
+		else if (e.getActionCommand().equals("Add Employee"))
 			AddEmployee.main(null);
+		else if (e.getActionCommand().equals("Evaluate")) {
+			Evaluate.main(null);
+			Evaluate.setEmployeeNum(employeesList.getSelectedIndex());
+		}
+		//else if (e.getActionCommand().equals("View Info"));
+			//ViewInfo.main(null);
 		
 	}
 	
@@ -87,7 +104,7 @@ public class Employees extends JPanel implements ActionListener {
 			for (int x=0; x<input.size(); x++) {
 				StringBuilder line = new StringBuilder();
 				for (String s: input.get(x))
-					line.append(s + " ");
+					line.append(s + "    " + "\t");
 				data[x] = line.toString();
 			}
 			break;

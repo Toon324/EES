@@ -1,7 +1,11 @@
+/**
+ * 
+ */
 package fbla;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,56 +24,49 @@ import javax.swing.JTextField;
  * 
  */
 @SuppressWarnings("serial")
-public class AddEmployee extends DataInputWindow {
-
+public class AddCompany extends DataInputWindow {
 
 	/**
-	 * @param frame
+	 * 
 	 */
-	public AddEmployee() {
+	public AddCompany() {
 		super(new BorderLayout());
-		JPanel textPanel = new JPanel(new GridLayout(4,2));
-		JPanel buttons = new JPanel(new GridLayout(1,2));
-		
-		JButton finish = new JButton("Finish");
-		finish.addActionListener(this);
-		JButton cancel = new JButton("Cancel");
-		cancel.addActionListener(this);
-		
-		textFields.add(new JTextField("First Name", 20));
-		textFields.add(new JTextField("Last Name", 20));
-		textFields.add(new JTextField("Phone Number", 20));
-		textFields.add(new JTextField("Cell Number", 20));
+
+		JPanel textPanel = new JPanel(new GridLayout(4, 2));
+		JPanel buttons = new JPanel(new GridLayout(1, 2));
+
+		textFields.add(new JTextField("Name", 20));
 		textFields.add(new JTextField("Address", 20));
 		textFields.add(new JTextField("City", 20));
 		textFields.add(new JTextField("State", 20));
-		textFields.add(new JTextField("Zip Code", 20));
-		
+		textFields.add(new JTextField("ZIP", 20));
+		textFields.add(new JTextField("Phone Number", 20));
+		textFields.add(new JTextField("Email Address", 20));
+		textFields.add(new JTextField("Contact Person", 20));
+
 		for (JTextField tf : textFields)
 			textPanel.add(tf);
-		
+
+		JButton cancel = new JButton("Cancel");
+		JButton finish = new JButton("Finish");
+
+		cancel.addActionListener(this);
+		finish.addActionListener(this);
+
 		buttons.add(cancel);
 		buttons.add(finish);
-		
+
 		add(textPanel);
-		add(BorderLayout.PAGE_END,buttons);
+		add(BorderLayout.PAGE_END, buttons);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Cancel"))
-			frame.dispose();
-		else if (e.getActionCommand().equals("Finish"))
-			writeDataAndExit("src\\fbla\\Resources\\Employees.txt");
-	}
-	
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
 	 */
 	protected static void createAndShowGUI() {
 		// Create and set up the window.
-		frame = new JFrame("AddEmployee");
+		frame = new JFrame("AddCompany");
 		frame.setSize(400, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -77,7 +74,7 @@ public class AddEmployee extends DataInputWindow {
 		frame.setVisible(true);
 		
 		// Create and set up the content pane.
-		AddEmployee popup = new AddEmployee();
+		AddCompany popup = new AddCompany();
 		popup.setOpaque(true); // content panes must be opaque
 		frame.setContentPane(popup);
 		frame.pack();
@@ -95,4 +92,13 @@ public class AddEmployee extends DataInputWindow {
 			}
 		});
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("Cancel"))
+			frame.dispose();
+		else if (e.getActionCommand().equals("Finish"))
+			writeDataAndExit("src\\fbla\\Resources\\Employer.txt");
+	}
+
 }

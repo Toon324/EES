@@ -1,6 +1,7 @@
 package fbla;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,12 +38,12 @@ public class Companies extends JPanel implements ActionListener{
 		buttons.add(home);
 		buttons.add(addCompany);
 		
-		JList employeesList = new JList();
-		employeesList.setVisibleRowCount(10);
-		employeesList.setSize(300, 500);
+		JList companiesList = new JList();
+		companiesList.setVisibleRowCount(10);
+		companiesList.setSize(300, 500);
 		loadDataSource("Resources\\Employer.txt");
-		employeesList.setListData(data);
-		add(employeesList);
+		companiesList.setListData(data);
+		add(companiesList);
 		add(BorderLayout.PAGE_END, buttons);
 	}
 
@@ -88,7 +89,7 @@ public class Companies extends JPanel implements ActionListener{
 			for (int x=0; x<input.size(); x++) {
 				StringBuilder line = new StringBuilder();
 				for (String s: input.get(x))
-					line.append(s + " ");
+					line.append(s + "    " + "\t");
 				data[x] = line.toString();
 			}
 			break;
