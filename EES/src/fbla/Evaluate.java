@@ -4,6 +4,7 @@
 package fbla;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,10 +12,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -25,40 +29,56 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class Evaluate extends DataInputWindow {
 
+	ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
 	static int employeeNum;
 	
 	public Evaluate() {
 		super(new BorderLayout());
-		JPanel textPanel = new JPanel(new GridLayout(0,2));
+		String[] scoreOptions = { Integer.toString(1), Integer.toString(2), Integer.toString(3), Integer.toString(4), Integer.toString(5)};
+		JPanel textPanel = new JPanel(new GridLayout(0,1));
+		JPanel scoresPanel = new JPanel(new GridLayout(0,1));
 		JPanel buttons = new JPanel();
 		
-		textFields.add(new JTextField("Current Evaluation Date", 20));
-		textFields.add(new JTextField("Next Evaluation Date", 20));
-		textFields.add(new JTextField("Work Quality Score", 10));
-		textFields.add(new JTextField("Work Quality Comments", 50));
-		textFields.add(new JTextField("Work Habits Score", 10));
-		textFields.add(new JTextField("Work Habits Comments", 50));
-		textFields.add(new JTextField("Job Knowledge Score", 10));
-		textFields.add(new JTextField("Job Knowledge Comments", 50));
-		textFields.add(new JTextField("Behavior Score", 10));
-		textFields.add(new JTextField("Behavior Comments", 50));
-		textFields.add(new JTextField("Overall Progress Score", 10));
-		textFields.add(new JTextField("Overall Progress Comments", 50));
-		textFields.add(new JTextField("Would you reccomend?", 20));
+		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
 		
-		for (JTextField tf : textFields)
+		add(BorderLayout.PAGE_START, new JTextField("Next Evaluation Date", 20));
+		
+		textFields.add(new JTextField("Work Quality Comments", 50));
+		textFields.add(new JTextField("Work Habits Comments", 50));
+		textFields.add(new JTextField("Job Knowledge Comments", 50));
+		textFields.add(new JTextField("Behavior Comments", 50));
+		textFields.add(new JTextField("Overall Progress Comments", 50));
+		
+		Font text = new Font("Arial", Font.PLAIN, 12);
+		
+		for (JTextField tf : textFields) {
+			tf.setFont(text);
 			textPanel.add(tf);
+		}
+		
+		for(JComboBox cb : scoreBoxes)
+			scoresPanel.add(cb);
 
 		JButton cancel = new JButton("Cancel");
 		JButton finish = new JButton("Finish");
+		String[] r = {"Yes", "No"};
+		JComboBox reccomend = new JComboBox(r);
+		JLabel wouldReccomend = new JLabel("Reccomend?");
 
 		cancel.addActionListener(this);
 		finish.addActionListener(this);
 
+		buttons.add(wouldReccomend);
+		buttons.add(reccomend);
 		buttons.add(cancel);
 		buttons.add(finish);
 
-		add(textPanel);
+		add(BorderLayout.EAST, textPanel);
+		add(BorderLayout.WEST, scoresPanel);
 		add(BorderLayout.PAGE_END, buttons);
 	}
 	

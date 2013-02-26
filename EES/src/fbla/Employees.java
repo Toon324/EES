@@ -4,6 +4,7 @@
 package fbla;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  * @author Cody
@@ -46,13 +48,15 @@ public class Employees extends JPanel implements ActionListener {
 		buttons.add(view);
 		
 		employeesList = new JList();
-		employeesList.setVisibleRowCount(10);
-		employeesList.setSize(300, 500);
+		employeesList.setVisibleRowCount(-1); //Use all space available
 		employeesList.setSelectedIndex(0);
 		loadDataSource("Resources\\Employees.txt");
 		employeesList.setListData(data);
 		
-		add(employeesList);
+		//Puts list in a scroll pane
+		JScrollPane listScroller = new JScrollPane(employeesList);
+		
+		add(listScroller);
 		add(BorderLayout.PAGE_END, buttons);
 	}
 
