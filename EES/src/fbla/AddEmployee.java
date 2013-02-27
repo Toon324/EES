@@ -8,12 +8,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 /**
  * @author Cody
@@ -43,7 +46,12 @@ public class AddEmployee extends DataInputWindow {
 		textFields.add(new JTextField("Address", 20));
 		textFields.add(new JTextField("City", 20));
 		textFields.add(new JTextField("State", 20));
-		textFields.add(new JTextField("Zip Code", 20));
+		try {
+			textFields.add(new JFormattedTextField(new MaskFormatter("#####")));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		for (JTextField tf : textFields)
 			textPanel.add(tf);
