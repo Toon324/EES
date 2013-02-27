@@ -19,8 +19,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Companies extends JPanel implements ActionListener{
 
-	private String[] data = new String[0];
-	ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
+	private static String[] data = new String[0];
+	static ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
 	
 	/**
 	 * @param p
@@ -56,7 +56,7 @@ public class Companies extends JPanel implements ActionListener{
 		
 	}
 	
-	public void loadDataSource(String path) {
+	public static void loadDataSource(String path) {
 		Scanner scanner = new Scanner(Employees.class.getResourceAsStream(path)); //Loads the .txt file
 		scanner.useDelimiter("\t"); //Uses tab as an indicator that a new data segment is present. Can not use comma, as commas may be present in comments.
 		
@@ -80,7 +80,7 @@ public class Companies extends JPanel implements ActionListener{
 		}
 	}
 
-	private void dataSort(int i) {
+	private static void dataSort(int i) {
 		
 		data = new String[input.size()];
 		

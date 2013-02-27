@@ -15,6 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * @author Cody
@@ -22,9 +26,12 @@ import javax.swing.JScrollPane;
  */
 @SuppressWarnings("serial")
 public class Employees extends JPanel implements ActionListener {
-	private String[] data = new String[0];
-	JList employeesList;
-	ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
+	private static String[][] data = new String[0][0];
+	static String[] names = {"Employee #", "First Name", "Last Name", "Phone #", "Cell #", "Address", "City", "State", "ZIP"};
+	static JTable employeesList;
+	static FblaTableModel tableModel;
+	JScrollPane listScroller;
+	static ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
 	
 	public Employees() {
 		super(new BorderLayout());
@@ -46,15 +53,14 @@ public class Employees extends JPanel implements ActionListener {
 		buttons.add(addEmployee);
 		buttons.add(evaluate);
 		buttons.add(view);
-		
-		employeesList = new JList();
-		employeesList.setVisibleRowCount(-1); //Use all space available
-		employeesList.setSelectedIndex(0);
+
+		tableModel = new FblaTableModel(data, names);
+		employeesList = new JTable(tableModel);
 		loadDataSource("Resources\\Employees.txt");
-		employeesList.setListData(data);
+		employeesList.setAutoCreateRowSorter(true);
 		
 		//Puts list in a scroll pane
-		JScrollPane listScroller = new JScrollPane(employeesList);
+		listScroller = new JScrollPane(employeesList);
 		
 		add(listScroller);
 		add(BorderLayout.PAGE_END, buttons);
@@ -66,16 +72,17 @@ public class Employees extends JPanel implements ActionListener {
 			EES.cl.show(EES.pages, "Home");
 		else if (e.getActionCommand().equals("Add Employee"))
 			AddEmployee.main(null);
-		else if (e.getActionCommand().equals("Evaluate")) {
+		else if (e.getActionCommand().equals("Evaluate") && (employeesList.getSelectedRow() != -1)) {
 			Evaluate.main(null);
-			Evaluate.setEmployeeNum(employeesList.getSelectedIndex());
+			Evaluate.setEmployeeNum(employeesList.getSelectedRow());
 		}
 		//else if (e.getActionCommand().equals("View Info"));
 			//ViewInfo.main(null);
 		
 	}
 	
-	public void loadDataSource(String path) {
+	public static void loadDataSource(String path) {
+		input.clear();
 		Scanner scanner = new Scanner(Employees.class.getResourceAsStream(path)); //Loads the .txt file
 		scanner.useDelimiter("\t"); //Uses tab as an indicator that a new data segment is present. Can not use comma, as commas may be present in comments.
 		
@@ -86,8 +93,7 @@ public class Employees extends JPanel implements ActionListener {
 				Scanner lineScanner = new Scanner(temp);
 				lineScanner.useDelimiter("\t");
 				while (lineScanner.hasNext()) {
-					String s = lineScanner.next(); //Gets each section of the line
-					line.add(s);
+					line.add(lineScanner.next());
 				}
 				lineScanner.close();
 				input.add(line);
@@ -95,26 +101,17 @@ public class Employees extends JPanel implements ActionListener {
 		} catch (Exception e) {} 
 		finally {
 			scanner.close();
-			dataSort(0);
-		}
-	}
-
-	private void dataSort(int i) {
-		
-		data = new String[input.size()];
-		
-		switch (i) {
-		case 0: //By Employee ID
+			//Store data
+			data = new String[input.size()][10];
 			for (int x=0; x<input.size(); x++) {
-				StringBuilder line = new StringBuilder();
-				for (String s: input.get(x))
-					line.append(s + "    " + "\t");
-				data[x] = line.toString();
+				int cnt=0;
+				for (String s: input.get(x)) {
+					data[x][cnt] = s;
+					cnt++;
+				}
 			}
-			break;
-		case 1: //By name
-			//TODO: Sort by name
-			break;
+			tableModel.setData(data);
+			employeesList.setModel(tableModel);
 		}
 	}
 }

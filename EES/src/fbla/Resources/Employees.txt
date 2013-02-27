@@ -1,2 +1,13 @@
-0	First Name	Last Name	Phone Number	Cell Number	Address	City	State	Zip Code
 1	Cody	Swendrowski	262-679-0184	262-312-8163	W196 S8406 Plum Creek Blvd.	Muskego	Wisconsin	53150	
+2	John	Smith	181-328-1632	181-363-6883	W83 S3142 Burger St.	Marshville	Michigan	35013	
+3	Noah	Rush	454-385-3816	464-363-6732	W1834 S53 Morgan St.	Morana	WI	32671	
+4	Nikole	Fohr	632-628-9753	231-753-1832	W7394 S32 Foster Rd.	Hamilton	Nevada	62361	
+5	Andrew	Wurster	265-823-6139	746-123-6731	W135 S2357 Megan Av.	Gotham	New York	16283	
+6	First Name	Last Name	Phone Number	Cell Number	Address	City	State	Zip Code	
+7	First Name	Last Name	Phone Number	Cell Number	Address	City	State	Zip Code	
+8	First Name	Last Name	Phone Number	Cell Number	Address	City	State	Zip Code	
+9	First Name	Last Name	Phone Number	Cell Number	Address	City	State	Zip Code	
+10	Bruce	Wane	800-bat-mann	800-bat-mann	Bat st.	Gotham	Gotham	Gotham	
+11	First Name	Last Name	Phone Number	Cell Number	Address	City	State	Zip Code	
+12	LOLz	Last Name	Phone Number	Cell Number	Address	City	State	Zip Code	
+13	First Name	Last Name	Phone Number	Cell Number	Address	City	State	Zip Code	

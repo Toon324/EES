@@ -141,20 +141,23 @@ public class Evaluate extends DataInputWindow {
 				e.printStackTrace();
 			}
 			
+			int employerNum = -1;
+			try {
+			File fieldPlacement = new File("src\\fbla\\Resources\\Field Placements.txt");
 			//Gets the last employee number
-			Scanner scanner = new Scanner(file); 
+			Scanner scanner = new Scanner(fieldPlacement); 
 			String l = "";
 			while (scanner.hasNextLine())
 				l = scanner.nextLine();
 			Scanner lineScanner = new Scanner(l);
-			int lastNum = lineScanner.nextInt();
+			employerNum = lineScanner.nextInt();
 			scanner.close();
 			lineScanner.close();
+			}
+			catch (Exception e) {}
 				
-			/*out.println((lastNum+1) + "\t" + name.getText() + "\t" + address.getText() + "\t"
-					+ city.getText() + "\t" + state.getText() + "\t"
-					+ zip.getText() + "\t" + phoneNum.getText() + "\t"
-					+ email.getText() + "\t" + contact.getText());*/
+			StringBuilder toWrite = new StringBuilder();
+			
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();

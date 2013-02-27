@@ -98,7 +98,9 @@ public class AddCompany extends DataInputWindow {
 		if (e.getActionCommand().equals("Cancel"))
 			frame.dispose();
 		else if (e.getActionCommand().equals("Finish"))
-			writeDataAndExit("src\\fbla\\Resources\\Employer.txt");
+			writeData("src\\fbla\\Resources\\Employer.txt");
+			Companies.loadDataSource("src\\fbla\\Resources\\Employer.txt");
+			frame.dispose();
 	}
 
 }

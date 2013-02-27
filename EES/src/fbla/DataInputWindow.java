@@ -36,7 +36,7 @@ public class DataInputWindow extends JPanel implements ActionListener {
 		//Overrided in extending classes to maintain layout
 	}
 
-	protected void writeDataAndExit(String path) {
+	protected void writeData(String path) {
 		try {
 			//Creates file writer
 			PrintWriter out = null;
@@ -72,9 +72,5 @@ public class DataInputWindow extends JPanel implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		finally {
-			frame.dispose();
-		}
-
 	}
 }
