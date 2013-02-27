@@ -46,11 +46,7 @@ public class DataInputWindow extends JPanel implements ActionListener {
 					file.createNewFile();
 				out = new PrintWriter(
 						new FileWriter(file.getAbsoluteFile(),true)); //Append to current data
-			} catch (IOException e) {
-				System.out.println("Error creating output stream\n"
-						+ System.getProperty("user.dir"));
-				e.printStackTrace();
-			}
+			} catch (IOException e) {}
 			
 			//Gets the last employee number
 			Scanner scanner = new Scanner(file); 

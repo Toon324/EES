@@ -8,6 +8,10 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -56,7 +60,7 @@ public class Employees extends JPanel implements ActionListener {
 
 		tableModel = new FblaTableModel(data, names);
 		employeesList = new JTable(tableModel);
-		loadDataSource("Resources\\Employees.txt");
+		loadDataSource("src\\fbla\\Resources\\Employees.txt");
 		employeesList.setAutoCreateRowSorter(true);
 		
 		//Puts list in a scroll pane
@@ -83,10 +87,13 @@ public class Employees extends JPanel implements ActionListener {
 	
 	public static void loadDataSource(String path) {
 		input.clear();
-		Scanner scanner = new Scanner(Employees.class.getResourceAsStream(path)); //Loads the .txt file
-		scanner.useDelimiter("\t"); //Uses tab as an indicator that a new data segment is present. Can not use comma, as commas may be present in comments.
-		
+		File file = new File(path);
 		try {
+			if (!file.exists())
+				file.createNewFile();
+			
+			Scanner scanner = new Scanner(file); //Loads the .txt file
+			scanner.useDelimiter("\t"); //Uses tab as an indicator that a new data segment is present. Can not use comma, as commas may be present in comments.
 			while (scanner.hasNextLine()) {
 				String temp = scanner.nextLine();
 				ArrayList<String> line = new ArrayList<String>(); //Gets next line
@@ -98,9 +105,9 @@ public class Employees extends JPanel implements ActionListener {
 				lineScanner.close();
 				input.add(line);
 			}
+			scanner.close();
 		} catch (Exception e) {} 
 		finally {
-			scanner.close();
 			//Store data
 			data = new String[input.size()][10];
 			for (int x=0; x<input.size(); x++) {

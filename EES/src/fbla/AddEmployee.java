@@ -61,7 +61,7 @@ public class AddEmployee extends DataInputWindow {
 			frame.dispose();
 		else if (e.getActionCommand().equals("Finish")) {
 			writeData("src\\fbla\\Resources\\Employees.txt");
-			Employees.loadDataSource("Resources\\Employees.txt");
+			Employees.loadDataSource("src\\fbla\\Resources\\Employees.txt");
 			frame.dispose();
 		}
 	}
