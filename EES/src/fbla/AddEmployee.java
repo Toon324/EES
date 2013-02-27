@@ -3,17 +3,12 @@ package fbla;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
@@ -31,7 +26,8 @@ public class AddEmployee extends DataInputWindow {
 	 */
 	public AddEmployee() {
 		super(new BorderLayout());
-		JPanel textPanel = new JPanel(new GridLayout(4,2));
+		JPanel textPanel = new JPanel(new GridLayout(0,1));
+		JPanel labelPanel = new JPanel(new GridLayout(0,1));
 		JPanel buttons = new JPanel(new GridLayout(1,2));
 		
 		JButton finish = new JButton("Finish");
@@ -39,15 +35,15 @@ public class AddEmployee extends DataInputWindow {
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(this);
 		
-		textFields.add(new JTextField("First Name", 20));
-		textFields.add(new JTextField("Last Name", 20));
-		textFields.add(new JTextField("Phone Number", 20));
-		textFields.add(new JTextField("Cell Number", 20));
-		textFields.add(new JTextField("Address", 20));
-		textFields.add(new JTextField("City", 20));
-		textFields.add(new JTextField("State", 20));
 		try {
-			textFields.add(new JFormattedTextField(new MaskFormatter("#####")));
+		textFields.add(new JTextField(20));
+		textFields.add(new JTextField(20));
+		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
+		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
+		textFields.add(new JTextField(20));
+		textFields.add(new JTextField(20));
+		textFields.add(new JTextField(20));
+		textFields.add(new JFormattedTextField(new MaskFormatter("#####")));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,11 +51,24 @@ public class AddEmployee extends DataInputWindow {
 		
 		for (JTextField tf : textFields)
 			textPanel.add(tf);
+
+		labels.add(new JLabel("First Name"));
+		labels.add(new JLabel("Last Name"));
+		labels.add(new JLabel("Phone Number"));
+		labels.add(new JLabel("Cell Number"));
+		labels.add(new JLabel("Address"));
+		labels.add(new JLabel("City"));
+		labels.add(new JLabel("State"));
+		labels.add(new JLabel("ZIP"));
+		
+		for (JLabel l : labels)
+			labelPanel.add(l);
 		
 		buttons.add(cancel);
 		buttons.add(finish);
 		
-		add(textPanel);
+		add(BorderLayout.WEST, labelPanel);
+		add(BorderLayout.CENTER, textPanel);
 		add(BorderLayout.PAGE_END,buttons);
 	}
 

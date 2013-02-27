@@ -100,7 +100,7 @@ public class Employees extends JPanel implements ActionListener {
 		} catch (Exception e) {} 
 		finally {
 			//Store data
-			data = new String[input.size()][10];
+			data = new String[input.size()][input.get(0).size()];
 			for (int x=0; x<input.size(); x++) {
 				int cnt=0;
 				for (String s: input.get(x)) {

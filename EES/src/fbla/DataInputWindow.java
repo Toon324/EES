@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -25,6 +26,7 @@ import javax.swing.JTextField;
 public class DataInputWindow extends JPanel implements ActionListener {
 
 	ArrayList<JTextField> textFields = new ArrayList<JTextField>();
+	ArrayList<JLabel> labels = new ArrayList<JLabel>();
 	protected static JFrame frame = new JFrame();
 
 	public DataInputWindow(BorderLayout borderLayout) {

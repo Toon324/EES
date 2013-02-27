@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,10 +22,13 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 /**
  * @author Cody
@@ -33,10 +37,10 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class Evaluate extends DataInputWindow {
 
-	ArrayList<JComboBox<Object>> scoreBoxes = new ArrayList<JComboBox<Object>>();
+	ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
 	JTextField nextEval;
 	String[] r = {"Yes", "No"};
-	JComboBox<Object> reccomend = new JComboBox<Object>(r);
+	JComboBox reccomend = new JComboBox(r);
 	static int employeeNum;
 	
 	public Evaluate() {
@@ -45,31 +49,45 @@ public class Evaluate extends DataInputWindow {
 		JPanel textPanel = new JPanel(new GridLayout(0,1));
 		JPanel scoresPanel = new JPanel(new GridLayout(0,1));
 		JPanel buttons = new JPanel();
+		JPanel labelPanel = new JPanel(new GridLayout(0,1));
+		JPanel nextEvalPanel = new JPanel(new BorderLayout());
 		
-		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
-		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
-		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
-		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
-		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox(scoreOptions));
 		
-		nextEval = new JTextField("Next Evaluation Date", 20);
-		add(BorderLayout.PAGE_START, nextEval);
-		
-		textFields.add(new JTextField("Work Quality Comments", 50));
-		textFields.add(new JTextField("Work Habits Comments", 50));
-		textFields.add(new JTextField("Job Knowledge Comments", 50));
-		textFields.add(new JTextField("Behavior Comments", 50));
-		textFields.add(new JTextField("Overall Progress Comments", 50));
-		
-		Font text = new Font("Arial", Font.PLAIN, 12);
-		
-		for (JTextField tf : textFields) {
-			tf.setFont(text);
-			textPanel.add(tf);
+		try {
+			nextEval = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		for(JComboBox<?> cb : scoreBoxes)
+		nextEvalPanel.add(BorderLayout.WEST, new JLabel("Next Evaluation Date     "));
+		nextEvalPanel.add(BorderLayout.CENTER, nextEval);
+		
+		textFields.add(new JTextField(50));
+		textFields.add(new JTextField(50));
+		textFields.add(new JTextField(50));
+		textFields.add(new JTextField(50));
+		textFields.add(new JTextField(50));
+		
+		labels.add(new JLabel("Work Quality"));
+		labels.add(new JLabel("Work Habits"));
+		labels.add(new JLabel("Job Knowledge"));
+		labels.add(new JLabel("Behavior"));
+		labels.add(new JLabel("Overall Progress"));
+		
+		for (JTextField tf : textFields) 
+			textPanel.add(tf);
+		
+		for(JComboBox cb : scoreBoxes)
 			scoresPanel.add(cb);
+		
+		for (JLabel l : labels)
+			labelPanel.add(l);
 
 		JButton cancel = new JButton("Cancel");
 		JButton finish = new JButton("Finish");
@@ -84,8 +102,11 @@ public class Evaluate extends DataInputWindow {
 		buttons.add(cancel);
 		buttons.add(finish);
 
-		add(BorderLayout.EAST, textPanel);
-		add(BorderLayout.WEST, scoresPanel);
+		add(BorderLayout.PAGE_START, nextEvalPanel);
+		add(BorderLayout.WEST, labelPanel);
+		//add(BorderLayout.EAST, textPanel);
+		//add(BorderLayout.CENTER, scoresPanel);
+		add(BorderLayout.CENTER, new JTextArea());
 		add(BorderLayout.PAGE_END, buttons);
 	}
 	
@@ -181,7 +202,7 @@ public class Evaluate extends DataInputWindow {
 			
 			for (int x=0; x<textFields.size(); x++) {
 				toWrite.append(scoreBoxes.get(x).getSelectedItem() + "\t");
-				toWrite.append(textFields.get(0).getText() + "\t");
+				toWrite.append(textFields.get(x).getText() + "\t");
 			}
 			
 			toWrite.append(reccomend.getSelectedItem());
