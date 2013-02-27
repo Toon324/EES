@@ -1,28 +1,17 @@
-/**
- * 
- */
 package fbla;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  * @author Cody
@@ -80,8 +69,10 @@ public class Employees extends JPanel implements ActionListener {
 			Evaluate.main(null);
 			Evaluate.setEmployeeNum(employeesList.getSelectedRow()+1);
 		}
-		//else if (e.getActionCommand().equals("View Info"));
-			//ViewInfo.main(null);
+		else if (e.getActionCommand().equals("View Info")) {
+			ViewInfo.main(null);
+			ViewInfo.setEmployeeNum(employeesList.getSelectedRow()+1);
+		}
 		
 	}
 	

@@ -19,7 +19,8 @@ import javax.swing.JPanel;
 public class EES {
 	static CardLayout cl = new CardLayout();
 	static JPanel pages;
-
+	static final String delim = "\t";
+	
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Employee Evaluation System");
 		window.setSize(800, 600);
