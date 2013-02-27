@@ -78,7 +78,7 @@ public class Employees extends JPanel implements ActionListener {
 			AddEmployee.main(null);
 		else if (e.getActionCommand().equals("Evaluate") && (employeesList.getSelectedRow() != -1)) {
 			Evaluate.main(null);
-			Evaluate.setEmployeeNum(employeesList.getSelectedRow());
+			Evaluate.setEmployeeNum(employeesList.getSelectedRow()+1);
 		}
 		//else if (e.getActionCommand().equals("View Info"));
 			//ViewInfo.main(null);

@@ -12,7 +12,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -29,7 +33,10 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class Evaluate extends DataInputWindow {
 
-	ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
+	ArrayList<JComboBox<Object>> scoreBoxes = new ArrayList<JComboBox<Object>>();
+	JTextField nextEval;
+	String[] r = {"Yes", "No"};
+	JComboBox<Object> reccomend = new JComboBox<Object>(r);
 	static int employeeNum;
 	
 	public Evaluate() {
@@ -39,13 +46,14 @@ public class Evaluate extends DataInputWindow {
 		JPanel scoresPanel = new JPanel(new GridLayout(0,1));
 		JPanel buttons = new JPanel();
 		
-		scoreBoxes.add(new JComboBox(scoreOptions));
-		scoreBoxes.add(new JComboBox(scoreOptions));
-		scoreBoxes.add(new JComboBox(scoreOptions));
-		scoreBoxes.add(new JComboBox(scoreOptions));
-		scoreBoxes.add(new JComboBox(scoreOptions));
+		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
+		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
+		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
+		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
+		scoreBoxes.add(new JComboBox<Object>(scoreOptions));
 		
-		add(BorderLayout.PAGE_START, new JTextField("Next Evaluation Date", 20));
+		nextEval = new JTextField("Next Evaluation Date", 20);
+		add(BorderLayout.PAGE_START, nextEval);
 		
 		textFields.add(new JTextField("Work Quality Comments", 50));
 		textFields.add(new JTextField("Work Habits Comments", 50));
@@ -60,13 +68,12 @@ public class Evaluate extends DataInputWindow {
 			textPanel.add(tf);
 		}
 		
-		for(JComboBox cb : scoreBoxes)
+		for(JComboBox<?> cb : scoreBoxes)
 			scoresPanel.add(cb);
 
 		JButton cancel = new JButton("Cancel");
 		JButton finish = new JButton("Finish");
-		String[] r = {"Yes", "No"};
-		JComboBox reccomend = new JComboBox(r);
+	
 		JLabel wouldReccomend = new JLabel("Reccomend?");
 
 		cancel.addActionListener(this);
@@ -129,34 +136,57 @@ public class Evaluate extends DataInputWindow {
 		try {
 			//Creates file writer
 			PrintWriter out = null;
-			File file = new File("src\\fbla\\Resources\\Employer.txt");
+			File file = new File("src\\fbla\\Resources\\Evaluation Results.txt");
 			try {
 				if (!file.exists())
 					file.createNewFile();
 				out = new PrintWriter(
 						new FileWriter(file.getAbsoluteFile(),true)); //Append to current data
-			} catch (IOException e) {
-				System.out.println("Error creating output stream\n"
-						+ System.getProperty("user.dir"));
-				e.printStackTrace();
-			}
+			} catch (IOException e) {}
 			
-			int employerNum = -1;
+			int lastEvalNum = -1;
 			try {
-			File fieldPlacement = new File("src\\fbla\\Resources\\Field Placements.txt");
+
 			//Gets the last employee number
-			Scanner scanner = new Scanner(fieldPlacement); 
+			Scanner scanner = new Scanner(file); 
 			String l = "";
 			while (scanner.hasNextLine())
 				l = scanner.nextLine();
 			Scanner lineScanner = new Scanner(l);
-			employerNum = lineScanner.nextInt();
+			lastEvalNum = lineScanner.nextInt();
 			scanner.close();
 			lineScanner.close();
 			}
 			catch (Exception e) {}
 				
+			if (lastEvalNum == -1) //No evaluations found
+				lastEvalNum = 0;
 			StringBuilder toWrite = new StringBuilder();
+			toWrite.append((lastEvalNum +1) + "\t");
+			toWrite.append(employeeNum + "\t");
+			
+			//Fetches employerNum based off of employeeNum
+			int employerNum = EES.getEmployerNum(employeeNum);
+			if (employerNum == -1)
+				toWrite.append("No Employer" + "\t");
+			else
+				toWrite.append(employerNum + "\t");
+			
+			//Gets current date
+			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
+			Calendar cal = Calendar.getInstance();
+			toWrite.append(dateFormat.format(cal.getTime()) + "\t");
+			
+			toWrite.append(nextEval.getText() + "\t");
+			
+			for (int x=0; x<textFields.size(); x++) {
+				toWrite.append(scoreBoxes.get(x).getSelectedItem() + "\t");
+				toWrite.append(textFields.get(0).getText() + "\t");
+			}
+			
+			toWrite.append(reccomend.getSelectedItem());
+			
+			out.println(toWrite.toString());
 			
 			out.close();
 		} catch (Exception e) {
