@@ -32,66 +32,68 @@ import javax.swing.text.MaskFormatter;
 
 /**
  * @author Cody
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class Evaluate extends DataInputWindow {
 
 	ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
 	JTextField nextEval;
-	String[] r = {"Yes", "No"};
+	String[] r = { "Yes", "No" };
 	JComboBox reccomend = new JComboBox(r);
 	static int employeeNum;
-	
+
 	public Evaluate() {
 		super(new BorderLayout());
-		String[] scoreOptions = { Integer.toString(1), Integer.toString(2), Integer.toString(3), Integer.toString(4), Integer.toString(5)};
-		JPanel textPanel = new JPanel(new GridLayout(0,1));
-		JPanel scoresPanel = new JPanel(new GridLayout(0,1));
+		String[] scoreOptions = { Integer.toString(1), Integer.toString(2),
+				Integer.toString(3), Integer.toString(4), Integer.toString(5) };
+		JPanel textPanel = new JPanel(new GridLayout(0, 1));
+		JPanel scoresPanel = new JPanel(new GridLayout(0, 1));
 		JPanel buttons = new JPanel();
-		JPanel labelPanel = new JPanel(new GridLayout(0,1));
+		JPanel labelPanel = new JPanel(new GridLayout(0, 1));
 		JPanel nextEvalPanel = new JPanel(new BorderLayout());
-		
+
 		scoreBoxes.add(new JComboBox(scoreOptions));
 		scoreBoxes.add(new JComboBox(scoreOptions));
 		scoreBoxes.add(new JComboBox(scoreOptions));
 		scoreBoxes.add(new JComboBox(scoreOptions));
 		scoreBoxes.add(new JComboBox(scoreOptions));
-		
+
 		try {
 			nextEval = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		nextEvalPanel.add(BorderLayout.WEST, new JLabel("Next Evaluation Date     "));
+
+		nextEvalPanel.add(BorderLayout.WEST, new JLabel(
+				"Next Evaluation Date     "));
 		nextEvalPanel.add(BorderLayout.CENTER, nextEval);
-		
+
 		textFields.add(new JTextField(50));
 		textFields.add(new JTextField(50));
 		textFields.add(new JTextField(50));
 		textFields.add(new JTextField(50));
 		textFields.add(new JTextField(50));
-		
+
 		labels.add(new JLabel("Work Quality"));
 		labels.add(new JLabel("Work Habits"));
 		labels.add(new JLabel("Job Knowledge"));
 		labels.add(new JLabel("Behavior"));
 		labels.add(new JLabel("Overall Progress"));
-		
-		for (JTextField tf : textFields) 
+
+		for (JTextField tf : textFields)
 			textPanel.add(tf);
-		
-		for(JComboBox cb : scoreBoxes)
+
+		for (JComboBox cb : scoreBoxes)
 			scoresPanel.add(cb);
-		
+
 		for (JLabel l : labels)
 			labelPanel.add(l);
 
 		JButton cancel = new JButton("Cancel");
 		JButton finish = new JButton("Finish");
-	
+
 		JLabel wouldReccomend = new JLabel("Reccomend?");
 
 		cancel.addActionListener(this);
@@ -106,17 +108,18 @@ public class Evaluate extends DataInputWindow {
 		add(BorderLayout.WEST, labelPanel);
 		add(BorderLayout.EAST, textPanel);
 		add(BorderLayout.CENTER, scoresPanel);
-		//add(BorderLayout.CENTER, new JTextArea());
+		// add(BorderLayout.CENTER, new JTextArea());
 		add(BorderLayout.PAGE_END, buttons);
 	}
-	
+
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
 	 */
 	private static void createAndShowGUI() {
 		// Create and set up the window.
-		frame = new JFrame("Evaluate Employee " + EES.getEmployeeName(employeeNum));
+		frame = new JFrame("Evaluate Employee "
+				+ EES.getEmployeeName(employeeNum));
 		frame.setSize(400, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -140,7 +143,7 @@ public class Evaluate extends DataInputWindow {
 			}
 		});
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Cancel"))
@@ -148,83 +151,97 @@ public class Evaluate extends DataInputWindow {
 		else if (e.getActionCommand().equals("Finish"))
 			writeDataAndExit();
 	}
-	
+
 	public static void setEmployeeNum(int num) {
 		employeeNum = num;
 	}
-	
+
 	private void writeDataAndExit() {
 		try {
-			//Creates file writer
-			PrintWriter out = null;
-			File file = new File("src\\fbla\\Resources\\Evaluation Results.txt");
-			try {
-				if (!file.exists())
-					file.createNewFile();
-				out = new PrintWriter(
-						new FileWriter(file.getAbsoluteFile(),true)); //Append to current data
-			} catch (IOException e) {}
+			// Creates file writer
+			PrintWriter evalOut = null;
+			PrintWriter empOut = null;
+			File eval = new File("src\\fbla\\Resources\\Evaluation Results.txt");
+			File employee = new File("src\\fbla\\Resources\\Employees.txt");
 			
+			evalOut = new PrintWriter(new FileWriter(eval.getAbsoluteFile(), true)); // Append
+																					// to
+																					// current
+																					// data
+			empOut = new PrintWriter(new FileWriter(employee.getAbsoluteFile(), true));
+
 			int lastEvalNum = -1;
 			int lastAvgScore = 0;
 			try {
-
-			//Gets the last evaluation number
-			Scanner scanner = new Scanner(file); 
-			String l = "";
-			while (scanner.hasNextLine())
-				l = scanner.nextLine();
-			Scanner lineScanner = new Scanner(l);
-			lastEvalNum = lineScanner.nextInt();
-			lastAvgScore = lineScanner.nextInt();
-			scanner.close();
-			lineScanner.close();
-			}
-			catch (Exception e) {}
+				// Gets the last evaluation number
+				Scanner scanner = new Scanner(eval);
+				String l = "";
+				while (scanner.hasNextLine())
+					l = scanner.nextLine();
+				Scanner lineScanner = new Scanner(l);
+				lastEvalNum = lineScanner.nextInt();
 				
-			if (lastEvalNum == -1) //No evaluations found
+				scanner = new Scanner(employee);
+				while (scanner.hasNextLine()) {
+					l = scanner.nextLine();
+					lineScanner = new Scanner(l);
+					
+					if (lineScanner.nextInt() == employeeNum)
+						lastAvgScore = lineScanner.nextInt();
+				}
+				
+				scanner.close();
+				lineScanner.close();
+			} catch (Exception e) {
+			}
+			
+			if (lastEvalNum == -1) // No evaluations found
 				lastEvalNum = 0;
-			
+
 			StringBuilder toWrite = new StringBuilder();
-			toWrite.append((lastEvalNum +1) + "\t");
+			toWrite.append((lastEvalNum + 1) + "\t");
 			toWrite.append(employeeNum + "\t");
-			
+
 			int averageScore = 0;
-			for (int x=0; x<scoreBoxes.size()-1; x++) {
-				averageScore += java.lang.Integer.parseInt((String) scoreBoxes.get(x).getSelectedItem());
+			for (int x = 0; x < scoreBoxes.size() - 1; x++) {
+				averageScore += java.lang.Integer.parseInt((String) scoreBoxes
+						.get(x).getSelectedItem());
 			}
 			averageScore /= 5;
-			
-			toWrite.append(((lastAvgScore+averageScore)/2) + "\t"); //Writes the average score
-			
-			//Fetches employerNum based off of employeeNum
+
+			toWrite.append(((lastAvgScore + averageScore) / 2) + "\t"); // Writes
+																		// the
+																		// average
+																		// score
+
+			// Fetches employerNum based off of employeeNum
 			int employerNum = EES.getEmployerNum(employeeNum);
 			if (employerNum == -1)
 				toWrite.append("No Employer" + "\t");
 			else
 				toWrite.append(employerNum + "\t");
-			
-			//Gets current date
+
+			// Gets current date
 			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
 			Calendar cal = Calendar.getInstance();
 			toWrite.append(dateFormat.format(cal.getTime()) + "\t");
-			
+
 			toWrite.append(nextEval.getText() + "\t");
-			
-			for (int x=0; x<textFields.size(); x++) {
+
+			for (int x = 0; x < textFields.size(); x++) {
 				toWrite.append(scoreBoxes.get(x).getSelectedItem() + "\t");
 				toWrite.append(textFields.get(x).getText() + "\t");
 			}
-			
+
 			toWrite.append(reccomend.getSelectedItem());
-			
-			out.println(toWrite.toString());
-			
-			out.close();
+
+			evalOut.println(toWrite.toString());
+
+			evalOut.close();
+			empOut.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			frame.dispose();
 		}
 

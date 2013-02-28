@@ -58,9 +58,14 @@ public class EES {
 
 			Scanner scanner = new Scanner(file);
 
-			while (scanner.hasNextLine())
-				if (employeeNum == scanner.nextInt())
-					toReturn = scanner.nextInt();
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				Scanner lineScanner = new Scanner(line);
+				lineScanner.useDelimiter(delim);
+				if (employeeNum == lineScanner.nextInt())
+					toReturn = lineScanner.nextInt();
+				lineScanner.close();
+			}
 
 			scanner.close();
 
