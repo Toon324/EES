@@ -31,8 +31,10 @@ public class ViewEmployee extends DataInputWindow {
 	 */
 	public ViewEmployee() {
 		super(new BorderLayout());
+		
 		JButton close = new JButton("Close");
 		close.addActionListener(this);
+		
 		JPanel info = new JPanel(new GridLayout(0, 1));
 		JPanel categories = new JPanel(new GridLayout(0, 1));
 
