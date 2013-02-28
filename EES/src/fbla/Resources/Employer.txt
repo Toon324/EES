@@ -1,3 +1,1 @@
-0	Name	Address	City	State	Zip	Phone	Email	Contact Person	
-1	Test Co.	Test Av.	TestTown	Testas	00000	000-000-0000	test@test.com	Test Person	
-
+1	Test Co.	Test Av.	TestTown	Testas	00000	000-000-0000	test@test.com	Test Person

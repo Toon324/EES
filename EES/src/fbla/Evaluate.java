@@ -104,9 +104,9 @@ public class Evaluate extends DataInputWindow {
 
 		add(BorderLayout.PAGE_START, nextEvalPanel);
 		add(BorderLayout.WEST, labelPanel);
-		//add(BorderLayout.EAST, textPanel);
-		//add(BorderLayout.CENTER, scoresPanel);
-		add(BorderLayout.CENTER, new JTextArea());
+		add(BorderLayout.EAST, textPanel);
+		add(BorderLayout.CENTER, scoresPanel);
+		//add(BorderLayout.CENTER, new JTextArea());
 		add(BorderLayout.PAGE_END, buttons);
 	}
 	
@@ -116,7 +116,7 @@ public class Evaluate extends DataInputWindow {
 	 */
 	private static void createAndShowGUI() {
 		// Create and set up the window.
-		frame = new JFrame("Evaluate Employee " + employeeNum);
+		frame = new JFrame("Evaluate Employee " + EES.getEmployeeName(employeeNum));
 		frame.setSize(400, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -166,15 +166,17 @@ public class Evaluate extends DataInputWindow {
 			} catch (IOException e) {}
 			
 			int lastEvalNum = -1;
+			int lastAvgScore = 0;
 			try {
 
-			//Gets the last employee number
+			//Gets the last evaluation number
 			Scanner scanner = new Scanner(file); 
 			String l = "";
 			while (scanner.hasNextLine())
 				l = scanner.nextLine();
 			Scanner lineScanner = new Scanner(l);
 			lastEvalNum = lineScanner.nextInt();
+			lastAvgScore = lineScanner.nextInt();
 			scanner.close();
 			lineScanner.close();
 			}
@@ -182,9 +184,18 @@ public class Evaluate extends DataInputWindow {
 				
 			if (lastEvalNum == -1) //No evaluations found
 				lastEvalNum = 0;
+			
 			StringBuilder toWrite = new StringBuilder();
 			toWrite.append((lastEvalNum +1) + "\t");
 			toWrite.append(employeeNum + "\t");
+			
+			int averageScore = 0;
+			for (int x=0; x<scoreBoxes.size()-1; x++) {
+				averageScore += java.lang.Integer.parseInt((String) scoreBoxes.get(x).getSelectedItem());
+			}
+			averageScore /= 5;
+			
+			toWrite.append(((lastAvgScore+averageScore)/2) + "\t"); //Writes the average score
 			
 			//Fetches employerNum based off of employeeNum
 			int employerNum = EES.getEmployerNum(employeeNum);

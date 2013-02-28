@@ -5,6 +5,7 @@ package fbla;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,25 +22,26 @@ import javax.swing.JPanel;
  * 
  */
 @SuppressWarnings("serial")
-public class ViewInfo extends DataInputWindow {
+public class ViewEmployee extends DataInputWindow {
 
 	static int employeeNum = -1;
 
 	/**
 	 * @param borderLayout
 	 */
-	public ViewInfo() {
+	public ViewEmployee() {
 		super(new BorderLayout());
 		JButton close = new JButton("Close");
 		close.addActionListener(this);
 		JPanel info = new JPanel(new GridLayout(0, 1));
 		JPanel categories = new JPanel(new GridLayout(0, 1));
 
-		categories.add(new JLabel("First Name"));
-		categories.add(new JLabel("Last Name"));
 		// The method frame.pack() sets elements based on max width of contained
 		// items. This string is larger to give a padding between data points.
-		categories.add(new JLabel("Phone Num                "));
+		categories.add(new JLabel("Average Evaluation Score     "));
+		categories.add(new JLabel("First Name"));
+		categories.add(new JLabel("Last Name"));
+		categories.add(new JLabel("Phone Num"));
 		categories.add(new JLabel("Cell Num"));
 		categories.add(new JLabel("Address"));
 		categories.add(new JLabel("City"));
@@ -76,12 +78,13 @@ public class ViewInfo extends DataInputWindow {
 	 */
 	private static void createAndShowGUI() {
 		// Create and set up the window.
-		frame = new JFrame("Displaying Employee " + employeeNum);
+		frame = new JFrame("Displaying Employee "
+				+ EES.getEmployeeName(employeeNum));
 		frame.setSize(300, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Create and set up the content pane.
-		ViewInfo popup = new ViewInfo();
+		ViewEmployee popup = new ViewEmployee();
 		popup.setOpaque(true); // content panes must be opaque
 		frame.setContentPane(popup);
 		frame.pack();
@@ -104,4 +107,9 @@ public class ViewInfo extends DataInputWindow {
 		employeeNum = i;
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("Close"))
+			frame.dispose();
+	}
 }

@@ -35,8 +35,12 @@ public class AddEmployee extends DataInputWindow {
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(this);
 		
+		JTextField eval = new JTextField("0"); //Hidden field for writing purposes
+		eval.setVisible(false);
+		
 		try {
 		textFields.add(new JTextField(20));
+		textFields.add(eval);
 		textFields.add(new JTextField(20));
 		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
 		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
@@ -50,7 +54,8 @@ public class AddEmployee extends DataInputWindow {
 		}
 		
 		for (JTextField tf : textFields)
-			textPanel.add(tf);
+			if (!tf.getText().equals("0")) //Does not display hidden field
+				textPanel.add(tf);
 
 		labels.add(new JLabel("First Name"));
 		labels.add(new JLabel("Last Name"));
@@ -61,7 +66,7 @@ public class AddEmployee extends DataInputWindow {
 		labels.add(new JLabel("State"));
 		labels.add(new JLabel("ZIP"));
 		
-		for (JLabel l : labels)
+		for (JLabel l : labels) 
 			labelPanel.add(l);
 		
 		buttons.add(cancel);
@@ -78,7 +83,7 @@ public class AddEmployee extends DataInputWindow {
 			frame.dispose();
 		else if (e.getActionCommand().equals("Finish")) {
 			writeData("src\\fbla\\Resources\\Employees.txt");
-			Employees.loadDataSource("src\\fbla\\Resources\\Employees.txt");
+			Employees.loadDataSource(Employees.employeesList, Employees.tableModel, Employees.data, "src\\fbla\\Resources\\Employees.txt");
 			frame.dispose();
 		}
 	}
@@ -89,7 +94,7 @@ public class AddEmployee extends DataInputWindow {
 	 */
 	protected static void createAndShowGUI() {
 		// Create and set up the window.
-		frame = new JFrame("AddEmployee");
+		frame = new JFrame("Add Employee");
 		frame.setSize(400, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

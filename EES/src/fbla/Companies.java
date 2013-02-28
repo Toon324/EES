@@ -1,49 +1,64 @@
 package fbla;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  * @author Cody
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class Companies extends JPanel implements ActionListener{
+public class Companies extends JPanel implements ActionListener {
 
-	private static String[] data = new String[0];
+	static String[][] data = new String[0][0];
 	static ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
-	
+	static String[] names = { "Company Number", "Company Name", "Address",
+			"City", "State", "ZIP", "Phone Number", "Email", "Contact Person" };
+	static JTable companiesList;
+	static FblaTableModel tableModel;
+
 	/**
 	 * @param p
 	 */
 	public Companies() {
 		super(new BorderLayout());
-		JPanel buttons = new JPanel(new GridLayout(1,2));
-		
+		JPanel buttons = new JPanel(new GridLayout(0, 2));
+
 		JButton home = new JButton("Home");
 		home.addActionListener(this);
-		
+
 		JButton addCompany = new JButton("Add Company");
 		addCompany.addActionListener(this);
-		
+
+		JButton addToCompany = new JButton("Add Employee to Company");
+		addToCompany.addActionListener(this);
+
+		JButton view = new JButton("View Company");
+		view.addActionListener(this);
+
 		buttons.add(home);
 		buttons.add(addCompany);
-		
-		JList companiesList = new JList();
-		companiesList.setVisibleRowCount(10);
-		companiesList.setSize(300, 500);
-		loadDataSource("Resources\\Employer.txt");
-		companiesList.setListData(data);
-		add(companiesList);
+		buttons.add(addToCompany);
+		buttons.add(view);
+
+		tableModel = new FblaTableModel(data, names);
+		companiesList = new JTable(tableModel);
+		Employees.loadDataSource(companiesList, tableModel, data,
+				"src\\fbla\\Resources\\Employer.txt");
+		companiesList.setAutoCreateRowSorter(true);
+
+		// Puts list in a scroll pane
+		JScrollPane listScroller = new JScrollPane(companiesList);
+
+		add(listScroller);
 		add(BorderLayout.PAGE_END, buttons);
 	}
 
@@ -53,50 +68,32 @@ public class Companies extends JPanel implements ActionListener{
 			EES.cl.show(EES.pages, "Home");
 		else if (e.getActionCommand().equals("Add Company"))
 			AddCompany.main(null);
-		
-	}
-	
-	public static void loadDataSource(String path) {
-		Scanner scanner = new Scanner(Employees.class.getResourceAsStream(path)); //Loads the .txt file
-		scanner.useDelimiter("\t"); //Uses tab as an indicator that a new data segment is present. Can not use comma, as commas may be present in comments.
-		
-		try {
-			while (scanner.hasNextLine()) {
-				String temp = scanner.nextLine();
-				ArrayList<String> line = new ArrayList<String>(); //Gets next line
-				Scanner lineScanner = new Scanner(temp);
-				lineScanner.useDelimiter("\t");
-				while (lineScanner.hasNext()) {
-					String s = lineScanner.next(); //Gets each section of the line
-					line.add(s);
-				}
-				lineScanner.close();
-				input.add(line);
-			}
-		} catch (Exception e) {} 
-		finally {
-			scanner.close();
-			dataSort(0);
+		else if (e.getActionCommand().equals("Add Employee to Company")
+				&& (companiesList.getSelectedRow() != -1)) {
+			AddToCompany.main(null);
+			AddToCompany.setEmployerNum(getSelectedEmployerNum());
+		} else if (e.getActionCommand().equals("View Company")
+				&& (companiesList.getSelectedRow() != -1)) {
+			ViewCompany.main(null);
+			ViewCompany.setEmployerNum(getSelectedEmployerNum());
 		}
 	}
 
-	private static void dataSort(int i) {
-		
-		data = new String[input.size()];
-		
-		switch (i) {
-		case 0: //By Employee ID
-			for (int x=0; x<input.size(); x++) {
-				StringBuilder line = new StringBuilder();
-				for (String s: input.get(x))
-					line.append(s + "    " + "\t");
-				data[x] = line.toString();
-			}
-			break;
-		case 1: //By name
-			//TODO: Sort by name
-			break;
-		}
+	public String[][] getData() {
+		return data;
+	}
+
+	private int getSelectedEmployerNum() {
+		int col = -1;
+		for (int x = 0; x < companiesList.getColumnCount(); x++)
+			if (companiesList.getColumnName(x).equals("Company Number"))
+				col = x;
+		if (col == -1)
+			return -1;
+		String s = (String) tableModel.getValueAt(
+				companiesList.getSelectedRow(), col);
+		int i = java.lang.Integer.parseInt(s);
+		return i;
 	}
 
 }

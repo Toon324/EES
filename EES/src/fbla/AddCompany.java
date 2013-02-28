@@ -15,9 +15,12 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 /**
  * @author Cody
@@ -32,20 +35,36 @@ public class AddCompany extends DataInputWindow {
 	public AddCompany() {
 		super(new BorderLayout());
 
-		JPanel textPanel = new JPanel(new GridLayout(4, 2));
+		JPanel labelPanel = new JPanel(new GridLayout(0,1));
+		JPanel textPanel = new JPanel(new GridLayout(0,1));
 		JPanel buttons = new JPanel(new GridLayout(1, 2));
 
-		textFields.add(new JTextField("Name", 20));
-		textFields.add(new JTextField("Address", 20));
-		textFields.add(new JTextField("City", 20));
-		textFields.add(new JTextField("State", 20));
-		textFields.add(new JTextField("ZIP", 20));
-		textFields.add(new JTextField("Phone Number", 20));
-		textFields.add(new JTextField("Email Address", 20));
-		textFields.add(new JTextField("Contact Person", 20));
+		try {
+		textFields.add(new JTextField(20)); //Sets width for autosize
+		textFields.add(new JTextField());
+		textFields.add(new JTextField());
+		textFields.add(new JTextField());
+		textFields.add(new JFormattedTextField(new MaskFormatter("#####")));
+		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
+		textFields.add(new JTextField());
+		textFields.add(new JTextField());
+		}
+		catch (Exception e){}
 
 		for (JTextField tf : textFields)
 			textPanel.add(tf);
+		
+		labels.add(new JLabel("Company Name    "));
+		labels.add(new JLabel("Address"));
+		labels.add(new JLabel("City"));
+		labels.add(new JLabel("State"));
+		labels.add(new JLabel("ZIP"));
+		labels.add(new JLabel("Phone Number"));
+		labels.add(new JLabel("Email Address"));
+		labels.add(new JLabel("Contact Person"));
+		
+		for (JLabel l : labels)
+			labelPanel.add(l);
 
 		JButton cancel = new JButton("Cancel");
 		JButton finish = new JButton("Finish");
@@ -56,7 +75,8 @@ public class AddCompany extends DataInputWindow {
 		buttons.add(cancel);
 		buttons.add(finish);
 
-		add(textPanel);
+		add(BorderLayout.WEST, labelPanel);
+		add(BorderLayout.EAST, textPanel);
 		add(BorderLayout.PAGE_END, buttons);
 	}
 
@@ -99,7 +119,7 @@ public class AddCompany extends DataInputWindow {
 			frame.dispose();
 		else if (e.getActionCommand().equals("Finish"))
 			writeData("src\\fbla\\Resources\\Employer.txt");
-			Companies.loadDataSource("src\\fbla\\Resources\\Employer.txt");
+			Employees.loadDataSource(Companies.companiesList, Companies.tableModel, Companies.data, "src\\fbla\\Resources\\Employer.txt");
 			frame.dispose();
 	}
 
