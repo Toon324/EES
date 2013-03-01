@@ -160,18 +160,12 @@ public class Evaluate extends DataInputWindow {
 		try {
 			// Creates file writer
 			PrintWriter evalOut = null;
-			PrintWriter empOut = null;
 			File eval = new File("src\\fbla\\Resources\\Evaluation Results.txt");
-			File employee = new File("src\\fbla\\Resources\\Employees.txt");
-			
-			evalOut = new PrintWriter(new FileWriter(eval.getAbsoluteFile(), true)); // Append
-																					// to
-																					// current
-																					// data
-			empOut = new PrintWriter(new FileWriter(employee.getAbsoluteFile(), true));
+
+			evalOut = new PrintWriter(new FileWriter(eval.getAbsoluteFile(),
+					true)); // Append to current data
 
 			int lastEvalNum = -1;
-			int lastAvgScore = 0;
 			try {
 				// Gets the last evaluation number
 				Scanner scanner = new Scanner(eval);
@@ -180,21 +174,11 @@ public class Evaluate extends DataInputWindow {
 					l = scanner.nextLine();
 				Scanner lineScanner = new Scanner(l);
 				lastEvalNum = lineScanner.nextInt();
-				
-				scanner = new Scanner(employee);
-				while (scanner.hasNextLine()) {
-					l = scanner.nextLine();
-					lineScanner = new Scanner(l);
-					
-					if (lineScanner.nextInt() == employeeNum)
-						lastAvgScore = lineScanner.nextInt();
-				}
-				
 				scanner.close();
 				lineScanner.close();
 			} catch (Exception e) {
 			}
-			
+
 			if (lastEvalNum == -1) // No evaluations found
 				lastEvalNum = 0;
 
@@ -203,16 +187,18 @@ public class Evaluate extends DataInputWindow {
 			toWrite.append(employeeNum + "\t");
 
 			int averageScore = 0;
+			;
 			for (int x = 0; x < scoreBoxes.size() - 1; x++) {
 				averageScore += java.lang.Integer.parseInt((String) scoreBoxes
 						.get(x).getSelectedItem());
 			}
 			averageScore /= 5;
 
-			toWrite.append(((lastAvgScore + averageScore) / 2) + "\t"); // Writes
-																		// the
-																		// average
-																		// score
+			// toWrite.append(((lastAvgScore + averageScore) / 2) + "\t"); //
+			// Writes
+			// the
+			// average
+			// score
 
 			// Fetches employerNum based off of employeeNum
 			int employerNum = EES.getEmployerNum(employeeNum);
@@ -231,6 +217,9 @@ public class Evaluate extends DataInputWindow {
 			for (int x = 0; x < textFields.size(); x++) {
 				toWrite.append(scoreBoxes.get(x).getSelectedItem() + "\t");
 				toWrite.append(textFields.get(x).getText() + "\t");
+				if (x == textFields.size() - 2) // Add average score before
+												// general score
+					toWrite.append(averageScore + "\t");
 			}
 
 			toWrite.append(reccomend.getSelectedItem());
@@ -238,9 +227,7 @@ public class Evaluate extends DataInputWindow {
 			evalOut.println(toWrite.toString());
 
 			evalOut.close();
-			empOut.close();
 		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			frame.dispose();
 		}

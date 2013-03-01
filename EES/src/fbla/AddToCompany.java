@@ -46,6 +46,7 @@ public class AddToCompany extends DataInputWindow {
 		FblaTableModel tableModel = new FblaTableModel(Employees.getData(), Employees.getNames());
 		employeesList = new JTable(tableModel);
 		Employees.loadDataSource(employeesList, tableModel, Employees.getData(), "src\\fbla\\Resources\\Employees.txt");
+		employeesList.setAutoCreateRowSorter(true);
 		JScrollPane listScroller = new JScrollPane(employeesList);
 		
 		add(BorderLayout.CENTER, listScroller);

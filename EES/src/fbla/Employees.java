@@ -5,10 +5,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,7 +24,7 @@ import javax.swing.JTable;
 @SuppressWarnings("serial")
 public class Employees extends JPanel implements ActionListener {
 	static String[][] data = new String[0][0];
-	static String[] names = {"Employee Number", "Average Score", "First Name", "Last Name", "Phone #", "Cell #", "Address", "City", "State", "ZIP"};
+	static String[] names = {"Employee Number", "First Name", "Last Name", "Phone #", "Cell #", "Address", "City", "State", "ZIP"};
 	static JTable employeesList;
 	static FblaTableModel tableModel;
 	static JScrollPane listScroller;
@@ -74,17 +78,67 @@ public class Employees extends JPanel implements ActionListener {
 			EES.cl.show(EES.pages, "Home");
 		else if (e.getActionCommand().equals("Add Employee"))
 			AddEmployee.main(null);
-		else if (e.getActionCommand().equals("Evaluate Employee") && (employeesList.getSelectedRow() != -1)) {
+		else if (e.getActionCommand().equals("Evaluate Employee") && (getSelectedNum(employeesList, "Employee Number") != -1)) {
 			Evaluate.main(null);
-			Evaluate.setEmployeeNum(getSelectedEmployeeNum());
+			Evaluate.setEmployeeNum(getSelectedNum(employeesList, "Employee Number"));
 		}
-		else if (e.getActionCommand().equals("View Employee") && (employeesList.getSelectedRow() != -1)) {
+		else if (e.getActionCommand().equals("View Employee") && (getSelectedNum(employeesList, "Employee Number") != -1)) {
 			ViewEmployee.main(null);
-			ViewEmployee.setEmployeeNum(getSelectedEmployeeNum());
+			ViewEmployee.setEmployeeNum(getSelectedNum(employeesList, "Employee Number"));
 		}
+		else if (e.getActionCommand().equals("View Evaluations") && (getSelectedNum(employeesList, "Employee Number") != -1)) {
+			ViewEvals.main(null);
+			ViewEvals.setEmployeeNum(getSelectedNum(employeesList, "Employee Number"));
+		}
+		else if (e.getActionCommand().equals("Delete Employee") && (getSelectedNum(employeesList, "Employee Number") != -1)) {
+			int n = JOptionPane.showConfirmDialog(
+                    this, "Are you sure you want to delete this employee? This action is irreversable.",
+                    "Confirmation of deletion",
+                    JOptionPane.YES_NO_OPTION);
+            if (n == JOptionPane.YES_OPTION) {
+                delete(getSelectedNum(employeesList, "Employee Number"));
+                loadDataSource(employeesList, tableModel, data, "src\\fbla\\Resources\\Employees.txt");
+            }
+            }
 		
 	}
 	
+	private void delete(int employeeNum) {
+		ArrayList<String> toWrite = new ArrayList<String>();
+		File file = new File("src\\fbla\\Resources\\Employees.txt");
+		try {
+			if (!file.exists())
+				file.createNewFile();
+			
+			Scanner scanner = new Scanner(file); //Loads the .txt file
+			while (scanner.hasNextLine()) {
+				String temp = scanner.nextLine();
+				
+				Scanner lineScanner = new Scanner(temp);
+				lineScanner.useDelimiter(EES.delim);
+				
+				if (lineScanner.nextInt() != employeeNum)
+					toWrite.add(temp);
+				
+				lineScanner.close();
+			}
+			scanner.close();
+		} catch (Exception e) { e.printStackTrace();} 
+		finally {
+			//Write updated file
+			
+			try {
+				PrintWriter out = new PrintWriter(new FileWriter(file));
+				for (String s : toWrite)
+					out.println(s);
+				out.close();
+			} catch (IOException e) {
+			}
+			
+		}
+		
+	}
+
 	public static String[][] getData() {
 		return data;
 	}
@@ -93,14 +147,14 @@ public class Employees extends JPanel implements ActionListener {
 		return names;
 	}
 	
-	private int getSelectedEmployeeNum() {
+	public static int getSelectedNum(JTable table, String nameOfNum) {
 		int col = -1;
-		for (int x=0; x<employeesList.getColumnCount(); x++)
-			if (employeesList.getColumnName(x).equals("Employee Number"))
+		for (int x=0; x<table.getColumnCount(); x++)
+			if (table.getColumnName(x).equals(nameOfNum))
 				col = x;
 		if (col == -1)
 			return -1;
-		String s = (String) tableModel.getValueAt(employeesList.getSelectedRow(), col);
+		String s = (String) table.getModel().getValueAt(table.getSelectedRow(), col);
 		int i = java.lang.Integer.parseInt(s);
 		return i;
 	}

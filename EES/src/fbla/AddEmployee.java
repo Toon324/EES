@@ -35,12 +35,8 @@ public class AddEmployee extends DataInputWindow {
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(this);
 		
-		JTextField eval = new JTextField("0"); //Hidden field for writing purposes
-		eval.setVisible(false);
-		
 		try {
 		textFields.add(new JTextField(20));
-		textFields.add(eval);
 		textFields.add(new JTextField(20));
 		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
 		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
@@ -49,12 +45,9 @@ public class AddEmployee extends DataInputWindow {
 		textFields.add(new JTextField(20));
 		textFields.add(new JFormattedTextField(new MaskFormatter("#####")));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		for (JTextField tf : textFields)
-			if (!tf.getText().equals("0")) //Does not display hidden field
 				textPanel.add(tf);
 
 		labels.add(new JLabel("First Name"));
