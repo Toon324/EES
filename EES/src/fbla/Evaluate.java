@@ -35,7 +35,7 @@ import javax.swing.text.MaskFormatter;
  * 
  */
 @SuppressWarnings("serial")
-public class Evaluate extends DataInputWindow {
+public class Evaluate extends DataWindow {
 
 	ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
 	JTextField nextEval;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package fbla;
 
 import java.awt.BorderLayout;
@@ -16,92 +13,107 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 /**
- * @author Cody
+ * Pulls up a list of all employees and allows the user to add one to the
+ * currently selected company.
  * 
+ * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
-public class AddToCompany extends DataInputWindow {
+public class AddToCompany extends DataWindow {
 
-	static int employerNum = -1;
-	static JTable employeesList;
+	private static int employerNum = -1;
+	private static JTable employeesList;
 
 	/**
-	 * @param borderLayout
+	 * Fills frame with capability of adding an employee to a company.
 	 */
 	public AddToCompany() {
 		super(new BorderLayout());
-		
-		JPanel buttons = new JPanel(new GridLayout(1,2));
-		
+
+		// Panel that holds components of similar nature
+		JPanel buttons = new JPanel(new GridLayout(1, 2));
+
+		// Creates new buttons allowing user to cancel or finish
 		JButton finish = new JButton("Finish");
-		finish.addActionListener(this);
 		JButton cancel = new JButton("Cancel");
+
+		// Registers this object as the listener for clicks
+		finish.addActionListener(this);
 		cancel.addActionListener(this);
-		
+
+		// Adds buttons to panel
 		buttons.add(cancel);
 		buttons.add(finish);
-		
-		FblaTableModel tableModel = new FblaTableModel(Employees.getData(), Employees.getNames());
-		employeesList = new JTable(tableModel);
-		Employees.loadDataSource(employeesList, tableModel, Employees.getData(), "src\\fbla\\Resources\\Employees.txt");
+
+		// Creates a new JTable for displaying data
+		employeesList = new JTable(new FblaTableModel(Employees.getData(),
+				Employees.getNames()));
+
+		// Loads data from file into JTable
+		Employees.reload();
+
+		// Sets up autosorter and single selection for JTable
 		employeesList.setAutoCreateRowSorter(true);
+		employeesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		// Puts JTable into a JScrollPane, allowing it to be scrolled
 		JScrollPane listScroller = new JScrollPane(employeesList);
-		
+
+		// Adds all components to frame
 		add(BorderLayout.CENTER, listScroller);
 		add(BorderLayout.PAGE_END, buttons);
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// Schedule a job for the event-dispatching thread:
-		// creating and showing this application's GUI.
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Cancel"))
 			frame.dispose();
+
+		// If user is happy with input, write the new data out
 		else if (e.getActionCommand().equals("Finish")) {
-			writeData("src\\fbla\\Resources\\Field Placements.txt");
+			writeData(EES.fieldPath);
 			frame.dispose();
 		}
 	}
-	
-	//Overridden to write Employee selection
+
+	// Overridden to write Employee selection
 	protected void writeData(String path) {
 		try {
-			//Creates file writer
+			// Creates file writer
 			PrintWriter out = null;
 			File file = new File(path);
 			try {
 				if (!file.exists())
-					file.createNewFile();
-				out = new PrintWriter(
-						new FileWriter(file.getAbsoluteFile(),true)); //Append to current data
-			} catch (IOException e) {}
-			out.println(employeesList.getModel().getValueAt(employeesList.getSelectedRow(), 0) + "\t" + employerNum);
-			//System.out.println("Printed: " + list.getModel().getValueAt(list.getSelectedRow(), 0) + "\t" + employerNum);
-			
+					file.createNewFile(); // If there is no file, create it
+
+				out = new PrintWriter(new FileWriter(file.getAbsoluteFile(),
+						true)); // Append to current data
+			} catch (IOException e) {
+			}
+
+			// Prints data
+			out.println(employeesList.getModel().getValueAt(
+					employeesList.getSelectedRow(), 0)
+					+ "\t" + employerNum);
+
+			// Closes stream
 			out.close();
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
+	 * 
+	 * @param n
+	 *            Number of employer to add to
 	 */
-	protected static void createAndShowGUI() {
+	protected static void createAndShowGUI(int n) {
+		employerNum = n;
 		// Create and set up the window.
 		frame = new JFrame("Select Employee to add to "
 				+ EES.getEmployerName(employerNum));
@@ -116,10 +128,6 @@ public class AddToCompany extends DataInputWindow {
 		popup.setOpaque(true); // content panes must be opaque
 		frame.setContentPane(popup);
 		frame.pack();
-	}
-
-	public static void setEmployerNum(int n) {
-		employerNum = n;
 	}
 
 }

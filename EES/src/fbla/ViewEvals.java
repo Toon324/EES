@@ -1,10 +1,6 @@
-/**
- * 
- */
 package fbla;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -12,16 +8,15 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
- * @author Cody
  * 
+ * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
-public class ViewEvals extends DataInputWindow {
+public class ViewEvals extends DataWindow {
 
 	static String[][] data = new String[0][0];
 	static String[] names = { "Date", "Next Evaluation", "Work Quality",

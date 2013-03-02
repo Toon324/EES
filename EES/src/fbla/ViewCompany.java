@@ -1,15 +1,9 @@
-/**
- * 
- */
 package fbla;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -18,16 +12,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * @author Cody
  * 
+ * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
-public class ViewCompany extends DataInputWindow {
+public class ViewCompany extends DataWindow {
 
-	static int employerNum = -1;
+	private static int employerNum = -1;
 
 	/**
-	 * @param borderLayout
+	 * 
 	 */
 	public ViewCompany() {
 		super(new BorderLayout());
@@ -37,7 +31,7 @@ public class ViewCompany extends DataInputWindow {
 		JPanel categories = new JPanel(new GridLayout(0, 1));
 
 		categories.add(new JLabel("Name"));
-		// The method frame.pack() sets elements based on max width of contained
+		// The method JFrame.pack() sets elements based on max width of contained
 		// items. This string is larger to give a padding between data points.
 		categories.add(new JLabel("Phone Num                "));
 		categories.add(new JLabel("Address"));
@@ -74,8 +68,10 @@ public class ViewCompany extends DataInputWindow {
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
+	 * @param n 
 	 */
-	private static void createAndShowGUI() {
+	public static void createAndShowGUI(int n) {
+		employerNum = n;
 		// Create and set up the window.
 		frame = new JFrame("Displaying Company " + EES.getEmployerName(employerNum));
 		frame.setSize(300, 300);
@@ -88,21 +84,6 @@ public class ViewCompany extends DataInputWindow {
 		frame.pack();
 		// Display the window.
 		frame.setVisible(true);
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-	}
-
-	public static void setEmployerNum(int i) {
-		employerNum = i;
 	}
 
 	@Override

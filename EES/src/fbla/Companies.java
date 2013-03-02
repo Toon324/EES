@@ -4,60 +4,71 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 /**
- * @author Cody
+ * Shows all companies found in the database, and allows user to add new
+ * companies, add employees to companies, and view company info.
  * 
+ * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
 public class Companies extends JPanel implements ActionListener {
 
-	static String[][] data = new String[0][0];
-	static ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
-	static String[] names = { "Company Number", "Company Name", "Address",
-			"City", "State", "ZIP", "Phone Number", "Email", "Contact Person" };
-	static JTable companiesList;
-	static FblaTableModel tableModel;
+	private static String[][] data = new String[0][0];
+
+	private static String[] names = { "Company Number", "Company Name",
+			"Address", "City", "State", "ZIP", "Phone Number", "Email",
+			"Contact Person" };
+
+	private static JTable companiesList;
 
 	/**
-	 * @param p
+	 * Fills frame with companies list and buttons.
 	 */
 	public Companies() {
 		super(new BorderLayout());
+
+		// Panel that holds components of similar nature
 		JPanel buttons = new JPanel(new GridLayout(0, 2));
 
+		// Creates new buttons allowing user to manipulate the data
 		JButton home = new JButton("Home");
-		home.addActionListener(this);
-
 		JButton addCompany = new JButton("Add Company");
-		addCompany.addActionListener(this);
-
 		JButton addToCompany = new JButton("Add Employee to Company");
-		addToCompany.addActionListener(this);
-
 		JButton view = new JButton("View Company");
+
+		// Registers this object as the listener for clicks
+		home.addActionListener(this);
+		addCompany.addActionListener(this);
+		addToCompany.addActionListener(this);
 		view.addActionListener(this);
 
+		// Adds buttons to panel
 		buttons.add(home);
 		buttons.add(addCompany);
 		buttons.add(addToCompany);
 		buttons.add(view);
 
-		tableModel = new FblaTableModel(data, names);
-		companiesList = new JTable(tableModel);
-		Employees.loadDataSource(companiesList, tableModel, data,
-				"src\\fbla\\Resources\\Employer.txt");
+		// Creates a new JTable for displaying data
+		companiesList = new JTable(new FblaTableModel(data, names));
+
+		// Loads data from file into JTable
+		reload();
+
+		// Sets up autosorter and single selection for JTable
 		companiesList.setAutoCreateRowSorter(true);
+		companiesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		// Puts list in a scroll pane
 		JScrollPane listScroller = new JScrollPane(companiesList);
 
+		// Adds all components to frame
 		add(listScroller);
 		add(BorderLayout.PAGE_END, buttons);
 	}
@@ -65,35 +76,40 @@ public class Companies extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Home"))
-			EES.cl.show(EES.pages, "Home");
+			EES.cl.show(EES.pages, "Home"); // Flip page to Home
+
 		else if (e.getActionCommand().equals("Add Company"))
-			AddCompany.main(null);
+			AddCompany.createAndShowGUI();
+
 		else if (e.getActionCommand().equals("Add Employee to Company")
 				&& (companiesList.getSelectedRow() != -1)) {
-			AddToCompany.main(null);
-			AddToCompany.setEmployerNum(getSelectedEmployerNum());
+
+			AddToCompany.createAndShowGUI(EES.getSelectedNum(companiesList,
+					"Company Number"));
+
 		} else if (e.getActionCommand().equals("View Company")
 				&& (companiesList.getSelectedRow() != -1)) {
-			ViewCompany.main(null);
-			ViewCompany.setEmployerNum(getSelectedEmployerNum());
+
+			ViewCompany.createAndShowGUI(EES.getSelectedNum(companiesList,
+					"Company Number"));
 		}
 	}
 
+	/**
+	 * Returns the current data of Companies.
+	 * 
+	 * @return list of companies in String[][]
+	 */
 	public String[][] getData() {
 		return data;
 	}
 
-	private int getSelectedEmployerNum() {
-		int col = -1;
-		for (int x = 0; x < companiesList.getColumnCount(); x++)
-			if (companiesList.getColumnName(x).equals("Company Number"))
-				col = x;
-		if (col == -1)
-			return -1;
-		String s = (String) tableModel.getValueAt(
-				companiesList.getSelectedRow(), col);
-		int i = java.lang.Integer.parseInt(s);
-		return i;
+	/**
+	 * Calls helper method in EES to load data. Called upon initialization or
+	 * upon data change.
+	 */
+	public static void reload() {
+		EES.loadDataSource(companiesList, data, EES.employerPath);
 	}
 
 }

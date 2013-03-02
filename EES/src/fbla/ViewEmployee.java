@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  * 
  */
 @SuppressWarnings("serial")
-public class ViewEmployee extends DataInputWindow {
+public class ViewEmployee extends DataWindow {
 
 	static int employeeNum = -1;
 

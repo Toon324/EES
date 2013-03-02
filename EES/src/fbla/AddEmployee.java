@@ -14,42 +14,60 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 /**
- * @author Cody
+ * Generates a pop up window that accepts input, then writes employee data to
+ * file and refreshes employees list.
  * 
+ * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
-public class AddEmployee extends DataInputWindow {
-
+public class AddEmployee extends DataWindow {
 
 	/**
-	 * @param frame
+	 * Creates a new input window for adding an employee.
 	 */
 	public AddEmployee() {
 		super(new BorderLayout());
-		JPanel textPanel = new JPanel(new GridLayout(0,1));
-		JPanel labelPanel = new JPanel(new GridLayout(0,1));
-		JPanel buttons = new JPanel(new GridLayout(1,2));
-		
+
+		// Panels that hold components of similar nature
+		JPanel textPanel = new JPanel(new GridLayout(0, 1));
+		JPanel labelPanel = new JPanel(new GridLayout(0, 1));
+		JPanel buttons = new JPanel(new GridLayout(1, 2));
+
+		// Creates new buttons allowing user to cancel or finish
 		JButton finish = new JButton("Finish");
-		finish.addActionListener(this);
 		JButton cancel = new JButton("Cancel");
+
+		// Registers this object as the listener for clicks
+		finish.addActionListener(this);
 		cancel.addActionListener(this);
-		
+
+		// Adds buttons to panel
+		buttons.add(cancel);
+		buttons.add(finish);
+
+		// Creates new text fields for input. Some are formatted with
+		// MaskFormatter to limit what input is valid. For reference, # allows
+		// any valid int from 0 to 9 to be inputed.
 		try {
-		textFields.add(new JTextField(20));
-		textFields.add(new JTextField(20));
-		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
-		textFields.add(new JFormattedTextField(new MaskFormatter("(###) ###-####")));
-		textFields.add(new JTextField(20));
-		textFields.add(new JTextField(20));
-		textFields.add(new JTextField(20));
-		textFields.add(new JFormattedTextField(new MaskFormatter("#####")));
+			textFields.add(new JTextField(20));
+			textFields.add(new JTextField(20));
+			textFields.add(new JFormattedTextField(new MaskFormatter(
+					"(###) ###-####")));
+			textFields.add(new JFormattedTextField(new MaskFormatter(
+					"(###) ###-####")));
+			textFields.add(new JTextField(20));
+			textFields.add(new JTextField(20));
+			textFields.add(new JTextField(20));
+			textFields.add(new JFormattedTextField(new MaskFormatter("#####")));
 		} catch (ParseException e) {
 		}
-		
-		for (JTextField tf : textFields)
-				textPanel.add(tf);
 
+		// Adds created textFields to panel
+		for (JTextField tf : textFields)
+			textPanel.add(tf);
+
+		// Labels provide the user with an easy reference to what each field is
+		// requesting.
 		labels.add(new JLabel("First Name"));
 		labels.add(new JLabel("Last Name"));
 		labels.add(new JLabel("Phone Number"));
@@ -58,29 +76,31 @@ public class AddEmployee extends DataInputWindow {
 		labels.add(new JLabel("City"));
 		labels.add(new JLabel("State"));
 		labels.add(new JLabel("ZIP"));
-		
-		for (JLabel l : labels) 
+
+		// Adds labels to panel
+		for (JLabel l : labels)
 			labelPanel.add(l);
-		
-		buttons.add(cancel);
-		buttons.add(finish);
-		
+
+		// Adds all panels to frame
 		add(BorderLayout.WEST, labelPanel);
 		add(BorderLayout.CENTER, textPanel);
-		add(BorderLayout.PAGE_END,buttons);
+		add(BorderLayout.PAGE_END, buttons);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Cancel"))
 			frame.dispose();
+
+		// If user is happy with input, write the new data out then reload the
+		// employees list.
 		else if (e.getActionCommand().equals("Finish")) {
-			writeData("src\\fbla\\Resources\\Employees.txt");
-			Employees.loadDataSource(Employees.employeesList, Employees.tableModel, Employees.data, "src\\fbla\\Resources\\Employees.txt");
+			writeData(EES.employeesPath);
+			Employees.reload();
 			frame.dispose();
 		}
 	}
-	
+
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
@@ -93,24 +113,11 @@ public class AddEmployee extends DataInputWindow {
 
 		// Display the window.
 		frame.setVisible(true);
-		
+
 		// Create and set up the content pane.
 		AddEmployee popup = new AddEmployee();
 		popup.setOpaque(true); // content panes must be opaque
 		frame.setContentPane(popup);
 		frame.pack();
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// Schedule a job for the event-dispatching thread:
-		// creating and showing this application's GUI.
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
 	}
 }
