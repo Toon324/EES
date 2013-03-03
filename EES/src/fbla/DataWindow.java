@@ -76,6 +76,7 @@ public abstract class DataWindow extends JPanel implements ActionListener {
 				l = scanner.nextLine();
 			// Scans last line for last number
 			Scanner lineScanner = new Scanner(l);
+			lineScanner.useDelimiter(EES.delim);
 			int lastNum = lineScanner.nextInt();
 			// Closes scanners
 			scanner.close();
@@ -87,9 +88,10 @@ public abstract class DataWindow extends JPanel implements ActionListener {
 													// toPrint
 
 			for (JTextField tf : textFields) {
-				String line = tf.getText() + EES.delim;
+				String line = tf.getText();
 				//If text contains a comma, replace it with a filler so it isn't confused as a delim
 				line = line.replace("," , "<comma>");
+				line = line + EES.delim; //Add delim
 				toPrint.append(line);
 			}
 
@@ -97,6 +99,7 @@ public abstract class DataWindow extends JPanel implements ActionListener {
 			out.println(toPrint.toString());
 			out.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -51,6 +51,7 @@ public class AddEmployee extends DataWindow {
 		try {
 			textFields.add(new JTextField(20));
 			textFields.add(new JTextField(20));
+			textFields.add(new JTextField(20));
 			textFields.add(new JFormattedTextField(new MaskFormatter(
 					"(###) ###-####")));
 			textFields.add(new JFormattedTextField(new MaskFormatter(
@@ -70,6 +71,7 @@ public class AddEmployee extends DataWindow {
 		// requesting.
 		labels.add(new JLabel("First Name"));
 		labels.add(new JLabel("Last Name"));
+		labels.add(new JLabel("Email"));
 		labels.add(new JLabel("Phone Number"));
 		labels.add(new JLabel("Cell Number"));
 		labels.add(new JLabel("Address"));

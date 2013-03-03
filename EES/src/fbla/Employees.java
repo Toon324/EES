@@ -30,7 +30,7 @@ public class Employees extends JPanel implements ActionListener {
 	private static String[][] data = new String[0][0];
 
 	private static String[] names = { "Employee Number", "First Name",
-			"Last Name", "Phone #", "Cell #", "Address", "City", "State", "ZIP" };
+			"Last Name", "Email", "Phone #", "Cell #", "Address", "City", "State", "ZIP" };
 
 	private static JTable employeesList;
 
