@@ -1,15 +1,9 @@
-/**
- * 
- */
 package fbla;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -18,23 +12,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * @author Cody
+ * Creates new window for displaying employee data.
  * 
+ * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
 public class ViewEmployee extends DataWindow {
 
-	static int employeeNum = -1;
+	private static int employeeNum = -1;
 
 	/**
-	 * @param borderLayout
+	 * Creates new object for displaying employee data.
 	 */
 	public ViewEmployee() {
 		super(new BorderLayout());
-		
+
 		JButton close = new JButton("Close");
 		close.addActionListener(this);
-		
+
 		JPanel info = new JPanel(new GridLayout(0, 1));
 		JPanel categories = new JPanel(new GridLayout(0, 1));
 
@@ -50,8 +45,9 @@ public class ViewEmployee extends DataWindow {
 		categories.add(new JLabel("State"));
 		categories.add(new JLabel("ZIP"));
 
+		// Loads in employee data
 		try {
-			File file = new File("src\\fbla\\Resources\\Employees.txt");
+			File file = new File(EES.employeesPath);
 			Scanner scanner = new Scanner(file);
 
 			while (scanner.hasNextLine()) {
@@ -69,6 +65,7 @@ public class ViewEmployee extends DataWindow {
 		} catch (Exception e) {
 		}
 
+		// Adds components to frame
 		add(BorderLayout.WEST, categories);
 		add(info);
 		add(BorderLayout.PAGE_END, close);
@@ -78,7 +75,8 @@ public class ViewEmployee extends DataWindow {
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
 	 */
-	private static void createAndShowGUI() {
+	public static void createAndShowGUI(int n) {
+		employeeNum = n;
 		// Create and set up the window.
 		frame = new JFrame("Displaying Employee "
 				+ EES.getEmployeeName(employeeNum));
@@ -92,21 +90,6 @@ public class ViewEmployee extends DataWindow {
 		frame.pack();
 		// Display the window.
 		frame.setVisible(true);
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-	}
-
-	public static void setEmployeeNum(int i) {
-		employeeNum = i;
 	}
 
 	@Override

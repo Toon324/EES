@@ -28,10 +28,10 @@ import javax.swing.ListSelectionModel;
 @SuppressWarnings("serial")
 public class Employees extends JPanel implements ActionListener {
 	private static String[][] data = new String[0][0];
-	
-	private static String[] names = { "Employee Number", "First Name", "Last Name",
-			"Phone #", "Cell #", "Address", "City", "State", "ZIP" };
-	
+
+	private static String[] names = { "Employee Number", "First Name",
+			"Last Name", "Phone #", "Cell #", "Address", "City", "State", "ZIP" };
+
 	private static JTable employeesList;
 
 	public Employees() {
@@ -65,7 +65,7 @@ public class Employees extends JPanel implements ActionListener {
 
 		employeesList = new JTable(new FblaTableModel(data, names));
 		reload();
-		
+
 		employeesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		employeesList.setAutoCreateRowSorter(true);
 
@@ -78,40 +78,41 @@ public class Employees extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		if (e.getActionCommand().equals("Home"))
 			EES.cl.show(EES.pages, "Home");
-		
+
 		else if (e.getActionCommand().equals("Add Employee"))
 			AddEmployee.createAndShowGUI();
-		
+
 		else if (e.getActionCommand().equals("Evaluate Employee")
 				&& (EES.getSelectedNum(employeesList, "Employee Number") != -1)) {
-			Evaluate.main(null);
-			Evaluate.setEmployeeNum(EES.getSelectedNum(employeesList,
-					"Employee Number"));
 			
+			Evaluate.createAndShowGUI(EES.getSelectedNum(employeesList,
+					"Employee Number"));
+
 		} else if (e.getActionCommand().equals("View Employee")
 				&& (EES.getSelectedNum(employeesList, "Employee Number") != -1)) {
-			ViewEmployee.main(null);
-			ViewEmployee.setEmployeeNum(EES.getSelectedNum(employeesList,
-					"Employee Number"));
 			
+			ViewEmployee.createAndShowGUI(EES.getSelectedNum(employeesList,
+					"Employee Number"));
+
 		} else if (e.getActionCommand().equals("View Evaluations")
 				&& (EES.getSelectedNum(employeesList, "Employee Number") != -1)) {
-			ViewEvals.main(null);
-			ViewEvals.setEmployeeNum(EES.getSelectedNum(employeesList,
-					"Employee Number"));
 			
+			ViewEvals.createAndShowGUI(EES.getSelectedNum(employeesList,
+					"Employee Number"));
+
 		} else if (e.getActionCommand().equals("Delete Employee")
 				&& (EES.getSelectedNum(employeesList, "Employee Number") != -1)) {
+			
 			int n = JOptionPane
 					.showConfirmDialog(
 							this,
 							"Are you sure you want to delete this employee? This action is irreversable.",
 							"Confirmation of deletion",
 							JOptionPane.YES_NO_OPTION);
-			
+
 			if (n == JOptionPane.YES_OPTION) {
 				delete(EES.getSelectedNum(employeesList, "Employee Number"));
 				reload();
@@ -119,6 +120,12 @@ public class Employees extends JPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * Given an employee number, deletes that employee from file.
+	 * 
+	 * @param employeeNum
+	 *            Number of employee to delete
+	 */
 	private void delete(int employeeNum) {
 		ArrayList<String> toWrite = new ArrayList<String>();
 		File file = new File("src\\fbla\\Resources\\Employees.txt");
@@ -133,6 +140,7 @@ public class Employees extends JPanel implements ActionListener {
 				Scanner lineScanner = new Scanner(temp);
 				lineScanner.useDelimiter(EES.delim);
 
+				// Unless found employee matches delete number, add to output
 				if (lineScanner.nextInt() != employeeNum)
 					toWrite.add(temp);
 
@@ -142,27 +150,45 @@ public class Employees extends JPanel implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			
+
 			// Write updated file
 			try {
 				PrintWriter out = new PrintWriter(new FileWriter(file));
+
+				// Writes all remaining lines to file
 				for (String s : toWrite)
 					out.println(s);
+
+				// Closes writer
 				out.close();
 			} catch (IOException e) {
 			}
 
 		}
 	}
-	
+
+	/**
+	 * Calls helper method in EES to load data. Called upon initialization or
+	 * upon data change.
+	 */
 	public static void reload() {
 		EES.loadDataSource(employeesList, data, EES.employeesPath);
 	}
 
+	/**
+	 * Returns data.
+	 * 
+	 * @return data
+	 */
 	public static String[][] getData() {
 		return data;
 	}
-	
+
+	/**
+	 * Returns names of columns
+	 * 
+	 * @return column names
+	 */
 	public static String[] getNames() {
 		return names;
 	}

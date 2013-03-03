@@ -83,11 +83,15 @@ public abstract class DataWindow extends JPanel implements ActionListener {
 
 			// Adds all data to a StringBuilder for printing
 			StringBuilder toPrint = new StringBuilder();
-			toPrint.append((lastNum + 1) + "\t"); // Adds next valid number to
+			toPrint.append((lastNum + 1) + EES.delim); // Adds next valid number to
 													// toPrint
 
-			for (JTextField tf : textFields)
-				toPrint.append(tf.getText() + "\t");
+			for (JTextField tf : textFields) {
+				String line = tf.getText() + EES.delim;
+				//If text contains a comma, replace it with a filler so it isn't confused as a delim
+				line = line.replace("," , "<comma>");
+				toPrint.append(line);
+			}
 
 			// Prints data and closes writer.
 			out.println(toPrint.toString());

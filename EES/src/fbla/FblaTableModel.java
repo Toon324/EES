@@ -1,38 +1,46 @@
-/**
- * 
- */
 package fbla;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /**
- * @author Cody
- *
+ * An implementation of TableModel that allows data to be updated. Disallows
+ * direct editting of table contents.
+ * 
+ * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
-public class FblaTableModel extends DefaultTableModel implements TableModel{
+public class FblaTableModel extends DefaultTableModel implements TableModel {
 
-	String[] names;
+	private String[] names;
+
 	/**
+	 * Creates a new FblaTableModel with given input data and column names.
 	 * 
+	 * @param input
+	 *            Data to put into table
+	 * @param collumns
+	 *            Names of columns
 	 */
-	public FblaTableModel(String[][] input, String[] collumns) {
-		super(input, collumns);
-		names = collumns;
+	public FblaTableModel(String[][] input, String[] columns) {
+		super(input, columns);
+		names = columns;
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int)
-	 */
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	public void setData(String[][] newData) {  
+
+	/**
+	 * Sets data to newData, then updates Table.
+	 * 
+	 * @param newData
+	 *            Data to change to
+	 */
+	public void setData(String[][] newData) {
 		this.setDataVector(newData, names);
 		fireTableDataChanged();
-		} 
+	}
 }

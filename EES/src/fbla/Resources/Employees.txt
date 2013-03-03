@@ -1,11 +1,11 @@
-1	Cody	Swendrowski	(262) 679-0184	(262) 312-8163	W196 S8406 Plum Creek Blvd.	Muskego	Wisconsin	53150	
-2	John	Smith	(181) 328-1632	(181) 363-6883	W83 S3142 Burger St.	Marshville	Michigan	35013	
-3	Noah	Rush	(454) 385-3816	(464) 363-6732	W1834 S53 Morgan St.	Morana	WI	32671	
-4	Nikole	Fohr	(632) 628-9753	(231) 753-1832	W7394 S32 Foster Rd.	Hamilton	Nevada	62361	
-5	Andrew	Wurster	(265) 823-6139	(746) 123-6731	W135 S2357 Megan Av.	Gotham	New York	16283	
-6	Bruce	Wane	(800) BAT-MAN!	(800) BAT-MAN!	Bat st.	Gotham	Gotham	13563	
-7	Xenophondous	Tetrochloriaudian	(266) 662-3498	(324) 665-3222	South Lavender Rabbit Street	Tiddlywinks 	West Flabberjack	98766	
-8	Brittany	Yerges	(262) 631-6315	(312) 342-2175	W153 S2521 Maple Av.	Muskego	Wisconsin	53150
-9	Max	Francis	(326) 326-3262	(626) 236-7272	W23 S2642 South Street	Nashville	Texas	23173	
-10	Rick	Astley	(772) 257-4501	(772) 257-4501	Never Gonna	Give you	up!	99999	
-11	Alfred	Wayne	(135) 136-3761	(167) 575-1851	Bat St.	Gotham	Gotham	25151	
+1,Cody,Swendrowski,(262) 679-0184,(262) 312-8163,W196 S8406 Plum Creek Blvd.,Muskego,Wisconsin,53150	
+2,John,Smith,(181) 328-1632,(181) 363-6883,W83 S3142 Burger St.,Marshville,Michigan,35013	
+3,Noah,Rush,(454) 385-3816,(464) 363-6732,W1834 S53 Morgan St.,Morana,Wisconsin,32671	
+4,Nikole,Fohr,(632) 628-9753,(231) 753-1832,W7394 S32 Foster Rd.,Hamilton,Nevada,62361	
+5,Andrew,Wurster,(265) 823-6139,(746) 123-6731,W135 S2357 Megan Av.,Gotham,New York,16283	
+6,Bruce,Wane,(800) BAT-MAN!,(800) BAT-MAN!,Bat st.,Gotham,Gotham,13563
+7,Xenophondous,Tetrochloriaudian,(266) 662-3498,(324) 665-3222,South Lavender Rabbit Street,Tiddlywinks ,West Flabberjack,98766	
+8,Brittany,Yerges,(262) 631-6315,(312) 342-2175,W153 S2521 Maple Av.,Muskego,Wisconsin,53150
+9,Max,Francis,(326) 326-3262,(626) 236-7272,W23 S2642 South Street,Nashville,Texas,23173	
+10,Rick,Astley,(772) 257-4501,(772) 257-4501,Never Gonna,Give you,up!,99999	
+11,Alfred,Wayne,(135) 136-3761,(167) 575-1851,Bat St.,Gotham,Gotham,25151	

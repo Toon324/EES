@@ -31,28 +31,33 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 /**
- * @author Cody
+ * Allows user to evaluate an employee.
  * 
+ * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
 public class Evaluate extends DataWindow {
 
-	ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
-	JTextField nextEval;
-	String[] r = { "Yes", "No" };
-	JComboBox reccomend = new JComboBox(r);
+	private ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
+	private JTextField nextEval;
+	private String[] r = { "Yes", "No" };
+	private JComboBox reccomend = new JComboBox(r);
 	static int employeeNum;
 
 	public Evaluate() {
 		super(new BorderLayout());
+		// Gives option to enter score from 1 to 5
 		String[] scoreOptions = { Integer.toString(1), Integer.toString(2),
 				Integer.toString(3), Integer.toString(4), Integer.toString(5) };
+
+		// Panels that hold components of similar nature
 		JPanel textPanel = new JPanel(new GridLayout(0, 1));
 		JPanel scoresPanel = new JPanel(new GridLayout(0, 1));
 		JPanel buttons = new JPanel();
 		JPanel labelPanel = new JPanel(new GridLayout(0, 1));
 		JPanel nextEvalPanel = new JPanel(new BorderLayout());
 
+		// Adds scoreboxes to container
 		scoreBoxes.add(new JComboBox(scoreOptions));
 		scoreBoxes.add(new JComboBox(scoreOptions));
 		scoreBoxes.add(new JComboBox(scoreOptions));
@@ -62,14 +67,14 @@ public class Evaluate extends DataWindow {
 		try {
 			nextEval = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
+		// Adds space to enter next eval date
 		nextEvalPanel.add(BorderLayout.WEST, new JLabel(
 				"Next Evaluation Date     "));
 		nextEvalPanel.add(BorderLayout.CENTER, nextEval);
 
+		// Adds textFields to container
 		textFields.add(new JTextField(50));
 		textFields.add(new JTextField(50));
 		textFields.add(new JTextField(50));
@@ -81,6 +86,8 @@ public class Evaluate extends DataWindow {
 		labels.add(new JLabel("Job Knowledge"));
 		labels.add(new JLabel("Behavior"));
 		labels.add(new JLabel("Overall Progress"));
+
+		// Adds all container components to panels
 
 		for (JTextField tf : textFields)
 			textPanel.add(tf);
@@ -115,8 +122,12 @@ public class Evaluate extends DataWindow {
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
+	 * 
+	 * @param n
+	 *            Number of employee to evaluate
 	 */
-	private static void createAndShowGUI() {
+	public static void createAndShowGUI(int n) {
+		employeeNum = n;
 		// Create and set up the window.
 		frame = new JFrame("Evaluate Employee "
 				+ EES.getEmployeeName(employeeNum));
@@ -133,29 +144,18 @@ public class Evaluate extends DataWindow {
 		frame.setVisible(true);
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Cancel"))
 			frame.dispose();
+
 		else if (e.getActionCommand().equals("Finish"))
 			writeDataAndExit();
 	}
 
-	public static void setEmployeeNum(int num) {
-		employeeNum = num;
-	}
-
+	/**
+	 * Uses a custom writer method to print out scores and comments.
+	 */
 	private void writeDataAndExit() {
 		try {
 			// Creates file writer
@@ -186,19 +186,13 @@ public class Evaluate extends DataWindow {
 			toWrite.append((lastEvalNum + 1) + "\t");
 			toWrite.append(employeeNum + "\t");
 
+			// Calculates average score of evaluation
 			int averageScore = 0;
-			;
 			for (int x = 0; x < scoreBoxes.size() - 1; x++) {
 				averageScore += java.lang.Integer.parseInt((String) scoreBoxes
 						.get(x).getSelectedItem());
 			}
 			averageScore /= 5;
-
-			// toWrite.append(((lastAvgScore + averageScore) / 2) + "\t"); //
-			// Writes
-			// the
-			// average
-			// score
 
 			// Fetches employerNum based off of employeeNum
 			int employerNum = EES.getEmployerNum(employeeNum);

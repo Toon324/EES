@@ -17,8 +17,10 @@ import javax.swing.JTable;
  */
 
 public class EES {
-	public static CardLayout cl = new CardLayout(); //Allows program to flip between different pages (each page being a panel)
-	public static JPanel pages; //Panel
+	public static CardLayout cl = new CardLayout(); // Allows program to flip
+													// between different pages
+													// (each page being a panel)
+	public static JPanel pages; // Panel
 	public static final String delim = ",",
 			employeesPath = "src\\fbla\\Resources\\Employees.txt",
 			employerPath = "src\\fbla\\Resources\\Employer.txt",
@@ -54,6 +56,13 @@ public class EES {
 		}
 	}
 
+	/**
+	 * Given an employee number, returns the employer number from file.
+	 * 
+	 * @param employeeNum
+	 *            Number of employee to find
+	 * @return -1 if no employer found; else, employer number.
+	 */
 	public static int getEmployerNum(int employeeNum) {
 		// Creates file writer
 		int toReturn = -1;
@@ -80,10 +89,18 @@ public class EES {
 		return toReturn;
 	}
 
+	/**
+	 * Given an employee number, returns the first and last name of the
+	 * Employee.
+	 * 
+	 * @param employeeNum
+	 *            Number of employee to get name of
+	 * @return First and last name of employee, or "No Name" if no name is found
+	 */
 	public static String getEmployeeName(int employeeNum) {
 		// Creates file writer
-		String toReturn = "Null Company";
-		File file = new File("src\\fbla\\Resources\\Employees.txt");
+		String toReturn = "No Name";
+		File file = new File(EES.employeesPath);
 		try {
 			if (!file.exists())
 				file.createNewFile();
@@ -92,22 +109,20 @@ public class EES {
 
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
-
+				//Replaces any fillers with actual char
+				line = line.replace("<comma>",",");
 				Scanner lineScanner = new Scanner(line);
 				lineScanner.useDelimiter(delim);
 
 				if (employeeNum == lineScanner.nextInt()) {
 					lineScanner.next(); // Discard average evaluation score
-					toReturn = lineScanner.next() + " " + lineScanner.next(); // Get
-																				// both
-																				// first
-																				// and
-																				// last
-																				// name
+					// Get both first and last name
+					toReturn = lineScanner.next() + " " + lineScanner.next();
 				}
 				lineScanner.close();
 			}
 
+			// Close the scanner
 			scanner.close();
 
 		} catch (IOException e) {
@@ -115,6 +130,13 @@ public class EES {
 		return toReturn;
 	}
 
+	/**
+	 * Given an employer number, returns the name of the company.
+	 * 
+	 * @param employerNum
+	 *            Number of employer to find name of
+	 * @return "Null Company" if no name found; else, name of company
+	 */
 	public static String getEmployerName(int employerNum) {
 		// Creates file writer
 		String toReturn = "Null Company";
@@ -141,6 +163,17 @@ public class EES {
 		return toReturn;
 	}
 
+	/**
+	 * Given a path, loads file data into given String[][] storage, then sets
+	 * that as the data for given JTable.
+	 * 
+	 * @param table
+	 *            JTable to display data
+	 * @param storage
+	 *            String[][] to hold data
+	 * @param path
+	 *            Path to file to load
+	 */
 	public static void loadDataSource(JTable table, String[][] storage,
 			String path) {
 
@@ -151,16 +184,13 @@ public class EES {
 				file.createNewFile();
 
 			Scanner scanner = new Scanner(file); // Loads the .txt file
-			scanner.useDelimiter("\t"); // Uses tab as an indicator that a new
-										// data segment is present. Can not use
-										// comma, as commas may be present in
-										// comments.
+
 			while (scanner.hasNextLine()) {
 				String temp = scanner.nextLine();
 				ArrayList<String> line = new ArrayList<String>(); // Gets next
 																	// line
 				Scanner lineScanner = new Scanner(temp);
-				lineScanner.useDelimiter("\t");
+				lineScanner.useDelimiter(EES.delim);
 				while (lineScanner.hasNext()) {
 					line.add(lineScanner.next());
 				}
@@ -183,6 +213,16 @@ public class EES {
 		}
 	}
 
+	/**
+	 * Given the name of a collumn, returns the data of the selected row that
+	 * matches that collumn name from given JTable.
+	 * 
+	 * @param table
+	 *            JTable to load data from
+	 * @param nameOfNum
+	 *            Collumn name to load data of
+	 * @return data in selected row and collumn
+	 */
 	public static int getSelectedNum(JTable table, String nameOfNum) {
 		int col = -1;
 		for (int x = 0; x < table.getColumnCount(); x++)

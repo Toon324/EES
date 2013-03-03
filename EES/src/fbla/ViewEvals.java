@@ -12,20 +12,25 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
+ * Creates new window that shows a table of all evaluations for a given
+ * employee.
  * 
  * @author Cody Swendrowski
  */
 @SuppressWarnings("serial")
 public class ViewEvals extends DataWindow {
 
-	static String[][] data = new String[0][0];
-	static String[] names = { "Date", "Next Evaluation", "Work Quality",
-			"Work Quality Comments", "Work Habits", "Work Habits Comments",
-			"Job Knowledge", "Job Knowledge Comments", "Behavior",
-			"Behavior Comments", "Average Score", "Overall",
+	private static String[][] data = new String[0][0];
+
+	private static String[] names = { "Date", "Next Evaluation",
+			"Work Quality", "Work Quality Comments", "Work Habits",
+			"Work Habits Comments", "Job Knowledge", "Job Knowledge Comments",
+			"Behavior", "Behavior Comments", "Average Score", "Overall",
 			"Overall Comments", "Recommendation" };
-	static JTable evals;
-	static int employeeNum = -1;
+
+	private static JTable evals;
+
+	private static int employeeNum = -1;
 
 	public ViewEvals() {
 		super(new BorderLayout());
@@ -35,35 +40,27 @@ public class ViewEvals extends DataWindow {
 
 		FblaTableModel tableModel = new FblaTableModel(data, names);
 		evals = new JTable(tableModel);
-		loadDataSource("src\\fbla\\Resources\\Evaluation Results.txt");
+		loadDataSource(EES.evalPath);
 		evals.setAutoCreateRowSorter(true);
 
 		// Puts list in a scroll pane
 		JScrollPane listScroller = new JScrollPane(evals);
 
+		// Add components to frame
 		add(listScroller);
 		add(BorderLayout.PAGE_END, close);
 	}
 
 	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-	}
-
-	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
+	 * 
+	 * @param n
+	 *            Number of Employee to display evals of
 	 */
-	private static void createAndShowGUI() {
+	public static void createAndShowGUI(int n) {
 		// Create and set up the window.
-		frame = new JFrame("Select an Evaluation of "
-				+ EES.getEmployeeName(employeeNum));
+		frame = new JFrame("Viewing Evaluations");
 		frame.setSize(800, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -76,6 +73,13 @@ public class ViewEvals extends DataWindow {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Uses a custom data loader method to load only the evals that match the
+	 * employee number.
+	 * 
+	 * @param path
+	 *            Path to evaluation results
+	 */
 	public static void loadDataSource(String path) {
 		ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
 		File file = new File(path);
@@ -91,7 +95,7 @@ public class ViewEvals extends DataWindow {
 				ArrayList<String> line = new ArrayList<String>(); // Gets next
 																	// line
 				Scanner lineScanner = new Scanner(temp);
-				lineScanner.useDelimiter("\t");
+				lineScanner.useDelimiter(EES.delim);
 
 				lineScanner.next(); // Discard eval number
 				int empNum = lineScanner.nextInt();
@@ -101,9 +105,12 @@ public class ViewEvals extends DataWindow {
 				else
 					oneFound = true;
 
-				lineScanner.next(); //Discard employer number
+				lineScanner.next(); // Discard employer number
 				for (int x = 0; x < names.length; x++) {
-					line.add(lineScanner.next()); 
+					String l = lineScanner.next();
+					// Replace any fillers with actual char
+					l = l.replace("<comma>", ",");
+					line.add(l);
 				}
 				lineScanner.close();
 				input.add(line);
@@ -125,12 +132,9 @@ public class ViewEvals extends DataWindow {
 				}
 			}
 
+			// Sets data for Eval table
 			((FblaTableModel) evals.getModel()).setData(data);
 		}
-	}
-
-	public static void setEmployeeNum(int selectedNum) {
-		employeeNum = selectedNum;
 	}
 
 	@Override

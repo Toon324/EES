@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Displays data of selected company.
  * 
  * @author Cody Swendrowski
  */
@@ -21,17 +22,19 @@ public class ViewCompany extends DataWindow {
 	private static int employerNum = -1;
 
 	/**
-	 * 
+	 * Creates new object for viewing company data.
 	 */
 	public ViewCompany() {
 		super(new BorderLayout());
 		JButton close = new JButton("Close");
 		close.addActionListener(this);
+
 		JPanel info = new JPanel(new GridLayout(0, 1));
 		JPanel categories = new JPanel(new GridLayout(0, 1));
 
 		categories.add(new JLabel("Name"));
-		// The method JFrame.pack() sets elements based on max width of contained
+		// The method JFrame.pack() sets elements based on max width of
+		// contained
 		// items. This string is larger to give a padding between data points.
 		categories.add(new JLabel("Phone Num                "));
 		categories.add(new JLabel("Address"));
@@ -41,8 +44,9 @@ public class ViewCompany extends DataWindow {
 		categories.add(new JLabel("Email"));
 		categories.add(new JLabel("Contact Person"));
 
+		// Loads in data
 		try {
-			File file = new File("src\\fbla\\Resources\\Employer.txt");
+			File file = new File(EES.employerPath);
 			Scanner scanner = new Scanner(file);
 
 			while (scanner.hasNextLine()) {
@@ -60,6 +64,7 @@ public class ViewCompany extends DataWindow {
 		} catch (Exception e) {
 		}
 
+		// Adds components to frame
 		add(BorderLayout.WEST, categories);
 		add(info);
 		add(BorderLayout.PAGE_END, close);
@@ -68,13 +73,15 @@ public class ViewCompany extends DataWindow {
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
-	 * @param n 
+	 * 
+	 * @param n
+	 *            Number of employer to view data of
 	 */
 	public static void createAndShowGUI(int n) {
 		employerNum = n;
 		// Create and set up the window.
-		frame = new JFrame("Displaying Company " + EES.getEmployerName(employerNum));
-		frame.setSize(300, 300);
+		frame = new JFrame("Displaying Company "
+				+ EES.getEmployerName(employerNum));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Create and set up the content pane.
