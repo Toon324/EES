@@ -59,8 +59,9 @@ public class ViewEvals extends DataWindow {
 	 *            Number of Employee to display evals of
 	 */
 	public static void createAndShowGUI(int n) {
+		employeeNum = n;
 		// Create and set up the window.
-		frame = new JFrame("Viewing Evaluations");
+		frame = new JFrame("Viewing Evaluations for " + EES.getEmployeeName(employeeNum));
 		frame.setSize(800, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -92,32 +93,32 @@ public class ViewEvals extends DataWindow {
 
 			while (scanner.hasNextLine()) {
 				String temp = scanner.nextLine();
-				ArrayList<String> line = new ArrayList<String>(); // Gets next
-																	// line
+				ArrayList<String> line = new ArrayList<String>();
 				Scanner lineScanner = new Scanner(temp);
 				lineScanner.useDelimiter(EES.delim);
 
 				lineScanner.next(); // Discard eval number
 				int empNum = lineScanner.nextInt();
 
-				if (empNum != employeeNum)
-					break;
-				else
+				if (empNum == employeeNum) {
 					oneFound = true;
 
-				lineScanner.next(); // Discard employer number
-				for (int x = 0; x < names.length; x++) {
-					String l = lineScanner.next();
-					// Replace any fillers with actual char
-					l = l.replace("<comma>", ",");
-					line.add(l);
+					lineScanner.next(); // Discard employer number
+					for (int x = 0; x < names.length; x++) {
+						String l = lineScanner.next();
+						// Replace any fillers with actual char
+						l = l.replace("<comma>", ",");
+						line.add(l);
+					}
+
+					input.add(line);
 				}
+				
 				lineScanner.close();
-				input.add(line);
 			}
+
 			scanner.close();
 		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			// Store data
 			if (!oneFound)

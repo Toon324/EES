@@ -9,3 +9,4 @@
 9,Max,Francis,macktruck@gmail.com,(326) 326-3262,(626) 236-7272,W23 S2642 South Street,Nashville,Texas,23173	
 10,Rick,Astley,rickroll@gmail.com,(772) 257-4501,(772) 257-4501,Never Gonna,Give you,up!,99999	
 11,Alfred,Wayne,butler@batman.bat,(135) 136-3761,(167) 575-1851,Bat St.,Gotham,Gotham,25151	
+12,Michael,Jackson,thriller@mj.com,(352) 523-5236,(253) 252-3623,W134 S2352 Jackson Court,Jacksonville,Montana,35223,

@@ -4,7 +4,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -24,35 +23,18 @@ public class Home extends JPanel implements ActionListener {
 		super(new GridLayout(1, 2));
 
 		// Loads in image for Employees and creates a button out of it
-		Icon employeesIcon = createImageIcon("Resources\\Employees.png");
+		ImageIcon employeesIcon = new ImageIcon("src\\fbla\\Resources\\Employees.png");
 		JButton employees = new JButton(employeesIcon);
 		employees.setActionCommand("Employees");
 		employees.addActionListener(this);
 		add(employees);
 
 		// Loads in image for Companies and creates a button out of it
-		Icon companiesIcon = createImageIcon("Resources\\Companies.png");
+		ImageIcon companiesIcon = new ImageIcon("src\\fbla\\Resources\\Companies.png");
 		JButton companies = new JButton(companiesIcon);
 		companies.setActionCommand("Companies");
 		companies.addActionListener(this);
 		add(companies);
-	}
-
-	/**
-	 * Given a path, returns an ImageIcon or null if no Image found.
-	 * 
-	 * @param path
-	 *            Path to Image
-	 * @return ImageIcon of image at path
-	 */
-	protected ImageIcon createImageIcon(String path) {
-		java.net.URL imgURL = getClass().getResource(path);
-		if (imgURL != null) {
-			return new ImageIcon(imgURL, "");
-		} else {
-			System.err.println("Couldn't find file: " + path);
-			return null;
-		}
 	}
 
 	@Override

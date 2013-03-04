@@ -1,3 +1,4 @@
 1,Test Co.,Test Av.,TestTown,Testas,00000,000-000-0000,test@test.com,Test Person
 2,Batman Co.,Bat St.,Gotham,Gotham,32526,(326) 242-7423,batman@batman.com,Alfred	
 3,Waynes World,W2642 S2626 Wayne St.,Luxington,Kansas,17453,(654) 164-1616,waynesWorld@ww.com,Bob Chuckington	
+4,Super Fun World,1000 Fun Av.,Funsville,Funland,51233,(235) 236-1236,fun@fun.com,Mr. Fun,

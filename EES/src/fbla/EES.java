@@ -115,7 +115,6 @@ public class EES {
 				lineScanner.useDelimiter(delim);
 
 				if (employeeNum == lineScanner.nextInt()) {
-					lineScanner.next(); // Discard average evaluation score
 					// Get both first and last name
 					toReturn = lineScanner.next() + " " + lineScanner.next();
 				}

@@ -183,8 +183,8 @@ public class Evaluate extends DataWindow {
 				lastEvalNum = 0;
 
 			StringBuilder toWrite = new StringBuilder();
-			toWrite.append((lastEvalNum + 1) + "\t");
-			toWrite.append(employeeNum + "\t");
+			toWrite.append((lastEvalNum + 1) + EES.delim);
+			toWrite.append(employeeNum + EES.delim);
 
 			// Calculates average score of evaluation
 			int averageScore = 0;
@@ -197,23 +197,28 @@ public class Evaluate extends DataWindow {
 			// Fetches employerNum based off of employeeNum
 			int employerNum = EES.getEmployerNum(employeeNum);
 			if (employerNum == -1)
-				toWrite.append("No Employer" + "\t");
+				toWrite.append("No Employer" + EES.delim);
 			else
-				toWrite.append(employerNum + "\t");
+				toWrite.append(employerNum + EES.delim);
 
 			// Gets current date
 			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
 			Calendar cal = Calendar.getInstance();
-			toWrite.append(dateFormat.format(cal.getTime()) + "\t");
+			toWrite.append(dateFormat.format(cal.getTime()) + EES.delim);
 
-			toWrite.append(nextEval.getText() + "\t");
+			toWrite.append(nextEval.getText() + EES.delim);
 
 			for (int x = 0; x < textFields.size(); x++) {
-				toWrite.append(scoreBoxes.get(x).getSelectedItem() + "\t");
-				toWrite.append(textFields.get(x).getText() + "\t");
+				toWrite.append(scoreBoxes.get(x).getSelectedItem() + EES.delim);
+				
+				//Replaces commas with fillers
+				String text = textFields.get(x).getText();
+				text = text.replace(",", "<comma>");
+				
+				toWrite.append(text + EES.delim);
 				if (x == textFields.size() - 2) // Add average score before
 												// general score
-					toWrite.append(averageScore + "\t");
+					toWrite.append(averageScore + EES.delim);
 			}
 
 			toWrite.append(reccomend.getSelectedItem());

@@ -51,9 +51,9 @@ public class AddToCompany extends DataWindow {
 		// Creates a new JTable for displaying data
 		employeesList = new JTable(new FblaTableModel(Employees.getData(),
 				Employees.getNames()));
-
+		
 		// Loads data from file into JTable
-		Employees.reload();
+		EES.loadDataSource(employeesList, Employees.getData(), EES.employeesPath);
 
 		// Sets up autosorter and single selection for JTable
 		employeesList.setAutoCreateRowSorter(true);
@@ -97,7 +97,7 @@ public class AddToCompany extends DataWindow {
 			// Prints data
 			out.println(employeesList.getModel().getValueAt(
 					employeesList.getSelectedRow(), 0)
-					+ "\t" + employerNum);
+					+ EES.delim + employerNum);
 
 			// Closes stream
 			out.close();
