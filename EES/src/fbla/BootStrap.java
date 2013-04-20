@@ -20,6 +20,12 @@ public class BootStrap {
 	 */
 	public static void main(String[] args) {
 		loadVersionData();
+		System.out.println("Version: " + version);
+		try {
+			Runtime.getRuntime().exec("java -jar EmployeeEvalSystem.jar");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
