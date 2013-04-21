@@ -39,16 +39,19 @@ public class BootStrap {
 					serverVersion = adapter.getInputStream().readDouble();
 			}
 
+			System.out.println("Server Version: " + serverVersion);
+			
 			if (serverVersion > version) {
-				URL url = new URL("");
-
-				InputStream inStream = url.openStream();
-				BufferedInputStream bufIn = new BufferedInputStream(inStream);
+				adapter.getOutputStream().write(1); // Request for updated jar
+				System.out.println("Requested update");
+				
+				BufferedInputStream bufIn = new BufferedInputStream(adapter.getInputStream());
 
 				File fileWrite = new File("outputsrc.jar");
 				OutputStream out = new FileOutputStream(fileWrite);
 				BufferedOutputStream bufOut = new BufferedOutputStream(out);
-				byte buffer[] = new byte[10];
+				
+				byte buffer[] = new byte[1024];
 				while (true) {
 					int nRead = bufIn.read(buffer, 0, buffer.length);
 					if (nRead <= 0)

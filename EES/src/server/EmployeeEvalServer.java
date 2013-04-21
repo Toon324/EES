@@ -1,6 +1,8 @@
 package server;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * @author Cody Swendrowski
@@ -26,9 +28,20 @@ public class EmployeeEvalServer {
 							adapter.getOutputStream().writeDouble(VERSION);
 							break;
 						}
+						else if (adapter.getInputStream().readInt() == 1) {
+							File updatedJar = new File("EmployeeEvalSystem.jar");
+							InputStream in = new FileInputStream(updatedJar);
+							
+							byte[] buf = new byte[1024];
+							int len;
+							while ((len = in.read(buf)) > 0)
+								adapter.getOutputStream().write(buf, 0, len);
+							in.close();
+						}
 				}
 
-			} catch (IOException e) {
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
