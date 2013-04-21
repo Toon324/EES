@@ -47,8 +47,10 @@ public class BootStrap {
 			System.out.println("Server Version: " + serverVersion);
 
 			if (serverVersion > version) {
-				System.out.println("Updated from " + version + " to " + serverVersion);
-				adapter.getOutputStream().writeInt(1); // Request for updated jar
+				System.out.println("Updated from " + version + " to "
+						+ serverVersion);
+				adapter.getOutputStream().writeInt(1); // Request for updated
+														// jar
 
 				BufferedInputStream bufIn = new BufferedInputStream(
 						adapter.getInputStream());
@@ -58,7 +60,7 @@ public class BootStrap {
 				BufferedOutputStream bufOut = new BufferedOutputStream(out);
 
 				byte buffer[] = new byte[adapter.getInputStream().readInt()];
-				
+
 				while (true) {
 					int nRead = bufIn.read(buffer, 0, buffer.length);
 					if (nRead <= 0)
@@ -68,9 +70,14 @@ public class BootStrap {
 
 				bufOut.flush();
 				out.close();
-				Runtime.getRuntime().exec("java -jar EmployeeEvalSystemUpdate.jar");
-			} 
-			else
+
+				adapter.getOutputStream().writeInt(2); // Tell the server that
+														// the client is done
+														// with it
+
+				Runtime.getRuntime().exec(
+						"java -jar EmployeeEvalSystemUpdate.jar");
+			} else
 				Runtime.getRuntime().exec("java -jar EmployeeEvalSystem.jar");
 		} catch (IOException e) {
 			System.out.println("ERROR: Could not connect to server.");

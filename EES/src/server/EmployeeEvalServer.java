@@ -2,20 +2,24 @@ package server;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 /**
  * @author Cody Swendrowski
  * 
  */
 public class EmployeeEvalServer {
-	private static final double VERSION = 1.1;
+	private static double version = 1.0;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		System.out.println("Server has started.");
+		loadVersionData();
 		NetworkAdapter adapter = new NetworkAdapter();
 
 		try {
@@ -46,7 +50,7 @@ public class EmployeeEvalServer {
 						System.out.println("Call = " + input);
 
 						if (input == 0) {
-							adapter.getOutputStream().writeDouble(VERSION);
+							adapter.getOutputStream().writeDouble(version);
 							adapter.clearDataAvailable();
 						}
 
@@ -66,6 +70,9 @@ public class EmployeeEvalServer {
 							in.close();
 							adapter.clearDataAvailable();
 						}
+						
+						else if (input == 2)
+							adapter.setConnected(false);
 					} else {
 						System.out.println("No data");
 					}
@@ -80,6 +87,29 @@ public class EmployeeEvalServer {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private static void loadVersionData() {
+		File file = new File("serverVersionID.txt");
+		try {
+			if (!file.exists()) { // If file doesn't exist, create one
+				file.createNewFile();
+				FileWriter writer = new FileWriter(file);
+				writer.write("1.0");
+				writer.close();
+			}
+
+			Scanner scanner = new Scanner(file);
+
+			version = scanner.nextDouble();
+
+			scanner.close();
+
+		} catch (IOException e) {
 		}
 	}
 

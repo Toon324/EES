@@ -175,6 +175,11 @@ public class NetworkAdapter {
 		}
 		return true;
 		*/
+		
 		return connected;
+	}
+
+	public void setConnected(boolean b) {
+		connected = b;
 	}
 }
