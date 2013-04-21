@@ -166,6 +166,15 @@ public class NetworkAdapter {
 	 * @return True if connected
 	 */
 	public boolean isConnected() {
+		/*try {
+			if (input.read() == -1)
+				return false;
+		}
+		catch (Exception e) {
+			return false;
+		}
+		return true;
+		*/
 		return connected;
 	}
 }

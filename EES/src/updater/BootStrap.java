@@ -31,27 +31,34 @@ public class BootStrap {
 		NetworkAdapter adapter = new NetworkAdapter();
 		try {
 			adapter.connect("107.8.156.5", 60);
-			adapter.getOutputStream().write(0); // Request for version
+			System.out.println("Connected to server.");
+			adapter.getOutputStream().writeInt(0); // Request for version
+			adapter.getOutputStream().flush();
 
 			double serverVersion = 0.0;
 			while (serverVersion == 0.0) {
-				if (adapter.isDataAvailable())
+				if (adapter.isDataAvailable()) {
 					serverVersion = adapter.getInputStream().readDouble();
+				}
+				while (System.currentTimeMillis() % 100 != 0) {
+				} // wait
 			}
 
 			System.out.println("Server Version: " + serverVersion);
-			
-			if (serverVersion > version) {
-				adapter.getOutputStream().write(1); // Request for updated jar
-				System.out.println("Requested update");
-				
-				BufferedInputStream bufIn = new BufferedInputStream(adapter.getInputStream());
 
-				File fileWrite = new File("outputsrc.jar");
+			if (serverVersion > version) {
+				System.out.println("Updated from " + version + " to " + serverVersion);
+				adapter.getOutputStream().writeInt(1); // Request for updated jar
+
+				BufferedInputStream bufIn = new BufferedInputStream(
+						adapter.getInputStream());
+
+				File fileWrite = new File("EmployeeEvalSystemUpdate.jar");
 				OutputStream out = new FileOutputStream(fileWrite);
 				BufferedOutputStream bufOut = new BufferedOutputStream(out);
+
+				byte buffer[] = new byte[adapter.getInputStream().readInt()];
 				
-				byte buffer[] = new byte[1024];
 				while (true) {
 					int nRead = bufIn.read(buffer, 0, buffer.length);
 					if (nRead <= 0)
@@ -61,11 +68,16 @@ public class BootStrap {
 
 				bufOut.flush();
 				out.close();
-				Runtime.getRuntime().exec("java -jar outputsrc.jar");
-			} else
+				Runtime.getRuntime().exec("java -jar EmployeeEvalSystemUpdate.jar");
+			} 
+			else
 				Runtime.getRuntime().exec("java -jar EmployeeEvalSystem.jar");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("ERROR: Could not connect to server.");
+			try {
+				Runtime.getRuntime().exec("java -jar EmployeeEvalSystem.jar");
+			} catch (IOException e1) {
+			}
 		}
 	}
 
