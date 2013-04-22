@@ -57,9 +57,12 @@ public class EmployeeEvalServer {
 						else if (input == 1) {
 							File updatedJar = new File("EmployeeEvalSystem.jar");
 							System.out.println("Got updatedJar.");
-							adapter.getOutputStream().writeInt((int) updatedJar.length());
-							adapter.getOutputStream().flush(); //Let client know how long the file is
-							
+							adapter.getOutputStream().writeInt(
+									(int) updatedJar.length());
+							adapter.getOutputStream().flush(); // Let client
+																// know how long
+																// the file is
+
 							InputStream in = new FileInputStream(updatedJar);
 
 							byte[] buf = new byte[(int) updatedJar.length()];
@@ -70,9 +73,10 @@ public class EmployeeEvalServer {
 							in.close();
 							adapter.clearDataAvailable();
 						}
-						
+
 						else if (input == 2)
 							adapter.setConnected(false);
+						
 					} else {
 						System.out.println("No data");
 					}
@@ -89,7 +93,7 @@ public class EmployeeEvalServer {
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 */

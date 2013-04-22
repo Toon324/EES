@@ -74,6 +74,7 @@ public class BootStrap {
 				adapter.getOutputStream().writeInt(2); // Tell the server that
 														// the client is done
 														// with it
+				updateVersionIDTo(serverVersion);
 
 				Runtime.getRuntime().exec(
 						"java -jar EmployeeEvalSystemUpdate.jar");
@@ -85,6 +86,16 @@ public class BootStrap {
 				Runtime.getRuntime().exec("java -jar EmployeeEvalSystem.jar");
 			} catch (IOException e1) {
 			}
+		}
+	}
+
+	private static void updateVersionIDTo(double serverVersion) {
+		File file = new File("src\\versionID.txt");
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.write("" + serverVersion);
+			writer.close();
+		} catch (Exception e) {
 		}
 	}
 
