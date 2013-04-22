@@ -35,18 +35,22 @@ public class Companies extends JPanel implements ActionListener {
 		super(new BorderLayout());
 
 		// Panel that holds components of similar nature
-		JPanel buttons = new JPanel(new GridLayout(0, 2));
+		JPanel buttons = new JPanel(new GridLayout(0, 3));
 
 		// Creates new buttons allowing user to manipulate the data
 		JButton home = new JButton("Home");
 		JButton addCompany = new JButton("Add Company");
+		JButton deleteCompany = new JButton("Delete Company");
+		JButton deleteEmployee = new JButton("Remove Employee from Company");
 		JButton addToCompany = new JButton("Add Employee to Company");
 		JButton view = new JButton("View Company");
 
 		// Registers this object as the listener for clicks
 		home.addActionListener(this);
 		addCompany.addActionListener(this);
+		deleteCompany.addActionListener(this);
 		addToCompany.addActionListener(this);
+		deleteEmployee.addActionListener(this);
 		view.addActionListener(this);
 
 		// Adds buttons to panel
@@ -54,6 +58,8 @@ public class Companies extends JPanel implements ActionListener {
 		buttons.add(addCompany);
 		buttons.add(addToCompany);
 		buttons.add(view);
+		buttons.add(deleteCompany);
+		buttons.add(deleteEmployee);
 
 		// Creates a new JTable for displaying data
 		companiesList = new JTable(new FblaTableModel(data, names));

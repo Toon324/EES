@@ -1,6 +1,8 @@
 package fbla;
 
 import java.awt.CardLayout;
+import java.awt.Frame;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class EES {
 
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Employee Evaluation System");
-		window.setSize(1000, 600);
+		window.setExtendedState(Frame.MAXIMIZED_BOTH); //Make Fullscreen by default
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		pages = new JPanel(cl);
