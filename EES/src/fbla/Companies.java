@@ -4,8 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,7 +48,6 @@ public class Companies extends JPanel implements ActionListener {
 		JButton home = new JButton("Home");
 		JButton addCompany = new JButton("Add Company");
 		JButton deleteCompany = new JButton("Delete Company");
-		JButton deleteEmployee = new JButton("Remove Employee from Company");
 		JButton addToCompany = new JButton("Add Employee to Company");
 		JButton view = new JButton("View Company");
 
@@ -50,7 +56,6 @@ public class Companies extends JPanel implements ActionListener {
 		addCompany.addActionListener(this);
 		deleteCompany.addActionListener(this);
 		addToCompany.addActionListener(this);
-		deleteEmployee.addActionListener(this);
 		view.addActionListener(this);
 
 		// Adds buttons to panel
@@ -59,7 +64,6 @@ public class Companies extends JPanel implements ActionListener {
 		buttons.add(addToCompany);
 		buttons.add(view);
 		buttons.add(deleteCompany);
-		buttons.add(deleteEmployee);
 
 		// Creates a new JTable for displaying data
 		companiesList = new JTable(new FblaTableModel(data, names));
@@ -98,6 +102,70 @@ public class Companies extends JPanel implements ActionListener {
 
 			ViewCompany.createAndShowGUI(EES.getSelectedNum(companiesList,
 					"Company Number"));
+
+		}
+		
+		else if (e.getActionCommand().equals("Delete Company")
+				&& (companiesList.getSelectedRow() != -1)) {
+
+			int n = JOptionPane
+					.showConfirmDialog(
+							this,
+							"Are you sure you want to delete this Company? This action is irreversable.",
+							"Confirmation of deletion",
+							JOptionPane.YES_NO_OPTION);
+
+			if (n == JOptionPane.YES_OPTION) {
+				delete(EES.getSelectedNum(companiesList, "Company Number"));
+				reload();
+			}
+		}
+	}
+	
+	/**
+	 * Given an company number, deletes that company from file.
+	 * 
+	 * @param companyNum
+	 *            Number of company to delete
+	 */
+	private void delete(int companyNum) {
+		ArrayList<String> toWrite = new ArrayList<String>();
+		File file = new File("src\\fbla\\Resources\\Employer.txt");
+		try {
+			if (!file.exists())
+				file.createNewFile();
+
+			Scanner scanner = new Scanner(file); // Loads the .txt file
+			while (scanner.hasNextLine()) {
+				String temp = scanner.nextLine();
+
+				Scanner lineScanner = new Scanner(temp);
+				lineScanner.useDelimiter(EES.delim);
+
+				// Unless found employee matches delete number, add to output
+				if (lineScanner.nextInt() != companyNum)
+					toWrite.add(temp);
+
+				lineScanner.close();
+			}
+			scanner.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+			// Write updated file
+			try {
+				PrintWriter out = new PrintWriter(new FileWriter(file));
+
+				// Writes all remaining lines to file
+				for (String s : toWrite)
+					out.println(s);
+
+				// Closes writer
+				out.close();
+			} catch (IOException e) {
+			}
+
 		}
 	}
 
