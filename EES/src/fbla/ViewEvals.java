@@ -1,6 +1,7 @@
 package fbla;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -22,7 +24,7 @@ public class ViewEvals extends DataWindow {
 
 	private static String[][] data = new String[0][0];
 
-	private static String[] names = { "Date", "Next Evaluation",
+	private static String[] names = { "Evaluation Number", "Date", "Next Evaluation",
 			"Work Quality", "Work Quality Comments", "Work Habits",
 			"Work Habits Comments", "Job Knowledge", "Job Knowledge Comments",
 			"Behavior", "Behavior Comments", "Average Score", "Overall",
@@ -34,9 +36,17 @@ public class ViewEvals extends DataWindow {
 
 	public ViewEvals() {
 		super(new BorderLayout());
+		// Panel that holds components of similar nature
+		JPanel buttons = new JPanel(new GridLayout(2, 1));
 
 		JButton close = new JButton("Close");
+		JButton view = new JButton("View Evaluation");
+
+		view.addActionListener(this);
 		close.addActionListener(this);
+		
+		buttons.add(view);
+		buttons.add(close);
 
 		FblaTableModel tableModel = new FblaTableModel(data, names);
 		evals = new JTable(tableModel);
@@ -48,7 +58,7 @@ public class ViewEvals extends DataWindow {
 
 		// Add components to frame
 		add(listScroller);
-		add(BorderLayout.PAGE_END, close);
+		add(BorderLayout.PAGE_END, buttons);
 	}
 
 	/**
@@ -61,7 +71,8 @@ public class ViewEvals extends DataWindow {
 	public static void createAndShowGUI(int n) {
 		employeeNum = n;
 		// Create and set up the window.
-		frame = new JFrame("Viewing Evaluations for " + EES.getEmployeeName(employeeNum));
+		frame = new JFrame("Viewing Evaluations for "
+				+ EES.getEmployeeName(employeeNum));
 		frame.setSize(800, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -97,14 +108,17 @@ public class ViewEvals extends DataWindow {
 				Scanner lineScanner = new Scanner(temp);
 				lineScanner.useDelimiter(EES.delim);
 
-				lineScanner.next(); // Discard eval number
+				String num = "" + lineScanner.next();
+				if (num.contains("﻿"))
+					num = num.substring(3); //Remove ﻿ from String (byproduct of being the first element)
+				line.add(num); // Store eval number
 				int empNum = lineScanner.nextInt();
 
 				if (empNum == employeeNum) {
 					oneFound = true;
 
 					lineScanner.next(); // Discard employer number
-					for (int x = 0; x < names.length; x++) {
+					for (int x = 0; x < names.length - 1; x++) {
 						String l = lineScanner.next();
 						// Replace any fillers with actual char
 						l = l.replace("<comma>", ",");
@@ -113,7 +127,7 @@ public class ViewEvals extends DataWindow {
 
 					input.add(line);
 				}
-				
+
 				lineScanner.close();
 			}
 
@@ -142,6 +156,8 @@ public class ViewEvals extends DataWindow {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Close"))
 			frame.dispose();
+		else if (e.getActionCommand().equals("View Evaluation"))
+			ViewEvaluation.createAndShowGUI(EES.getSelectedNum(evals, "Evaluation Number"));
 	}
 
 }
