@@ -18,6 +18,7 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class ViewCompany extends DataWindow {
+	protected static JFrame frame = new JFrame(); // Frame to display
 
 	private static int employerNum = -1;
 

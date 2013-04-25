@@ -22,6 +22,7 @@ import javax.swing.text.MaskFormatter;
  * 
  */
 public class ViewEvaluation extends DataWindow {
+	protected static JFrame frame = new JFrame(); // Frame to display
 
 	/**
 	 * 

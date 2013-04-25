@@ -23,6 +23,7 @@ import javax.swing.ListSelectionModel;
  */
 @SuppressWarnings("serial")
 public class AddToCompany extends DataWindow {
+	protected static JFrame frame = new JFrame(); // Frame to display
 
 	private static int employerNum = -1;
 	private static JTable employeesList;

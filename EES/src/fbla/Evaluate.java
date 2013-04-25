@@ -37,6 +37,7 @@ import javax.swing.text.MaskFormatter;
  */
 @SuppressWarnings("serial")
 public class Evaluate extends DataWindow {
+	protected static JFrame frame = new JFrame(); // Frame to display
 
 	private ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
 	private JTextField nextEval;

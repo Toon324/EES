@@ -19,6 +19,7 @@ import javax.swing.text.MaskFormatter;
  */
 @SuppressWarnings("serial")
 public class AddCompany extends DataWindow {
+	protected static JFrame frame = new JFrame(); // Frame to display
 
 	/**
 	 * Creates a new popup for adding a company.

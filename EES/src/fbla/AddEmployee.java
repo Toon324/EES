@@ -21,6 +21,7 @@ import javax.swing.text.MaskFormatter;
  */
 @SuppressWarnings("serial")
 public class AddEmployee extends DataWindow {
+	protected static JFrame frame = new JFrame(); // Frame to display
 
 	/**
 	 * Creates a new input window for adding an employee.

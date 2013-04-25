@@ -21,6 +21,7 @@ import javax.swing.JTable;
  */
 @SuppressWarnings("serial")
 public class ViewEvals extends DataWindow {
+	protected static JFrame frame = new JFrame(); // Frame to display
 
 	private static String[][] data = new String[0][0];
 
@@ -154,6 +155,7 @@ public class ViewEvals extends DataWindow {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getActionCommand());
 		if (e.getActionCommand().equals("Close"))
 			frame.dispose();
 		else if (e.getActionCommand().equals("View Evaluation"))

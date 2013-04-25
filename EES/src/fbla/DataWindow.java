@@ -29,8 +29,6 @@ public abstract class DataWindow extends JPanel implements ActionListener {
 
 	protected ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
-	protected static JFrame frame = new JFrame(); // Frame to display
-
 	/**
 	 * Creates a new DataWindow with set layout.
 	 * 
