@@ -29,11 +29,18 @@ public class ViewEmployee extends DataWindow {
 		super(new BorderLayout());
 
 		JButton close = new JButton("Close");
+		JButton viewEvals = new JButton("View Evaluations");
+		
 		close.addActionListener(this);
-
+		viewEvals.addActionListener(this);
+		
+		JPanel buttons = new JPanel(new GridLayout(0,1));
 		JPanel info = new JPanel(new GridLayout(0, 1));
 		JPanel categories = new JPanel(new GridLayout(0, 1));
 
+		buttons.add(viewEvals);
+		buttons.add(close);
+		
 		// The method frame.pack() sets elements based on max width of contained
 		// items. This string is larger to give a padding between data points.
 		categories.add(new JLabel("Average Evaluation Score     "));
@@ -69,7 +76,7 @@ public class ViewEmployee extends DataWindow {
 		// Adds components to frame
 		add(BorderLayout.WEST, categories);
 		add(info);
-		add(BorderLayout.PAGE_END, close);
+		add(BorderLayout.PAGE_END, buttons);
 	}
 
 	/**
@@ -97,5 +104,7 @@ public class ViewEmployee extends DataWindow {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Close"))
 			frame.dispose();
+		else if (e.getActionCommand().equals("View Evaluations"))
+			ViewEvals.createAndShowGUI(employeeNum);
 	}
 }
