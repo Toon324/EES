@@ -30,7 +30,8 @@ public class Employees extends JPanel implements ActionListener {
 	private static String[][] data = new String[0][0];
 
 	private static String[] names = { "Employee Number", "First Name",
-			"Last Name", "Email", "Phone #", "Cell #", "Address", "City", "State", "ZIP" };
+			"Last Name", "Email", "Phone #", "Cell #", "Address", "City",
+			"State", "ZIP" };
 
 	private static JTable employeesList;
 
@@ -83,29 +84,27 @@ public class Employees extends JPanel implements ActionListener {
 			EES.cl.show(EES.pages, "Home");
 
 		else if (e.getActionCommand().equals("Add Employee"))
-			AddEmployee.createAndShowGUI();
+			new AddEmployee();
 
 		else if (e.getActionCommand().equals("Evaluate Employee")
 				&& (EES.getSelectedNum(employeesList, "Employee Number") != -1)) {
-			
-			Evaluate.createAndShowGUI(EES.getSelectedNum(employeesList,
-					"Employee Number"));
+
+			new Evaluate(EES.getSelectedNum(employeesList, "Employee Number"));
 
 		} else if (e.getActionCommand().equals("View Employee")
 				&& (EES.getSelectedNum(employeesList, "Employee Number") != -1)) {
-			
-			ViewEmployee.createAndShowGUI(EES.getSelectedNum(employeesList,
+
+			new ViewEmployee(EES.getSelectedNum(employeesList,
 					"Employee Number"));
 
 		} else if (e.getActionCommand().equals("View Evaluations")
 				&& (EES.getSelectedNum(employeesList, "Employee Number") != -1)) {
-			
-			ViewEvals.createAndShowGUI(EES.getSelectedNum(employeesList,
-					"Employee Number"));
+
+			new ViewEvals(EES.getSelectedNum(employeesList, "Employee Number"));
 
 		} else if (e.getActionCommand().equals("Delete Employee")
 				&& (EES.getSelectedNum(employeesList, "Employee Number") != -1)) {
-			
+
 			int n = JOptionPane
 					.showConfirmDialog(
 							this,

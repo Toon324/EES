@@ -19,7 +19,6 @@ import javax.swing.text.MaskFormatter;
  */
 @SuppressWarnings("serial")
 public class AddCompany extends DataWindow {
-	protected static JFrame frame = new JFrame(); // Frame to display
 
 	/**
 	 * Creates a new popup for adding a company.
@@ -83,25 +82,9 @@ public class AddCompany extends DataWindow {
 		add(BorderLayout.WEST, labelPanel);
 		add(BorderLayout.EAST, textPanel);
 		add(BorderLayout.PAGE_END, buttons);
-	}
-
-	/**
-	 * Create the GUI and show it.
-	 */
-	protected static void createAndShowGUI() {
-		// Create and set up the window.
-		frame = new JFrame("AddCompany");
-		frame.setSize(400, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		// Display the window.
-		frame.setVisible(true);
-
-		// Create and set up the content pane.
-		AddCompany popup = new AddCompany();
-		popup.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(popup);
-		frame.pack();
+		
+		frame = EES.createAndShowGUI(this);
+		frame.setTitle("Add a Company");
 	}
 
 	@Override

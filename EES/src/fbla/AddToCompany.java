@@ -23,17 +23,18 @@ import javax.swing.ListSelectionModel;
  */
 @SuppressWarnings("serial")
 public class AddToCompany extends DataWindow {
-	protected static JFrame frame = new JFrame(); // Frame to display
 
-	private static int employerNum = -1;
-	private static JTable employeesList;
+	private JTable employeesList;
+	private int employerNum;
 
 	/**
 	 * Fills frame with capability of adding an employee to a company.
 	 */
-	public AddToCompany() {
+	public AddToCompany(int num) {
 		super(new BorderLayout());
 
+		employerNum = num;
+		
 		// Panel that holds components of similar nature
 		JPanel buttons = new JPanel(new GridLayout(1, 2));
 
@@ -66,6 +67,10 @@ public class AddToCompany extends DataWindow {
 		// Adds all components to frame
 		add(BorderLayout.CENTER, listScroller);
 		add(BorderLayout.PAGE_END, buttons);
+		
+		frame = EES.createAndShowGUI(this);
+		frame.setTitle("Select Employee to add to "
+				+ EES.getEmployerName(employerNum));
 	}
 
 	@Override
@@ -104,31 +109,6 @@ public class AddToCompany extends DataWindow {
 			out.close();
 		} catch (Exception e) {
 		}
-	}
-
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be
-	 * invoked from the event-dispatching thread.
-	 * 
-	 * @param n
-	 *            Number of employer to add to
-	 */
-	protected static void createAndShowGUI(int n) {
-		employerNum = n;
-		// Create and set up the window.
-		frame = new JFrame("Select Employee to add to "
-				+ EES.getEmployerName(employerNum));
-		frame.setSize(500, 200);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		// Display the window.
-		frame.setVisible(true);
-
-		// Create and set up the content pane.
-		AddToCompany popup = new AddToCompany();
-		popup.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(popup);
-		frame.pack();
 	}
 
 }

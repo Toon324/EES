@@ -24,9 +24,9 @@ import javax.swing.JTextField;
  */
 @SuppressWarnings("serial")
 public abstract class DataWindow extends JPanel implements ActionListener {
-
+	
+	protected JFrame frame = new JFrame(); // Frame to display
 	protected ArrayList<JTextField> textFields = new ArrayList<JTextField>();
-
 	protected ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
 	/**

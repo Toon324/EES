@@ -29,7 +29,7 @@ public class Companies extends JPanel implements ActionListener {
 
 	private static String[][] data = new String[0][0];
 
-	private static String[] names = { "Company Number", "Company Name",
+	private String[] names = { "Company Number", "Company Name",
 			"Address", "City", "State", "ZIP", "Phone Number", "Email",
 			"Contact Person" };
 
@@ -89,18 +89,18 @@ public class Companies extends JPanel implements ActionListener {
 			EES.cl.show(EES.pages, "Home"); // Flip page to Home
 
 		else if (e.getActionCommand().equals("Add Company"))
-			AddCompany.createAndShowGUI();
+			new AddCompany();
 
 		else if (e.getActionCommand().equals("Add Employee to Company")
 				&& (companiesList.getSelectedRow() != -1)) {
 
-			AddToCompany.createAndShowGUI(EES.getSelectedNum(companiesList,
+			new AddToCompany(EES.getSelectedNum(companiesList,
 					"Company Number"));
 
 		} else if (e.getActionCommand().equals("View Company")
 				&& (companiesList.getSelectedRow() != -1)) {
 
-			ViewCompany.createAndShowGUI(EES.getSelectedNum(companiesList,
+			new ViewCompany(EES.getSelectedNum(companiesList,
 					"Company Number"));
 
 		}

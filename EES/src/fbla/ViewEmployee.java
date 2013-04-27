@@ -18,16 +18,17 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class ViewEmployee extends DataWindow {
-	protected static JFrame frame = new JFrame(); // Frame to display
 
-	private static int employeeNum = -1;
+	private int employeeNum = -1;
 
 	/**
 	 * Creates new object for displaying employee data.
 	 */
-	public ViewEmployee() {
+	public ViewEmployee(int num) {
 		super(new BorderLayout());
-
+		
+		employeeNum = num;
+		
 		JButton close = new JButton("Close");
 		JButton viewEvals = new JButton("View Evaluations");
 		
@@ -77,27 +78,10 @@ public class ViewEmployee extends DataWindow {
 		add(BorderLayout.WEST, categories);
 		add(info);
 		add(BorderLayout.PAGE_END, buttons);
-	}
-
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be
-	 * invoked from the event-dispatching thread.
-	 */
-	public static void createAndShowGUI(int n) {
-		employeeNum = n;
-		// Create and set up the window.
-		frame = new JFrame("Displaying Employee "
+		
+		frame = EES.createAndShowGUI(this);
+		frame.setTitle("Displaying Employee "
 				+ EES.getEmployeeName(employeeNum));
-		frame.setSize(300, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		// Create and set up the content pane.
-		ViewEmployee popup = new ViewEmployee();
-		popup.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(popup);
-		frame.pack();
-		// Display the window.
-		frame.setVisible(true);
 	}
 
 	@Override
@@ -105,6 +89,6 @@ public class ViewEmployee extends DataWindow {
 		if (e.getActionCommand().equals("Close"))
 			frame.dispose();
 		else if (e.getActionCommand().equals("View Evaluations"))
-			ViewEvals.createAndShowGUI(employeeNum);
+			new ViewEvals(employeeNum);
 	}
 }

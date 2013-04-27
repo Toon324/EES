@@ -37,16 +37,18 @@ import javax.swing.text.MaskFormatter;
  */
 @SuppressWarnings("serial")
 public class Evaluate extends DataWindow {
-	protected static JFrame frame = new JFrame(); // Frame to display
 
 	private ArrayList<JComboBox> scoreBoxes = new ArrayList<JComboBox>();
 	private JTextField nextEval;
 	private String[] r = { "Yes", "No" };
 	private JComboBox reccomend = new JComboBox(r);
-	static int employeeNum;
+	private int employeeNum;
 
-	public Evaluate() {
+	public Evaluate(int num) {
 		super(new BorderLayout());
+		
+		employeeNum = num;
+		
 		// Gives option to enter score from 1 to 5
 		String[] scoreOptions = { Integer.toString(1), Integer.toString(2),
 				Integer.toString(3), Integer.toString(4), Integer.toString(5) };
@@ -118,31 +120,10 @@ public class Evaluate extends DataWindow {
 		add(BorderLayout.CENTER, scoresPanel);
 		// add(BorderLayout.CENTER, new JTextArea());
 		add(BorderLayout.PAGE_END, buttons);
-	}
-
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be
-	 * invoked from the event-dispatching thread.
-	 * 
-	 * @param n
-	 *            Number of employee to evaluate
-	 */
-	public static void createAndShowGUI(int n) {
-		employeeNum = n;
-		// Create and set up the window.
-		frame = new JFrame("Evaluate Employee "
+		
+		frame = EES.createAndShowGUI(this);
+		frame.setTitle("Evaluate Employee "
 				+ EES.getEmployeeName(employeeNum));
-		frame.setSize(400, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		// Create and set up the content pane.
-		Evaluate popup = new Evaluate();
-		popup.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(popup);
-		frame.pack();
-
-		// Display the window.
-		frame.setVisible(true);
 	}
 
 	@Override

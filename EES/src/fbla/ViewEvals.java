@@ -21,22 +21,24 @@ import javax.swing.JTable;
  */
 @SuppressWarnings("serial")
 public class ViewEvals extends DataWindow {
-	protected static JFrame frame = new JFrame(); // Frame to display
 
-	private static String[][] data = new String[0][0];
+	private String[][] data = new String[0][0];
 
-	private static String[] names = { "Evaluation Number", "Date", "Next Evaluation",
+	private String[] names = { "Evaluation Number", "Date", "Next Evaluation",
 			"Work Quality", "Work Quality Comments", "Work Habits",
 			"Work Habits Comments", "Job Knowledge", "Job Knowledge Comments",
 			"Behavior", "Behavior Comments", "Average Score", "Overall",
 			"Overall Comments", "Recommendation" };
 
-	private static JTable evals;
+	private JTable evals;
 
-	private static int employeeNum = -1;
+	private int employeeNum = -1;
 
-	public ViewEvals() {
+	public ViewEvals(int employee) {
 		super(new BorderLayout());
+		
+		employeeNum = employee;
+		
 		// Panel that holds components of similar nature
 		JPanel buttons = new JPanel(new GridLayout(2, 1));
 
@@ -60,30 +62,10 @@ public class ViewEvals extends DataWindow {
 		// Add components to frame
 		add(listScroller);
 		add(BorderLayout.PAGE_END, buttons);
-	}
-
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be
-	 * invoked from the event-dispatching thread.
-	 * 
-	 * @param n
-	 *            Number of Employee to display evals of
-	 */
-	public static void createAndShowGUI(int n) {
-		employeeNum = n;
-		// Create and set up the window.
-		frame = new JFrame("Viewing Evaluations for "
+		
+		frame = EES.createAndShowGUI(this);
+		frame.setTitle("Viewing Evaluations for "
 				+ EES.getEmployeeName(employeeNum));
-		frame.setSize(800, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		// Create and set up the content pane.
-		ViewEvals popup = new ViewEvals();
-		popup.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(popup);
-
-		// Display the window.
-		frame.setVisible(true);
 	}
 
 	/**
@@ -93,7 +75,7 @@ public class ViewEvals extends DataWindow {
 	 * @param path
 	 *            Path to evaluation results
 	 */
-	public static void loadDataSource(String path) {
+	public void loadDataSource(String path) {
 		ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
 		File file = new File(path);
 		boolean oneFound = false;
@@ -155,11 +137,12 @@ public class ViewEvals extends DataWindow {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
 		if (e.getActionCommand().equals("Close"))
 			frame.dispose();
-		else if (e.getActionCommand().equals("View Evaluation"))
-			ViewEvaluation.createAndShowGUI(EES.getSelectedNum(evals, "Evaluation Number"));
+		else if (e.getActionCommand().equals("View Evaluation") &&
+				(EES.getSelectedNum(evals, "Evaluation Number") != -1))
+			
+			new ViewEvaluation(EES.getSelectedNum(evals, "Evaluation Number"));
 	}
 
 }

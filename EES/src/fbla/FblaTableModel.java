@@ -29,7 +29,6 @@ public class FblaTableModel extends DefaultTableModel implements TableModel {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -40,7 +39,7 @@ public class FblaTableModel extends DefaultTableModel implements TableModel {
 	 *            Data to change to
 	 */
 	public void setData(String[][] newData) {
-		this.setDataVector(newData, names);
+		setDataVector(newData, names);
 		fireTableDataChanged();
 	}
 }

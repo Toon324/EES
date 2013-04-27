@@ -18,15 +18,17 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class ViewCompany extends DataWindow {
-	protected static JFrame frame = new JFrame(); // Frame to display
 
-	private static int employerNum = -1;
+	private int employerNum = -1;
 
 	/**
 	 * Creates new object for viewing company data.
 	 */
-	public ViewCompany() {
+	public ViewCompany(int num) {
 		super(new BorderLayout());
+		
+		employerNum = num;
+		
 		JButton close = new JButton("Close");
 		close.addActionListener(this);
 
@@ -69,29 +71,10 @@ public class ViewCompany extends DataWindow {
 		add(BorderLayout.WEST, categories);
 		add(info);
 		add(BorderLayout.PAGE_END, close);
-	}
-
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be
-	 * invoked from the event-dispatching thread.
-	 * 
-	 * @param n
-	 *            Number of employer to view data of
-	 */
-	public static void createAndShowGUI(int n) {
-		employerNum = n;
-		// Create and set up the window.
-		frame = new JFrame("Displaying Company "
+		
+		frame = EES.createAndShowGUI(this);
+		frame.setTitle("Displaying Company "
 				+ EES.getEmployerName(employerNum));
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		// Create and set up the content pane.
-		ViewCompany popup = new ViewCompany();
-		popup.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(popup);
-		frame.pack();
-		// Display the window.
-		frame.setVisible(true);
 	}
 
 	@Override

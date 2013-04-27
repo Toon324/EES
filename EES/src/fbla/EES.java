@@ -31,7 +31,8 @@ public class EES {
 
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Employee Evaluation System");
-		window.setExtendedState(Frame.MAXIMIZED_BOTH); //Make Fullscreen by default
+		window.setExtendedState(Frame.MAXIMIZED_BOTH); // Make Fullscreen by
+														// default
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		pages = new JPanel(cl);
@@ -111,8 +112,8 @@ public class EES {
 
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
-				//Replaces any fillers with actual char
-				line = line.replace("<comma>",",");
+				// Replaces any fillers with actual char
+				line = line.replace("<comma>", ",");
 				Scanner lineScanner = new Scanner(line);
 				lineScanner.useDelimiter(delim);
 
@@ -229,11 +230,33 @@ public class EES {
 		for (int x = 0; x < table.getColumnCount(); x++)
 			if (table.getColumnName(x).equals(nameOfNum))
 				col = x;
-		if (col == -1)
+		if (col == -1 || table.getSelectedRow() == -1)
 			return -1;
-		String s = (String) table.getModel().getValueAt(table.getSelectedRow(),
-				col);
+		String s = (String) table.getModel().getValueAt(
+				table.convertRowIndexToModel(table.getSelectedRow()), col);
 		int i = java.lang.Integer.parseInt(s);
 		return i;
+	}
+	
+	/**
+	 * Create the GUI and show it. For thread safety, this method should be
+	 * invoked from the event-dispatching thread.
+	 * 
+	 * @param n
+	 *            Number of Employee to display evals of
+	 */
+	public static JFrame createAndShowGUI(DataWindow toDisplay) {
+		// Create and set up the window.
+		JFrame frame = new JFrame();
+		frame.setSize(800, 300);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		// Create and set up the content pane.
+		toDisplay.setOpaque(true); // content panes must be opaque
+		frame.setContentPane(toDisplay);
+
+		// Display the window.
+		frame.setVisible(true);
+		return frame;
 	}
 }

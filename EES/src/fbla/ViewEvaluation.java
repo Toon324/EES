@@ -22,20 +22,21 @@ import javax.swing.text.MaskFormatter;
  * 
  */
 public class ViewEvaluation extends DataWindow {
-	protected static JFrame frame = new JFrame(); // Frame to display
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3540312383716216831L;
 
-	private static int evalNum = -1;
+	private int evalNum = -1;
 
 	/**
 	 * @param borderLayout
 	 */
-	public ViewEvaluation() {
+	public ViewEvaluation(int n) {
 		super(new BorderLayout());
+
+		evalNum = n;
 
 		File evaluationResults = new File(EES.evalPath);
 
@@ -70,12 +71,12 @@ public class ViewEvaluation extends DataWindow {
 		JPanel labelPanel = new JPanel(new GridLayout(0, 1));
 
 		// Adds textFields to container
-		
+
 		// Dates
 		textFields.add(new JTextField(lineScanner.next()));
 		textFields.add(new JTextField(lineScanner.next()));
-		
-		//Evaluation scores
+
+		// Evaluation scores
 		textFields.add(new JTextField(lineScanner.next() + " - "
 				+ lineScanner.next().replace("<comma>", ",")));
 		textFields.add(new JTextField(lineScanner.next() + " - "
@@ -84,15 +85,15 @@ public class ViewEvaluation extends DataWindow {
 				+ lineScanner.next().replace("<comma>", ",")));
 		textFields.add(new JTextField(lineScanner.next() + " - "
 				+ lineScanner.next().replace("<comma>", ",")));
-		
-		//Average Score
+
+		// Average Score
 		textFields.add(new JTextField(lineScanner.next()));
-		
-		//Overall Score
+
+		// Overall Score
 		textFields.add(new JTextField(lineScanner.next() + " - "
 				+ lineScanner.next().replace("<comma>", ",")));
-		
-		//Recommendation
+
+		// Recommendation
 		textFields.add(new JTextField(lineScanner.next()));
 
 		labels.add(new JLabel("Evaluation Date"));
@@ -124,6 +125,9 @@ public class ViewEvaluation extends DataWindow {
 		add(BorderLayout.CENTER, scoresPanel);
 		// add(BorderLayout.CENTER, new JTextArea());
 		add(BorderLayout.PAGE_END, buttons);
+
+		frame = EES.createAndShowGUI(this);
+		frame.setTitle("Viewing Evaluation " + evalNum);
 	}
 
 	/*
@@ -135,30 +139,6 @@ public class ViewEvaluation extends DataWindow {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Exit"))
 			frame.dispose();
-	}
-
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be
-	 * invoked from the event-dispatching thread.
-	 * 
-	 * @param n
-	 *            Number of employee to evaluate
-	 */
-	public static void createAndShowGUI(int n) {
-		evalNum = n;
-		// Create and set up the window.
-		frame = new JFrame("Viewing Evaluation " + evalNum);
-		frame.setSize(400, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		// Create and set up the content pane.
-		ViewEvaluation popup = new ViewEvaluation();
-		popup.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(popup);
-		frame.pack();
-
-		// Display the window.
-		frame.setVisible(true);
 	}
 
 }
