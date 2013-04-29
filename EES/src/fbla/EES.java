@@ -4,7 +4,9 @@ import java.awt.CardLayout;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -237,7 +239,7 @@ public class EES {
 		int i = java.lang.Integer.parseInt(s);
 		return i;
 	}
-	
+
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
@@ -258,5 +260,54 @@ public class EES {
 		// Display the window.
 		frame.setVisible(true);
 		return frame;
+	}
+
+	/**
+	 * Given an employee or employer number, deletes that entity from file.
+	 * 
+	 * @param numToDelete
+	 *            Number of employee/employer to delete
+	 * @param filePath
+	 *            Path to file to delete from
+	 */
+	public static void delete(int numToDelte, String filePath) {
+		ArrayList<String> toWrite = new ArrayList<String>();
+		File file = new File(filePath);
+		try {
+			if (!file.exists())
+				file.createNewFile();
+
+			Scanner scanner = new Scanner(file); // Loads the .txt file
+			while (scanner.hasNextLine()) {
+				String temp = scanner.nextLine();
+
+				Scanner lineScanner = new Scanner(temp);
+				lineScanner.useDelimiter(EES.delim);
+
+				// Unless found employee matches delete number, add to output
+				if (lineScanner.nextInt() != numToDelte)
+					toWrite.add(temp);
+
+				lineScanner.close();
+			}
+			scanner.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+			// Write updated file
+			try {
+				PrintWriter out = new PrintWriter(new FileWriter(file));
+
+				// Writes all remaining lines to file
+				for (String s : toWrite)
+					out.println(s);
+
+				// Closes writer
+				out.close();
+			} catch (IOException e) {
+			}
+
+		}
 	}
 }

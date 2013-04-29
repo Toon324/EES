@@ -116,56 +116,9 @@ public class Companies extends JPanel implements ActionListener {
 							JOptionPane.YES_NO_OPTION);
 
 			if (n == JOptionPane.YES_OPTION) {
-				delete(EES.getSelectedNum(companiesList, "Company Number"));
+				EES.delete(EES.getSelectedNum(companiesList, "Company Number"), EES.employerPath);
 				reload();
 			}
-		}
-	}
-	
-	/**
-	 * Given an company number, deletes that company from file.
-	 * 
-	 * @param companyNum
-	 *            Number of company to delete
-	 */
-	private void delete(int companyNum) {
-		ArrayList<String> toWrite = new ArrayList<String>();
-		File file = new File("src\\fbla\\Resources\\Employer.txt");
-		try {
-			if (!file.exists())
-				file.createNewFile();
-
-			Scanner scanner = new Scanner(file); // Loads the .txt file
-			while (scanner.hasNextLine()) {
-				String temp = scanner.nextLine();
-
-				Scanner lineScanner = new Scanner(temp);
-				lineScanner.useDelimiter(EES.delim);
-
-				// Unless found employee matches delete number, add to output
-				if (lineScanner.nextInt() != companyNum)
-					toWrite.add(temp);
-
-				lineScanner.close();
-			}
-			scanner.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-
-			// Write updated file
-			try {
-				PrintWriter out = new PrintWriter(new FileWriter(file));
-
-				// Writes all remaining lines to file
-				for (String s : toWrite)
-					out.println(s);
-
-				// Closes writer
-				out.close();
-			} catch (IOException e) {
-			}
-
 		}
 	}
 
