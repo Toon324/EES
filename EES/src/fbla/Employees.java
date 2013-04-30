@@ -29,9 +29,9 @@ import javax.swing.ListSelectionModel;
 public class Employees extends JPanel implements ActionListener {
 	private static String[][] data = new String[0][0];
 
-	private static String[] names = { "Employee Number", "First Name",
-			"Last Name", "Email", "Phone #", "Cell #", "Address", "City",
-			"State", "ZIP" };
+	private static String[] names = { "Employee Number",
+			"Average Evaluation Score", "First Name", "Last Name", "Email",
+			"Phone #", "Cell #", "Address", "City", "State", "ZIP" };
 
 	private static JTable employeesList;
 
@@ -113,7 +113,9 @@ public class Employees extends JPanel implements ActionListener {
 							JOptionPane.YES_NO_OPTION);
 
 			if (n == JOptionPane.YES_OPTION) {
-				EES.delete(EES.getSelectedNum(employeesList, "Employee Number"), EES.employeesPath);
+				EES.delete(
+						EES.getSelectedNum(employeesList, "Employee Number"),
+						EES.employeesPath);
 				reload();
 			}
 		}
@@ -124,7 +126,85 @@ public class Employees extends JPanel implements ActionListener {
 	 * upon data change.
 	 */
 	public static void reload() {
-		EES.loadDataSource(employeesList, data, EES.employeesPath);
+		loadDataSource(employeesList, data, EES.employeesPath);
+	}
+
+	// Overridden to load evaluation average in addition to normal data. See
+	// EES.loadDataSource for more info.
+	public static void loadDataSource(JTable table, String[][] storage,
+			String path) {
+
+		ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
+		File file = new File(path);
+		File evals = new File(EES.evalPath);
+		try {
+			if (!file.exists())
+				file.createNewFile();
+			if (!evals.exists())
+				evals.createNewFile();
+			
+			Scanner scanner = new Scanner(file); // Loads the .txt file
+
+			while (scanner.hasNextLine()) {
+				String temp = scanner.nextLine();
+				ArrayList<String> line = new ArrayList<String>(); // Gets next
+																	// line
+				Scanner lineScanner = new Scanner(temp);
+				lineScanner.useDelimiter(EES.delim);
+				
+				String employeenum = lineScanner.next();
+				line.add(employeenum);
+				
+				int numToFind = Integer.parseInt(employeenum);
+				
+				Scanner evalScan = new Scanner(evals);
+				String evalAvg = "No Evaluations";
+				while (evalScan.hasNextLine()) {
+					String tempLine = evalScan.nextLine();
+					
+					Scanner avglineScanner = new Scanner(tempLine);
+					avglineScanner.useDelimiter(EES.delim);
+					
+					avglineScanner.next(); //Discard evaluation number
+					
+					int numFound = Integer.parseInt(avglineScanner.next().replace("﻿", "")); //Employee number
+					
+					for (int x=0; x<11; x++)
+						avglineScanner.next(); //Discard other eval info
+					
+					if (numFound == numToFind) {
+						evalAvg = avglineScanner.next();
+						break;
+					}
+					avglineScanner.close();
+				}
+				
+				evalScan.close();
+				
+				line.add(evalAvg);
+				
+				while (lineScanner.hasNext()) {
+					line.add(lineScanner.next());
+				}
+				
+				lineScanner.close();
+				input.add(line);
+			}
+			scanner.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Store data
+			storage = new String[input.size()][input.get(0).size()+1];
+			for (int x = 0; x < input.size(); x++) {
+				int cnt = 0;
+				for (String s : input.get(x)) {
+					storage[x][cnt] = s;
+					cnt++;
+				}
+			}
+			((FblaTableModel) table.getModel()).setData(storage);
+		}
 	}
 
 	/**

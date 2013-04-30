@@ -1,2 +1,5 @@
-﻿1,1,1,03/03/13,03/23/2013,5,Highest quality work.,5,Always shows up to work on time and sharply dressed.,5,Knows everything<comma> ever.,4,Slightly arrogant.,3,5,Best employee we have.,Yes
+﻿1,1,1,03/03/13,03/23/2013,5,Highest quality work.,5,Always shows up to work on time and sharply dressed.,5,Knows everything<comma> ever.,4,Slightly arrogant.,5,5,Best employee we have.,Yes
 2,6,2,03/03/2013,11/20/2013,5,,5,,5,,5,,4,5,He is THE BATMAN!,Yes
+3,7,No Employer,04/30/2013,05/30/2013,4,Xeno produces excellent sewer systems.,4,Always shows up on time,5,Majored in sewage work,4,Pleasant to work with,3,4,Deserves a promotion.,Yes
+1,10,No Employer,04/30/2013,  /  /    ,3,Only has one hit song.,3,,2,,3,,2,3,,No
+1,3,No Employer,04/30/2013,  /  /    ,3,Does standard work.,4,Tends to complete tasks on time.,3,Could know more of the nitty-gritty.,3,Sometimes is a little too attached to the girls he works with.,2,4,Good employee overall.,Yes

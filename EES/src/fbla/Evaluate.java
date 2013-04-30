@@ -155,7 +155,7 @@ public class Evaluate extends DataWindow {
 				while (scanner.hasNextLine())
 					l = scanner.nextLine();
 				Scanner lineScanner = new Scanner(l);
-				lastEvalNum = lineScanner.nextInt();
+				lastEvalNum = Integer.parseInt(lineScanner.next().replace("﻿", ""));
 				scanner.close();
 				lineScanner.close();
 			} catch (Exception e) {
@@ -208,6 +208,7 @@ public class Evaluate extends DataWindow {
 			evalOut.println(toWrite.toString());
 
 			evalOut.close();
+			Employees.reload();
 		} catch (Exception e) {
 		} finally {
 			frame.dispose();
