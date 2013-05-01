@@ -197,6 +197,9 @@ public class Evaluate extends DataWindow {
 				String text = textFields.get(x).getText();
 				text = text.replace(",", "<comma>");
 				
+				if (text.length() > 256)
+					text.substring(0, 256);  //makes sure data is only 256 characters long max
+				
 				toWrite.append(text + EES.delim);
 				if (x == textFields.size() - 2) // Add average score before
 												// general score
