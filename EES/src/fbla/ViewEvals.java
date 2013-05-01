@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,11 +33,17 @@ public class ViewEvals extends DataWindow {
 
 	private int employeeNum = -1;
 
+	/**
+	 * Creates a new window that shows all evaluations of an employee.
+	 * 
+	 * @param employee
+	 *            number of employee to display evaluatations of
+	 */
 	public ViewEvals(int employee) {
 		super(new BorderLayout());
-		
+
 		employeeNum = employee;
-		
+
 		// Panel that holds components of similar nature
 		JPanel buttons = new JPanel(new GridLayout(2, 1));
 
@@ -47,7 +52,7 @@ public class ViewEvals extends DataWindow {
 
 		view.addActionListener(this);
 		close.addActionListener(this);
-		
+
 		buttons.add(view);
 		buttons.add(close);
 
@@ -62,7 +67,7 @@ public class ViewEvals extends DataWindow {
 		// Add components to frame
 		add(listScroller);
 		add(BorderLayout.PAGE_END, buttons);
-		
+
 		frame = EES.createAndShowGUI(this);
 		frame.setTitle("Viewing Evaluations for "
 				+ EES.getEmployeeName(employeeNum));
@@ -93,7 +98,8 @@ public class ViewEvals extends DataWindow {
 
 				String num = "" + lineScanner.next();
 				if (num.contains("﻿"))
-					num = num.substring(3); //Remove ﻿ from String (byproduct of being the first element)
+					num = num.substring(3); // Remove ﻿ from String (byproduct
+											// of being the first element)
 				line.add(num); // Store eval number
 				int empNum = lineScanner.nextInt();
 
@@ -139,9 +145,9 @@ public class ViewEvals extends DataWindow {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Close"))
 			frame.dispose();
-		else if (e.getActionCommand().equals("View Evaluation") &&
-				(EES.getSelectedNum(evals, "Evaluation Number") != -1))
-			
+		else if (e.getActionCommand().equals("View Evaluation")
+				&& (EES.getSelectedNum(evals, "Evaluation Number") != -1))
+
 			new ViewEvaluation(EES.getSelectedNum(evals, "Evaluation Number"));
 	}
 

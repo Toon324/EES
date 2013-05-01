@@ -7,7 +7,6 @@ import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -88,7 +87,7 @@ public class AddEmployee extends DataWindow {
 		add(BorderLayout.WEST, labelPanel);
 		add(BorderLayout.CENTER, textPanel);
 		add(BorderLayout.PAGE_END, buttons);
-		
+
 		frame = EES.createAndShowGUI(this);
 		frame.setTitle("Add Employee");
 	}
@@ -103,15 +102,19 @@ public class AddEmployee extends DataWindow {
 		else if (e.getActionCommand().equals("Finish")) {
 			for (int x = 0; x < textFields.size(); x++) {
 				if (textFields.get(x).getText().length() == 0) {
-					int n = JOptionPane.showConfirmDialog(this,
-							"Not all data is inputted. Are you sure you want to create this Employee?", "Warning",
-							JOptionPane.YES_NO_OPTION);
+					// If there is blank data, asks user to confirm that they
+					// want to submit it
+					int n = JOptionPane
+							.showConfirmDialog(
+									this,
+									"Not all data is inputted. Are you sure you want to create this Employee?",
+									"Warning", JOptionPane.YES_NO_OPTION);
 					if (n == JOptionPane.NO_OPTION)
 						return;
 				}
 			}
 			writeData(EES.employeesPath);
-			Employees.reload();
+			Employees.reload(); // Refreshes data table
 			frame.dispose();
 		}
 	}

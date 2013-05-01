@@ -1,20 +1,11 @@
-/**
- * 
- */
 package fbla;
 
 import java.awt.BorderLayout;
-import java.awt.Event;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,11 +16,9 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
@@ -47,6 +36,12 @@ public class Evaluate extends DataWindow {
 	private JComboBox reccomend = new JComboBox(r);
 	private int employeeNum;
 
+	/**
+	 * Creates a new object that allows the user to evaluate an employee.
+	 * 
+	 * @param num
+	 *            The number of the employee to evaluate
+	 */
 	public Evaluate(int num) {
 		super(new BorderLayout());
 
@@ -136,9 +131,11 @@ public class Evaluate extends DataWindow {
 		else if (e.getActionCommand().equals("Finish")) {
 			for (int x = 0; x < textFields.size(); x++) {
 				if (textFields.get(x).getText().length() == 0) {
-					int n = JOptionPane.showConfirmDialog(this,
-							"Not all data is inputted. Are you sure you want to submit this evaluation?", "Warning",
-							JOptionPane.YES_NO_OPTION);
+					int n = JOptionPane
+							.showConfirmDialog(
+									this,
+									"Not all data is inputted. Are you sure you want to submit this evaluation?",
+									"Warning", JOptionPane.YES_NO_OPTION);
 					if (n == JOptionPane.NO_OPTION)
 						return;
 				}

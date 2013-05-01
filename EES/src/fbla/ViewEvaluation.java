@@ -5,33 +5,28 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.ParseException;
 import java.util.Scanner;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.MaskFormatter;
 
 /**
- * @author Cody
+ * Allows user to view a specific evaluation.
  * 
+ * @author Cody Swendrowski
  */
 public class ViewEvaluation extends DataWindow {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3540312383716216831L;
-
 	private int evalNum = -1;
 
 	/**
-	 * @param borderLayout
+	 * Creates a new window that shows the evaluation data.
+	 * 
+	 * @param n
+	 *            Number of evaluation to display
 	 */
 	public ViewEvaluation(int n) {
 		super(new BorderLayout());
@@ -130,11 +125,6 @@ public class ViewEvaluation extends DataWindow {
 		frame.setTitle("Viewing Evaluation " + evalNum);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fbla.DataWindow#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Exit"))

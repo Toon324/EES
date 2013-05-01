@@ -24,7 +24,7 @@ import javax.swing.JTextField;
  */
 @SuppressWarnings("serial")
 public abstract class DataWindow extends JPanel implements ActionListener {
-	
+
 	protected JFrame frame = new JFrame(); // Frame to display
 	protected ArrayList<JTextField> textFields = new ArrayList<JTextField>();
 	protected ArrayList<JLabel> labels = new ArrayList<JLabel>();
@@ -82,14 +82,16 @@ public abstract class DataWindow extends JPanel implements ActionListener {
 
 			// Adds all data to a StringBuilder for printing
 			StringBuilder toPrint = new StringBuilder();
-			toPrint.append((lastNum + 1) + EES.delim); // Adds next valid number to
-													// toPrint
+			toPrint.append((lastNum + 1) + EES.delim); // Adds next valid number
+														// to
+														// toPrint
 
 			for (JTextField tf : textFields) {
 				String line = tf.getText();
-				//If text contains a comma, replace it with a filler so it isn't confused as a delim
-				line = line.replace("," , "<comma>");
-				line = line + EES.delim; //Add delim
+				// If text contains a comma, replace it with a filler so it
+				// isn't confused as a delim
+				line = line.replace(",", "<comma>");
+				line = line + EES.delim; // Add delim
 				toPrint.append(line);
 			}
 

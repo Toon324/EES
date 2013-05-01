@@ -25,7 +25,11 @@ public class ViewCompanyEmployees extends DataWindow {
 	private int employerNum;
 
 	/**
-	 * @param borderLayout
+	 * Creates a new window that shows all employees belonging to a specific
+	 * company.
+	 * 
+	 * @param num
+	 *            Company number to pull employees from
 	 */
 	public ViewCompanyEmployees(int num) {
 		super(new BorderLayout());

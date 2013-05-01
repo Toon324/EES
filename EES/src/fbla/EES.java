@@ -15,7 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 /**
- * The class that controls and owns all necessary objects.
+ * The class that controls and owns all necessary objects. Holds many static
+ * helper methods for other classes.
  * 
  * @author Cody Swendrowski
  */
@@ -47,7 +48,7 @@ public class EES {
 		pages.add(employees, "Employees");
 		pages.add(home, "Home");
 
-		cl.show(pages, "Home");
+		cl.show(pages, "Home"); // Start on the home page
 
 		window.add(pages);
 

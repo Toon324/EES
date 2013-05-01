@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -82,7 +81,7 @@ public class AddCompany extends DataWindow {
 		add(BorderLayout.WEST, labelPanel);
 		add(BorderLayout.EAST, textPanel);
 		add(BorderLayout.PAGE_END, buttons);
-		
+
 		frame = EES.createAndShowGUI(this);
 		frame.setTitle("Add a Company");
 	}
@@ -92,10 +91,11 @@ public class AddCompany extends DataWindow {
 		if (e.getActionCommand().equals("Cancel"))
 			frame.dispose();
 
-		//If user is happy with input, write the new data out then reload the companies list.
+		// If user is happy with input, write the new data out then reload the
+		// companies list.
 		else if (e.getActionCommand().equals("Finish")) {
 			writeData(EES.employerPath);
-			Companies.reload();
+			Companies.reload(); // Refresh the data table
 			frame.dispose();
 		}
 	}

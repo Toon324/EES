@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.Scanner;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -23,6 +22,9 @@ public class ViewEmployee extends DataWindow {
 
 	/**
 	 * Creates new object for displaying employee data.
+	 * 
+	 * @param num
+	 *            Number of employee to display
 	 */
 	public ViewEmployee(int num) {
 		super(new BorderLayout());
@@ -71,27 +73,28 @@ public class ViewEmployee extends DataWindow {
 					String evalAvg = "No Evaluations";
 					while (evalScanner.hasNextLine()) {
 						String tempLine = evalScanner.nextLine();
-						
+
 						Scanner avglineScanner = new Scanner(tempLine);
 						avglineScanner.useDelimiter(EES.delim);
-						
-						avglineScanner.next(); //Discard evaluation number
-						
-						int numFound = Integer.parseInt(avglineScanner.next().replace("﻿", "")); //Employee number
-						
-						for (int x=0; x<11; x++)
-							avglineScanner.next(); //Discard other eval info
-						
+
+						avglineScanner.next(); // Discard evaluation number
+
+						int numFound = Integer.parseInt(avglineScanner.next()
+								.replace("﻿", "")); // Employee number
+
+						for (int x = 0; x < 11; x++)
+							avglineScanner.next(); // Discard other eval info
+
 						if (numFound == employeeNum) {
 							evalAvg = avglineScanner.next();
 							break;
 						}
 						avglineScanner.close();
 					}
-					
+
 					info.add(new JLabel(evalAvg));
 					evalScanner.close();
-					
+
 					while (lineScanner.hasNext())
 						info.add(new JLabel(lineScanner.next()));
 

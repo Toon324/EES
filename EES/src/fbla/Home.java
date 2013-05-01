@@ -23,14 +23,16 @@ public class Home extends JPanel implements ActionListener {
 		super(new GridLayout(1, 2));
 
 		// Loads in image for Employees and creates a button out of it
-		ImageIcon employeesIcon = new ImageIcon("src\\fbla\\Resources\\Employees.png");
+		ImageIcon employeesIcon = new ImageIcon(
+				"src\\fbla\\Resources\\Employees.png");
 		JButton employees = new JButton(employeesIcon);
 		employees.setActionCommand("Employees");
 		employees.addActionListener(this);
 		add(employees);
 
 		// Loads in image for Companies and creates a button out of it
-		ImageIcon companiesIcon = new ImageIcon("src\\fbla\\Resources\\Companies.png");
+		ImageIcon companiesIcon = new ImageIcon(
+				"src\\fbla\\Resources\\Companies.png");
 		JButton companies = new JButton(companiesIcon);
 		companies.setActionCommand("Companies");
 		companies.addActionListener(this);

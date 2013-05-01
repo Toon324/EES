@@ -5,9 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -35,6 +32,9 @@ public class Employees extends JPanel implements ActionListener {
 
 	private static JTable employeesList;
 
+	/**
+	 * Creates a new object that shows all Employees in the database.
+	 */
 	public Employees() {
 		super(new BorderLayout());
 		JPanel buttons = new JPanel(new GridLayout(2, 2));
@@ -142,7 +142,7 @@ public class Employees extends JPanel implements ActionListener {
 				file.createNewFile();
 			if (!evals.exists())
 				evals.createNewFile();
-			
+
 			Scanner scanner = new Scanner(file); // Loads the .txt file
 
 			while (scanner.hasNextLine()) {
@@ -151,42 +151,43 @@ public class Employees extends JPanel implements ActionListener {
 																	// line
 				Scanner lineScanner = new Scanner(temp);
 				lineScanner.useDelimiter(EES.delim);
-				
+
 				String employeenum = lineScanner.next();
 				line.add(employeenum);
-				
+
 				int numToFind = Integer.parseInt(employeenum);
-				
+
 				Scanner evalScan = new Scanner(evals);
 				String evalAvg = "No Evaluations";
 				while (evalScan.hasNextLine()) {
 					String tempLine = evalScan.nextLine();
-					
+
 					Scanner avglineScanner = new Scanner(tempLine);
 					avglineScanner.useDelimiter(EES.delim);
-					
-					avglineScanner.next(); //Discard evaluation number
-					
-					int numFound = Integer.parseInt(avglineScanner.next().replace("﻿", "")); //Employee number
-					
-					for (int x=0; x<11; x++)
-						avglineScanner.next(); //Discard other eval info
-					
+
+					avglineScanner.next(); // Discard evaluation number
+
+					int numFound = Integer.parseInt(avglineScanner.next()
+							.replace("﻿", "")); // Employee number
+
+					for (int x = 0; x < 11; x++)
+						avglineScanner.next(); // Discard other eval info
+
 					if (numFound == numToFind) {
 						evalAvg = avglineScanner.next();
 						break;
 					}
 					avglineScanner.close();
 				}
-				
+
 				evalScan.close();
-				
+
 				line.add(evalAvg);
-				
+
 				while (lineScanner.hasNext()) {
 					line.add(lineScanner.next());
 				}
-				
+
 				lineScanner.close();
 				input.add(line);
 			}
@@ -195,7 +196,7 @@ public class Employees extends JPanel implements ActionListener {
 			e.printStackTrace();
 		} finally {
 			// Store data
-			storage = new String[input.size()][input.get(0).size()+1];
+			storage = new String[input.size()][input.get(0).size() + 1];
 			for (int x = 0; x < input.size(); x++) {
 				int cnt = 0;
 				for (String s : input.get(x)) {

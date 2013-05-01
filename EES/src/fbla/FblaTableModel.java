@@ -5,7 +5,7 @@ import javax.swing.table.TableModel;
 
 /**
  * An implementation of TableModel that allows data to be updated. Disallows
- * direct editting of table contents.
+ * direct editing of table contents.
  * 
  * @author Cody Swendrowski
  */

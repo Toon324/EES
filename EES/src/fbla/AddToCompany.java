@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,7 +33,7 @@ public class AddToCompany extends DataWindow {
 		super(new BorderLayout());
 
 		employerNum = num;
-		
+
 		// Panel that holds components of similar nature
 		JPanel buttons = new JPanel(new GridLayout(1, 2));
 
@@ -53,9 +52,10 @@ public class AddToCompany extends DataWindow {
 		// Creates a new JTable for displaying data
 		employeesList = new JTable(new FblaTableModel(Employees.getData(),
 				Employees.getNames()));
-		
+
 		// Loads data from file into JTable
-		EES.loadDataSource(employeesList, Employees.getData(), EES.employeesPath);
+		EES.loadDataSource(employeesList, Employees.getData(),
+				EES.employeesPath);
 
 		// Sets up autosorter and single selection for JTable
 		employeesList.setAutoCreateRowSorter(true);
@@ -67,7 +67,7 @@ public class AddToCompany extends DataWindow {
 		// Adds all components to frame
 		add(BorderLayout.CENTER, listScroller);
 		add(BorderLayout.PAGE_END, buttons);
-		
+
 		frame = EES.createAndShowGUI(this);
 		frame.setTitle("Select Employee to add to "
 				+ EES.getEmployerName(employerNum));

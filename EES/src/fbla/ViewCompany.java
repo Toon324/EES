@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.Scanner;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -23,12 +22,15 @@ public class ViewCompany extends DataWindow {
 
 	/**
 	 * Creates new object for viewing company data.
+	 * 
+	 * @param num
+	 *            Number of company to display
 	 */
 	public ViewCompany(int num) {
 		super(new BorderLayout());
-		
+
 		employerNum = num;
-		
+
 		JButton close = new JButton("Close");
 		close.addActionListener(this);
 
@@ -71,10 +73,9 @@ public class ViewCompany extends DataWindow {
 		add(BorderLayout.WEST, categories);
 		add(info);
 		add(BorderLayout.PAGE_END, close);
-		
+
 		frame = EES.createAndShowGUI(this);
-		frame.setTitle("Displaying Company "
-				+ EES.getEmployerName(employerNum));
+		frame.setTitle("Displaying Company " + EES.getEmployerName(employerNum));
 	}
 
 	@Override

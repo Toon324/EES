@@ -4,12 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -106,11 +100,13 @@ public class Companies extends JPanel implements ActionListener {
 
 		} else if (e.getActionCommand().equals("View Company Employees")
 				&& (companiesList.getSelectedRow() != -1))
-			new ViewCompanyEmployees(EES.getSelectedNum(companiesList, "Company Number"));
-		
+			new ViewCompanyEmployees(EES.getSelectedNum(companiesList,
+					"Company Number"));
+
 		else if (e.getActionCommand().equals("Delete Company")
 				&& (companiesList.getSelectedRow() != -1)) {
 
+			// Ensure that the user wants to delete the company
 			int n = JOptionPane
 					.showConfirmDialog(
 							this,
@@ -121,7 +117,7 @@ public class Companies extends JPanel implements ActionListener {
 			if (n == JOptionPane.YES_OPTION) {
 				EES.delete(EES.getSelectedNum(companiesList, "Company Number"),
 						EES.employerPath);
-				reload();
+				reload(); // Refresh data table
 			}
 		}
 	}
