@@ -4,7 +4,9 @@
 package fbla;
 
 import java.awt.BorderLayout;
+import java.awt.Event;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +27,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -46,9 +49,9 @@ public class Evaluate extends DataWindow {
 
 	public Evaluate(int num) {
 		super(new BorderLayout());
-		
+
 		employeeNum = num;
-		
+
 		// Gives option to enter score from 1 to 5
 		String[] scoreOptions = { Integer.toString(1), Integer.toString(2),
 				Integer.toString(3), Integer.toString(4), Integer.toString(5) };
@@ -120,10 +123,9 @@ public class Evaluate extends DataWindow {
 		add(BorderLayout.CENTER, scoresPanel);
 		// add(BorderLayout.CENTER, new JTextArea());
 		add(BorderLayout.PAGE_END, buttons);
-		
+
 		frame = EES.createAndShowGUI(this);
-		frame.setTitle("Evaluate Employee "
-				+ EES.getEmployeeName(employeeNum));
+		frame.setTitle("Evaluate Employee " + EES.getEmployeeName(employeeNum));
 	}
 
 	@Override
@@ -131,8 +133,19 @@ public class Evaluate extends DataWindow {
 		if (e.getActionCommand().equals("Cancel"))
 			frame.dispose();
 
-		else if (e.getActionCommand().equals("Finish"))
+		else if (e.getActionCommand().equals("Finish")) {
+			for (int x = 0; x < textFields.size(); x++) {
+				if (textFields.get(x).getText().length() == 0) {
+					int n = JOptionPane.showConfirmDialog(this,
+							"Please fill in all the text fields.", "Error",
+							JOptionPane.WARNING_MESSAGE);
+					if (n == JOptionPane.CANCEL_OPTION)
+						frame.dispose();
+					return;
+				}
+			}
 			writeDataAndExit();
+		}
 	}
 
 	/**
@@ -155,7 +168,8 @@ public class Evaluate extends DataWindow {
 				while (scanner.hasNextLine())
 					l = scanner.nextLine();
 				Scanner lineScanner = new Scanner(l);
-				lastEvalNum = Integer.parseInt(lineScanner.next().replace("﻿", ""));
+				lastEvalNum = Integer.parseInt(lineScanner.next().replace(
+						"﻿", ""));
 				scanner.close();
 				lineScanner.close();
 			} catch (Exception e) {
@@ -192,14 +206,15 @@ public class Evaluate extends DataWindow {
 
 			for (int x = 0; x < textFields.size(); x++) {
 				toWrite.append(scoreBoxes.get(x).getSelectedItem() + EES.delim);
-				
-				//Replaces commas with fillers
+
+				// Replaces commas with fillers
 				String text = textFields.get(x).getText();
 				text = text.replace(",", "<comma>");
-				
+
 				if (text.length() > 256)
-					text.substring(0, 256);  //makes sure data is only 256 characters long max
-				
+					text.substring(0, 256); // makes sure data is only 256
+											// characters long max
+
 				toWrite.append(text + EES.delim);
 				if (x == textFields.size() - 2) // Add average score before
 												// general score
