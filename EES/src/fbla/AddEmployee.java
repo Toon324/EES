@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
@@ -100,6 +101,15 @@ public class AddEmployee extends DataWindow {
 		// If user is happy with input, write the new data out then reload the
 		// employees list.
 		else if (e.getActionCommand().equals("Finish")) {
+			for (int x = 0; x < textFields.size(); x++) {
+				if (textFields.get(x).getText().length() == 0) {
+					int n = JOptionPane.showConfirmDialog(this,
+							"Not all data is inputted. Are you sure you want to create this Employee?", "Warning",
+							JOptionPane.WARNING_MESSAGE);
+					if (n == JOptionPane.CANCEL_OPTION)
+						return;
+				}
+			}
 			writeData(EES.employeesPath);
 			Employees.reload();
 			frame.dispose();
