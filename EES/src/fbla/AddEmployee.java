@@ -105,8 +105,8 @@ public class AddEmployee extends DataWindow {
 				if (textFields.get(x).getText().length() == 0) {
 					int n = JOptionPane.showConfirmDialog(this,
 							"Not all data is inputted. Are you sure you want to create this Employee?", "Warning",
-							JOptionPane.WARNING_MESSAGE);
-					if (n == JOptionPane.CANCEL_OPTION)
+							JOptionPane.YES_NO_OPTION);
+					if (n == JOptionPane.NO_OPTION)
 						return;
 				}
 			}

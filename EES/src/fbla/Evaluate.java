@@ -137,11 +137,10 @@ public class Evaluate extends DataWindow {
 			for (int x = 0; x < textFields.size(); x++) {
 				if (textFields.get(x).getText().length() == 0) {
 					int n = JOptionPane.showConfirmDialog(this,
-							"Please fill in all the text fields.", "Error",
-							JOptionPane.WARNING_MESSAGE);
-					if (n == JOptionPane.CANCEL_OPTION)
-						frame.dispose();
-					return;
+							"Not all data is inputted. Are you sure you want to submit this evaluation?", "Warning",
+							JOptionPane.YES_NO_OPTION);
+					if (n == JOptionPane.NO_OPTION)
+						return;
 				}
 			}
 			writeDataAndExit();
