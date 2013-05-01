@@ -29,9 +29,8 @@ public class Companies extends JPanel implements ActionListener {
 
 	private static String[][] data = new String[0][0];
 
-	private String[] names = { "Company Number", "Company Name",
-			"Address", "City", "State", "ZIP", "Phone Number", "Email",
-			"Contact Person" };
+	private String[] names = { "Company Number", "Company Name", "Address",
+			"City", "State", "ZIP", "Phone Number", "Email", "Contact Person" };
 
 	private static JTable companiesList;
 
@@ -50,6 +49,7 @@ public class Companies extends JPanel implements ActionListener {
 		JButton deleteCompany = new JButton("Delete Company");
 		JButton addToCompany = new JButton("Add Employee to Company");
 		JButton view = new JButton("View Company");
+		JButton viewEmployees = new JButton("View Company Employees");
 
 		// Registers this object as the listener for clicks
 		home.addActionListener(this);
@@ -57,6 +57,7 @@ public class Companies extends JPanel implements ActionListener {
 		deleteCompany.addActionListener(this);
 		addToCompany.addActionListener(this);
 		view.addActionListener(this);
+		viewEmployees.addActionListener(this);
 
 		// Adds buttons to panel
 		buttons.add(home);
@@ -64,6 +65,7 @@ public class Companies extends JPanel implements ActionListener {
 		buttons.add(addToCompany);
 		buttons.add(view);
 		buttons.add(deleteCompany);
+		buttons.add(viewEmployees);
 
 		// Creates a new JTable for displaying data
 		companiesList = new JTable(new FblaTableModel(data, names));
@@ -94,16 +96,17 @@ public class Companies extends JPanel implements ActionListener {
 		else if (e.getActionCommand().equals("Add Employee to Company")
 				&& (companiesList.getSelectedRow() != -1)) {
 
-			new AddToCompany(EES.getSelectedNum(companiesList,
-					"Company Number"));
+			new AddToCompany(
+					EES.getSelectedNum(companiesList, "Company Number"));
 
 		} else if (e.getActionCommand().equals("View Company")
 				&& (companiesList.getSelectedRow() != -1)) {
 
-			new ViewCompany(EES.getSelectedNum(companiesList,
-					"Company Number"));
+			new ViewCompany(EES.getSelectedNum(companiesList, "Company Number"));
 
-		}
+		} else if (e.getActionCommand().equals("View Company Employees")
+				&& (companiesList.getSelectedRow() != -1))
+			new ViewCompanyEmployees(EES.getSelectedNum(companiesList, "Company Number"));
 		
 		else if (e.getActionCommand().equals("Delete Company")
 				&& (companiesList.getSelectedRow() != -1)) {
@@ -116,7 +119,8 @@ public class Companies extends JPanel implements ActionListener {
 							JOptionPane.YES_NO_OPTION);
 
 			if (n == JOptionPane.YES_OPTION) {
-				EES.delete(EES.getSelectedNum(companiesList, "Company Number"), EES.employerPath);
+				EES.delete(EES.getSelectedNum(companiesList, "Company Number"),
+						EES.employerPath);
 				reload();
 			}
 		}
